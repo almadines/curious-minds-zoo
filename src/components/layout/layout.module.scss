@@ -1,0 +1,26 @@
+
+.layout-wrapper {
+  display: flex;
+  flex-direction:row;
+  height: 100%;
+
+  .layout-side-nav {
+    display: flex;
+    min-width: 12rem;
+    flex-direction: column;
+    margin: 1rem 1rem 1rem 1rem;
+    margin-left: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-right: solid 1px darkslategrey;
+  } 
+
+  .layout-main-content {
+    margin-left: 2rem;
+  }
+}
+
+.test-colour {
+  background-color: blue;
+}
+
