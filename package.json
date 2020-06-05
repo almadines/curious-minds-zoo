@@ -1,22 +1,22 @@
 {
-  "name": "almadines.github.io",
+  "name": "test-zoo-website",
   "version": "1.0.0",
   "description": "---\r permalink: /index.html\r ---",
   "main": "index.js",
   "scripts": {
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public  --branch master",
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/almadines/almadines.github.io.git"
+    "url": "git+https://github.com/almadines/test-zoo-website.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/almadines/almadines.github.io/issues"
+    "url": "https://github.com/almadines/test-zoo-website/issues"
   },
-  "homepage": "https://github.com/almadines/almadines.github.io#readme",
+  "homepage": "https://github.com/almadines/test-zoo-website#readme",
   "dependencies": {
     "bootstrap": "^3.4.1",
     "gatsby": "^2.22.12",
