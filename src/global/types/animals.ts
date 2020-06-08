@@ -1,4 +1,7 @@
+import { TextInputFieldType } from "components/input-fields/text-input-field";
+import { TextInputCreateElement } from "./create-element";
 import { BaseType } from "./baseType";
+import { EditorTemplate } from "./editor-template";
 
 export enum AnimalType {
   lion = "lion",
@@ -9,19 +12,71 @@ export enum AnimalType {
 }
 
 export class Animal extends BaseType {
-  public id: string;
   public constructor(
+    id: string,
     public type: AnimalType,
     public name: string,
     public gender: string,
     public description?: string
   ) {
-    super();
+    super(id);
   }
 
-  public static fromData(data: any): Animal | undefined {
+  public clone(): Animal {
+    return new Animal(
+      this.id,
+      this.type,
+      this.name,
+      this.gender,
+      this.description
+    );
+  }
+
+  public static getNewEditorTemplate(): AnimalEditorTemplate {
+    return new AnimalEditorTemplate();
+  }
+
+  public getEditorTemplate(): AnimalEditorTemplate {
+    return new AnimalEditorTemplate(this);
+  }
+}
+
+export class AnimalEditorTemplate extends EditorTemplate {
+  public dataTypeName = Animal.name;
+
+  constructor(public initialAnimal?: Animal) {
+    super([
+      new TextInputCreateElement(
+        "type",
+        TextInputFieldType.input,
+        true,
+        initialAnimal ? initialAnimal.type : undefined
+      ),
+      new TextInputCreateElement(
+        "name",
+        TextInputFieldType.input,
+        true,
+        initialAnimal ? initialAnimal.name : undefined
+      ),
+      new TextInputCreateElement(
+        "gender",
+        TextInputFieldType.input,
+        true,
+        initialAnimal ? initialAnimal.gender : undefined
+      ),
+      new TextInputCreateElement(
+        "description",
+        TextInputFieldType.textarea,
+        false,
+        initialAnimal ? initialAnimal.description : undefined
+      ),
+    ]);
+  }
+
+  public fromData = (data: any): Animal | undefined => {
     if (!!data["type"] && !!data["name"] && !!data["gender"]) {
       return new Animal(
+        this.initialAnimal ? this.initialAnimal.id : "",
         data["type"],
         data["name"],
         data["gender"],
@@ -34,5 +89,5 @@ export class Animal extends BaseType {
 
       return undefined;
     }
-  }
+  };
 }

@@ -11,7 +11,8 @@ export abstract class CreateElement {
     public identifier: string,
     public type: TextInputFieldType,
     public required: boolean,
-    public label?: string
+    public label?: string,
+    public initialValue?: string | string[]
   ) {
     this.uniqueIdentifier = this.identifier + uuidv4();
   }
@@ -34,6 +35,15 @@ export abstract class CreateElement {
 }
 
 export class TextInputCreateElement extends CreateElement {
+  constructor(
+    identifier: string,
+    type: TextInputFieldType,
+    required: boolean,
+    label?: string,
+    public initialValue?: string
+  ) {
+    super(identifier, type, required, label, initialValue);
+  }
   public renderInput(
     onInputChange: (newValue: string, identifier: string) => void
   ): JSX.Element {
@@ -45,6 +55,7 @@ export class TextInputCreateElement extends CreateElement {
           type={this.type}
           onChange={onInputChange}
           required={this.required}
+          initialValue={this.initialValue}
         />
       </div>
     );

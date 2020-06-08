@@ -1,12 +1,13 @@
 import * as React from "react";
 import { Layout } from "../components/layout/layout";
-import StaffCreate from "components/create-page/staff-create";
+import { Staff } from "global/types/staff";
+import ConnectedCreatePage from "components/create-page/create-page";
 
 class StaffCreatePage extends React.PureComponent {
   public render(): JSX.Element {
     return (
       <Layout>
-        <StaffCreate />
+        <ConnectedCreatePage editorTemplate={Staff.getNewEditorTemplate()} />
       </Layout>
     );
   }

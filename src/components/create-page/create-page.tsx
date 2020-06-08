@@ -3,23 +3,31 @@ import { connect } from "react-redux";
 import { CreateElement } from "global/types/create-element";
 import { AppState } from "global/state/state";
 import { ActionType } from "global/store/dispatchActions";
+import { EditorTemplate } from "global/types/editor-template";
 
-interface CreatePageProps {
-  createElements: CreateElement[];
-  dataConstructionFunction: (data: any) => any;
-  dataTypeName: string;
+interface EditorPageProps {
+  editorTemplate: EditorTemplate;
   dispatchFunction?: Function;
 }
 
-interface CreatePageState {
+interface EditorPageState {
   currentData: any;
 }
 
-class CreatePage extends React.PureComponent<CreatePageProps, CreatePageState> {
-  public constructor(props: any) {
+class CreatePage extends React.PureComponent<EditorPageProps, EditorPageState> {
+  public constructor(props: EditorPageProps) {
     super(props);
 
-    this.state = { currentData: {} };
+    const currentData: any = {};
+    props.editorTemplate
+      .getEditorElements()
+      .forEach((elem: CreateElement): void => {
+        if (!!elem.initialValue) {
+          currentData[elem.identifier] = elem.initialValue;
+        }
+      });
+
+    this.state = { currentData };
   }
 
   public onInputChange(newValue: string, identifier: string): void {
@@ -31,17 +39,15 @@ class CreatePage extends React.PureComponent<CreatePageProps, CreatePageState> {
   public createObject(event: Event): void {
     event.stopPropagation();
 
-    const newObject = this.props.dataConstructionFunction(
+    const newObject = this.props.editorTemplate.fromData(
       this.state.currentData
     );
     if (!!newObject && this.props.dispatchFunction) {
-      this.props.createElements.forEach((createElement: CreateElement): void =>
-        createElement.reset()
-      );
+      this.props.editorTemplate.reset(); // replace later with callback function!
       this.props.dispatchFunction({
         type: ActionType.add,
         values: [newObject],
-        names: [this.props.dataTypeName],
+        names: [this.props.editorTemplate.dataTypeName],
       });
     } else {
       console.warn("Unable to create object!, Invalid  or incomplete data!");
@@ -61,10 +67,12 @@ class CreatePage extends React.PureComponent<CreatePageProps, CreatePageState> {
   public render(): JSX.Element {
     return (
       <div className="create-wrapper">
-        {this.props.createElements.map(
-          (createElement: CreateElement): JSX.Element =>
-            createElement.render(this.onInputChange.bind(this))
-        )}
+        {this.props.editorTemplate
+          .getEditorElements()
+          .map(
+            (createElement: CreateElement): JSX.Element =>
+              createElement.render(this.onInputChange.bind(this))
+          )}
         <button onClick={this.createObject.bind(this)}>Submit</button>
       </div>
     );
