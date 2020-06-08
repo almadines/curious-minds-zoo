@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Layout } from "../components/layout/layout";
 
-class Home extends React.Component {
+class StaffPage extends React.Component {
   render(): JSX.Element {
     return (
       <Layout>
-        <h1 className="display-1">Main Page</h1>
+        <h1 className="display-1">Staff:</h1>
       </Layout>
     );
   }
 }
 
-export default Home;
+export default StaffPage;

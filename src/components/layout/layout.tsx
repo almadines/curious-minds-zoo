@@ -1,28 +1,50 @@
-import React from 'react';
-import { Link } from 'gatsby';
-// import "./layout.scss"
-import containerStyles from './layout.module.scss';
+import * as React from "react";
+import { Link } from "gatsby";
+import styled from "styled-components";
+
+const LayoutWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+`;
+
+const LayoutSideNav = styled.div`
+  display: flex;
+  min-width: 12rem;
+  flex-direction: column;
+  margin: 1rem 1rem 1rem 1rem;
+  border-right: solid 1px darkslategrey;
+`;
+
+const LayoutMainContent = styled.div`
+  margin-left: 2rem;
+`;
 
 export class Layout extends React.Component {
   render(): JSX.Element {
     return (
-      <div className={`layout-wrapper ${containerStyles.container}`}>
-        <div className='layout-side-nav'>
-          <h3 className='display-4'>Nav:</h3>
+      <LayoutWrapper className={`layout-wrapper`}>
+        <LayoutSideNav className="layout-side-nav">
+          <h3 className="display-4">Nav:</h3>
           <ul className="list-unstyled">
-            <li><Link to='/'>Main page</Link></li>
-            <li><Link to='/sub-page/'>Sub page</Link></li>
+            <li>
+              <Link to="/">Dashboard</Link>
+            </li>
+            <li>
+              <Link to="/Animals/">Animals</Link>
+            </li>
+            <li>
+              <Link to="/Exhibits/">Exhibits</Link>
+            </li>
+            <li>
+              <Link to="/Staff/">Staff</Link>
+            </li>
           </ul>
-        </div>
-        <div className='layout-main-content'>
+        </LayoutSideNav>
+        <LayoutMainContent className="layout-main-content">
           {this.props.children}
-        </div>
-      </div>
+        </LayoutMainContent>
+      </LayoutWrapper>
     );
   }
 }
-
-
-
-
-
