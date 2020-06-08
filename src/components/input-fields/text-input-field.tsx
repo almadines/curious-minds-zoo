@@ -34,7 +34,7 @@ export class InputField extends React.PureComponent<
       event.target instanceof HTMLTextAreaElement
     ) {
       this.setState({ value: event.target.value || "" });
-      this.props.onChange(this.state.value, this.props.identifier);
+      this.props.onChange(event.target.value, this.props.identifier);
     } else {
       console.warn(
         "Event target of inputChanged in InputField was not an HTMLInputElement: ",
