@@ -24,6 +24,7 @@ export class InputField extends React.PureComponent<
   constructor(props: InputFieldProps) {
     super(props);
     this.state = { value: props.initialValue || "" };
+    this.props.onChange(this.props.initialValue || "", this.props.identifier);
   }
 
   public inputChanged(event: Event): void {
@@ -33,14 +34,13 @@ export class InputField extends React.PureComponent<
       event.target instanceof HTMLTextAreaElement
     ) {
       this.setState({ value: event.target.value || "" });
+      this.props.onChange(this.state.value, this.props.identifier);
     } else {
       console.warn(
         "Event target of inputChanged in InputField was not an HTMLInputElement: ",
         event.target
       );
     }
-
-    this.props.onChange(this.state.value, this.props.identifier);
   }
 
   public inputProps(): any {

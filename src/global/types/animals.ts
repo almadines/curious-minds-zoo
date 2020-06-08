@@ -18,4 +18,21 @@ export class Animal extends BaseType {
   ) {
     super();
   }
+
+  public static fromData(data: any): Animal | undefined {
+    if (!!data["type"] && !!data["name"] && !!data["gender"]) {
+      return new Animal(
+        data["type"],
+        data["name"],
+        data["gender"],
+        data["description"]
+      );
+    } else {
+      console.warn(
+        "invalid or incomplete data when attempting to create an animal!"
+      );
+
+      return undefined;
+    }
+  }
 }

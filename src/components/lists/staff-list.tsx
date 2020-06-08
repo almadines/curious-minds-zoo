@@ -31,7 +31,6 @@ class StaffListPage extends React.PureComponent<StaffListPageProps> {
 
     return (
       <div>
-        <h1 className="display-1">Staff:</h1>
         <ListDisplay
           listElements={staffListElements}
           includeSearchFilter={true}

@@ -1,15 +1,15 @@
 import * as React from "react";
 import { Layout } from "../components/layout/layout";
-import AnimalCreate from "components/create-page/animal-create";
+import StaffCreate from "components/create-page/staff-create";
 
-class AnimalCreatePage extends React.PureComponent {
+class StaffCreatePage extends React.PureComponent {
   public render(): JSX.Element {
     return (
       <Layout>
-        <AnimalCreate />
+        <StaffCreate />
       </Layout>
     );
   }
 }
 
-export default AnimalCreatePage;
+export default StaffCreatePage;

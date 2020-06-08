@@ -28,7 +28,7 @@ export class Layout extends React.Component {
           <h3 className="display-4">Nav:</h3>
           <ul className="list-unstyled">
             <li>
-              <Link to="/">Dashboard</Link>
+              <Link to="/">Main Page</Link>
             </li>
             <li>
               <Link to="/animals/">Animals</Link>
@@ -40,7 +40,13 @@ export class Layout extends React.Component {
               <Link to="/exhibits/">Exhibits</Link>
             </li>
             <li>
+              <Link to="/create-exhibit/">Create Exhibit</Link>
+            </li>
+            <li>
               <Link to="/staff/">Staff</Link>
+            </li>
+            <li>
+              <Link to="/create-staff/">Create Staff</Link>
             </li>
           </ul>
         </LayoutSideNav>

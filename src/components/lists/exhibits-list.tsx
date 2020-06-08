@@ -31,7 +31,6 @@ class ExhibitsListPage extends React.PureComponent<ExhibitsListPageProps> {
 
     return (
       <div>
-        <h1 className="display-1">Exhibits:</h1>
         <ListDisplay
           listElements={exhibitListElements}
           includeSearchFilter={true}

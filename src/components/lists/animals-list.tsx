@@ -30,11 +30,8 @@ class AnimalsListPage extends React.PureComponent<AnimalsListPageProps> {
   public render(): JSX.Element {
     const animalListElements = this.getListElements(this.props.animals);
 
-    console.log("animalListElements: ", animalListElements);
-
     return (
       <div>
-        <h1 className="display-1">Animals:</h1>
         <ListDisplay
           listElements={animalListElements || []}
           includeSearchFilter={true}

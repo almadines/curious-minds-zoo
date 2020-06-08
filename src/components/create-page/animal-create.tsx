@@ -1,23 +1,21 @@
 import * as React from "react";
-import { Layout } from "../components/layout/layout";
-import { Animal } from "../global/types/animals";
+import { Animal } from "global/types/animals";
 import { TextInputFieldType } from "components/input-fields/text-input-field";
-import memoize from "memoize-one";
 import {
   CreateElement,
   TextInputCreateElement,
 } from "global/types/create-element";
 import ConnectedCreatePage from "components/create-page/create-page";
 
-interface AnimalCreatePageProps {}
+interface AnimalCreateProps {}
 
-interface AnimalCreatePageState {
+interface AnimalCreateState {
   createElements: CreateElement[];
 }
 
-class AnimalCreatePage extends React.PureComponent<
-  AnimalCreatePageProps,
-  AnimalCreatePageState
+class AnimalCreate extends React.PureComponent<
+  AnimalCreateProps,
+  AnimalCreateState
 > {
   public constructor(props: any) {
     super(props);
@@ -36,35 +34,18 @@ class AnimalCreatePage extends React.PureComponent<
     };
   }
 
-  public dataConstructionFunction(data: any): any {
-    if (!!data["type"] && !!data["name"] && !!data["gender"]) {
-      return new Animal(
-        data["type"],
-        data["name"],
-        data["gender"],
-        data["description"]
-      );
-    } else {
-      console.warn(
-        "invalid or incomplete data when attempting to create an animal!"
-      );
-
-      return undefined;
-    }
-  }
-
   public render(): JSX.Element {
     return (
-      <Layout>
+      <div>
         <h1 className="display-1">Create Animal:</h1>
         <ConnectedCreatePage
           createElements={this.state.createElements}
-          dataConstructionFunction={this.dataConstructionFunction}
+          dataConstructionFunction={Animal.fromData}
           dataTypeName={Animal.name}
         />
-      </Layout>
+      </div>
     );
   }
 }
 
-export default AnimalCreatePage;
+export default AnimalCreate;

@@ -35,7 +35,9 @@ class CreatePage extends React.PureComponent<CreatePageProps, CreatePageState> {
       this.state.currentData
     );
     if (!!newObject && this.props.dispatchFunction) {
-      console.log("dispatching object with: ", newObject);
+      this.props.createElements.forEach((createElement: CreateElement): void =>
+        createElement.reset()
+      );
       this.props.dispatchFunction({
         type: ActionType.add,
         values: [newObject],

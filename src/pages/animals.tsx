@@ -6,6 +6,7 @@ class AnimalsPage extends React.PureComponent {
   public render(): JSX.Element {
     return (
       <Layout>
+        <h1 className="display-1">Animals:</h1>
         <ConnectedAnimalsListPage />
       </Layout>
     );
