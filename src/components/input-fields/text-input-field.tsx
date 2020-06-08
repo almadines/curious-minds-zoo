@@ -28,7 +28,10 @@ export class InputField extends React.PureComponent<
 
   public inputChanged(event: Event): void {
     event.stopPropagation();
-    if (event.target instanceof HTMLInputElement) {
+    if (
+      event.target instanceof HTMLInputElement ||
+      event.target instanceof HTMLTextAreaElement
+    ) {
       this.setState({ value: event.target.value || "" });
     } else {
       console.warn(

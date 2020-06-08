@@ -14,7 +14,7 @@ export class Animal extends BaseType {
     public type: AnimalType,
     public name: string,
     public gender: string,
-    public description: string
+    public description?: string
   ) {
     super();
   }

@@ -31,13 +31,16 @@ export class Layout extends React.Component {
               <Link to="/">Dashboard</Link>
             </li>
             <li>
-              <Link to="/Animals/">Animals</Link>
+              <Link to="/animals/">Animals</Link>
             </li>
             <li>
-              <Link to="/Exhibits/">Exhibits</Link>
+              <Link to="/create-animal/">Create Animal</Link>
             </li>
             <li>
-              <Link to="/Staff/">Staff</Link>
+              <Link to="/exhibits/">Exhibits</Link>
+            </li>
+            <li>
+              <Link to="/staff/">Staff</Link>
             </li>
           </ul>
         </LayoutSideNav>

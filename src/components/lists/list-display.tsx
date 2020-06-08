@@ -18,11 +18,16 @@ class ListDisplay extends React.PureComponent<
   ListDisplayProps,
   ListDisplayState
 > {
+  constructor(props: any) {
+    super(props);
+    this.state = { searchFilter: "" };
+  }
+
   public listDisplayFilter = memoize(
     (listElements: ListElement[], searchFilter: string): ListElement[] =>
-      listElements.filter((elem: ListElement): boolean =>
-        elem.searchParameter().includes(searchFilter)
-      )
+      listElements.filter((elem: ListElement): boolean => {
+        return elem.searchParameter().includes(searchFilter);
+      })
   );
 
   public static mapStateToProps(state: AppState): any {
@@ -37,7 +42,7 @@ class ListDisplay extends React.PureComponent<
 
   public render(): JSX.Element {
     const filteredList = this.listDisplayFilter(
-      Array.from(this.props.listElements.values()),
+      Array.from(this.props.listElements),
       this.state.searchFilter
     );
 

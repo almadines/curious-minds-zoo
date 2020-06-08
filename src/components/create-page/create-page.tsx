@@ -2,7 +2,6 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { CreateElement } from "global/types/create-element";
 import { AppState } from "global/state/state";
-import { Layout } from "components/layout/layout";
 import { ActionType } from "global/store/dispatchActions";
 
 interface CreatePageProps {
@@ -13,7 +12,6 @@ interface CreatePageProps {
 }
 
 interface CreatePageState {
-  newObject?: any;
   currentData: any;
 }
 
@@ -27,17 +25,20 @@ class CreatePage extends React.PureComponent<CreatePageProps, CreatePageState> {
   public onInputChange(newValue: string, identifier: string): void {
     const newData = { ...this.state.currentData };
     newData[identifier] = newValue;
-    const newObject = this.props.dataConstructionFunction(newData);
-
-    this.setState({ currentData: newData, newObject: newObject });
+    this.setState({ currentData: newData });
   }
 
   public createObject(event: Event): void {
     event.stopPropagation();
-    if (!!this.state.newObject && this.props.dispatchFunction) {
+
+    const newObject = this.props.dataConstructionFunction(
+      this.state.currentData
+    );
+    if (!!newObject && this.props.dispatchFunction) {
+      console.log("dispatching object with: ", newObject);
       this.props.dispatchFunction({
         type: ActionType.add,
-        values: [this.state.newObject],
+        values: [newObject],
         names: [this.props.dataTypeName],
       });
     } else {

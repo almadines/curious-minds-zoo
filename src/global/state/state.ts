@@ -5,9 +5,9 @@ import { Staff } from "../types/staff";
 import { createMapReducer } from "../store/createMapReducer";
 
 export interface AppState {
-  animals: Set<Animal>;
-  exhibits: Set<Exhibit>;
-  staff: Set<Staff>;
+  animals: Map<string, Animal>;
+  exhibits: Map<string, Exhibit>;
+  staff: Map<string, Staff>;
 }
 
 export const combinedReducer = combineReducers({
@@ -22,4 +22,4 @@ export const combinedReducer = combineReducers({
     | undefined => (item instanceof Staff ? item : undefined)),
 });
 
-export type ValueType = Animal | Exhibit;
+export type ValueType = Animal | Exhibit | Staff;

@@ -5,7 +5,7 @@ import { ActionType, DispatchAction, IdObject } from "./dispatchActions";
 export function createMapReducer<T extends IdObject>(
   valueTypeFilterString: string,
   getValue: (item: ValueType) => T | undefined
-): (state: Map<string, T>, action: DispatchAction) => Map<string, T> {
+): (oldState: Map<string, T>, action: DispatchAction) => Map<string, T> {
   return (oldState: Map<string, T>, action: DispatchAction): Map<string, T> => {
     if (!oldState) {
       return new Map<string, T>();

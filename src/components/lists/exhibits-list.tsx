@@ -1,38 +1,39 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import memoize from "memoize-one";
-import { Animal } from "../../global/types/animals";
 import { AppState } from "../../global/state/state";
 import ListDisplay from "./list-display";
-import { ListElement, AnimalListElement } from "global/types/list-element";
+import { ListElement, ExhibitListElement } from "global/types/list-element";
+import { Exhibit } from "global/types/exhibit";
+import { isEqual } from "lodash";
 
-interface AnimalsListPageProps {
-  animals?: Set<Animal>;
+interface ExhibitsListPageProps {
+  exhibits?: Map<string, Exhibit>;
 }
 
-class AnimalsListPage extends React.PureComponent<AnimalsListPageProps> {
-  public getListElements = memoize((animals: Animal[]): ListElement[] => {
-    return animals.map(
-      (animal: Animal): ListElement => new AnimalListElement(animal)
-    );
-  });
+class ExhibitsListPage extends React.PureComponent<ExhibitsListPageProps> {
+  public getListElements = memoize(
+    (exhibits: Map<string, Exhibit>): ListElement[] =>
+      Array.from(exhibits.values()).map(
+        (exhibit: Exhibit): ListElement => new ExhibitListElement(exhibit)
+      ),
+    isEqual
+  );
 
   public static mapStateToProps(state: AppState): any {
     return {
-      animals: state.animals,
+      exhibits: state.exhibits,
     };
   }
 
   public render(): JSX.Element {
-    const animalListElements = this.getListElements(
-      Array.from(this.props.animals)
-    );
+    const exhibitListElements = this.getListElements(this.props.exhibits);
 
     return (
       <div>
-        <h1 className="display-1">Animals:</h1>
+        <h1 className="display-1">Exhibits:</h1>
         <ListDisplay
-          listElements={animalListElements}
+          listElements={exhibitListElements}
           includeSearchFilter={true}
         />
       </div>
@@ -40,7 +41,7 @@ class AnimalsListPage extends React.PureComponent<AnimalsListPageProps> {
   }
 }
 
-const ConnectedAnimalsListPage = connect(AnimalsListPage.mapStateToProps)(
-  AnimalsListPage
+const ConnectedExhibitsListPage = connect(ExhibitsListPage.mapStateToProps)(
+  ExhibitsListPage
 );
-export default ConnectedAnimalsListPage;
+export default ConnectedExhibitsListPage;
