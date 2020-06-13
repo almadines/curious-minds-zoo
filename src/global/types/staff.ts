@@ -1,5 +1,5 @@
 import { TextInputFieldType } from "components/input-fields/text-input-field";
-import { TextInputCreateElement } from "./create-element";
+import { TextInputEditorElement } from "./create-element";
 import { BaseType } from "./baseType";
 import { EditorTemplate } from "./editor-template";
 
@@ -38,21 +38,21 @@ export class StaffEditorTemplate extends EditorTemplate {
 
   constructor(public initialStaff?: Staff) {
     super([
-      new TextInputCreateElement(
+      new TextInputEditorElement(
         "name",
         TextInputFieldType.input,
         true,
         "Name",
         initialStaff ? initialStaff.name : undefined
       ),
-      new TextInputCreateElement(
+      new TextInputEditorElement(
         "salary",
         TextInputFieldType.input,
         true,
         "Salary",
         initialStaff ? initialStaff.salary : undefined
       ),
-      new TextInputCreateElement(
+      new TextInputEditorElement(
         "description",
         TextInputFieldType.textarea,
         false,

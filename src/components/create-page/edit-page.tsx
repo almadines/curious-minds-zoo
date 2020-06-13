@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { CreateElement } from "global/types/create-element";
+import { EditorElement } from "global/types/create-element";
 import { AppState } from "global/state/state";
 import { ActionType } from "global/store/dispatchActions";
 import { EditorTemplate } from "global/types/editor-template";
@@ -8,20 +8,21 @@ import { EditorTemplate } from "global/types/editor-template";
 interface EditorPageProps {
   editorTemplate: EditorTemplate;
   dispatchFunction?: Function;
+  editMode: boolean;
 }
 
 interface EditorPageState {
   currentData: any;
 }
 
-class CreatePage extends React.PureComponent<EditorPageProps, EditorPageState> {
+class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
   public constructor(props: EditorPageProps) {
     super(props);
 
     const currentData: any = {};
     props.editorTemplate
       .getEditorElements()
-      .forEach((elem: CreateElement): void => {
+      .forEach((elem: EditorElement): void => {
         if (!!elem.initialValue) {
           currentData[elem.identifier] = elem.initialValue;
         }
@@ -66,12 +67,15 @@ class CreatePage extends React.PureComponent<EditorPageProps, EditorPageState> {
 
   public render(): JSX.Element {
     return (
-      <div className="create-wrapper">
+      <div className="edit-wrapper">
         {this.props.editorTemplate
           .getEditorElements()
           .map(
-            (createElement: CreateElement): JSX.Element =>
-              createElement.render(this.onInputChange.bind(this))
+            (EditorElement: EditorElement): JSX.Element =>
+              EditorElement.render(
+                this.props.editMode,
+                this.onInputChange.bind(this)
+              )
           )}
         <button onClick={this.createObject.bind(this)}>Submit</button>
       </div>
@@ -79,9 +83,9 @@ class CreatePage extends React.PureComponent<EditorPageProps, EditorPageState> {
   }
 }
 
-const ConnectedCreatePage = connect(
-  CreatePage.mapStateToProps,
-  CreatePage.mapDispatchToProps
-)(CreatePage);
+const ConnectedEditPage = connect(
+  EditPage.mapStateToProps,
+  EditPage.mapDispatchToProps
+)(EditPage);
 
-export default ConnectedCreatePage;
+export default ConnectedEditPage;

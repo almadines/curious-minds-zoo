@@ -5,7 +5,7 @@ import {
   TextInputFieldType,
 } from "components/input-fields/text-input-field";
 
-export abstract class CreateElement {
+export abstract class EditorElement {
   public uniqueIdentifier: string = "";
   constructor(
     public identifier: string,
@@ -21,20 +21,31 @@ export abstract class CreateElement {
     this.uniqueIdentifier = this.identifier + uuidv4();
   }
 
+  public getLabel(): string {
+    return this.label || this.identifier;
+  }
+
   public render(
-    onInputChange: (newValue: string, identifier: string) => void
+    editMode: boolean,
+    onInputChange?: (newValue: string, identifier: string) => void
   ): JSX.Element {
-    return (
-      <div key={this.uniqueIdentifier}>{this.renderInput(onInputChange)}</div>
-    );
+    if (editMode && onInputChange) {
+      return (
+        <div key={this.uniqueIdentifier}>{this.renderInput(onInputChange)}</div>
+      );
+    } else {
+      return <div key={this.uniqueIdentifier}>{this.renderDisplay()}</div>;
+    }
   }
 
   public abstract renderInput(
     onInputChange: (newValue: string, identifier: string) => void
   ): JSX.Element;
+
+  public abstract renderDisplay(): JSX.Element;
 }
 
-export class TextInputCreateElement extends CreateElement {
+export class TextInputEditorElement extends EditorElement {
   constructor(
     identifier: string,
     type: TextInputFieldType,
@@ -44,12 +55,13 @@ export class TextInputCreateElement extends CreateElement {
   ) {
     super(identifier, type, required, label, initialValue);
   }
+
   public renderInput(
     onInputChange: (newValue: string, identifier: string) => void
   ): JSX.Element {
     return (
       <div>
-        <label>{this.label || this.identifier}</label>
+        <label>{this.getLabel()}</label>
         <InputField
           identifier={this.identifier}
           type={this.type}
@@ -57,6 +69,15 @@ export class TextInputCreateElement extends CreateElement {
           required={this.required}
           initialValue={this.initialValue}
         />
+      </div>
+    );
+  }
+
+  public renderDisplay(): JSX.Element {
+    return (
+      <div>
+        <label>{this.getLabel()}</label>
+        <span>{this.initialValue}</span>
       </div>
     );
   }

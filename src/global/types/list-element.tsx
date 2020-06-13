@@ -6,10 +6,11 @@ import { Staff } from "./staff";
 export interface ListElement {
   render: () => JSX.Element;
   searchParameter: () => string;
+  onClickCallback?: () => void;
 }
 
 export class AnimalListElement {
-  constructor(public animal: Animal) {}
+  constructor(public animal: Animal, public onClickCallback?: () => void) {}
 
   public render(): JSX.Element {
     return (
@@ -25,7 +26,7 @@ export class AnimalListElement {
 }
 
 export class ExhibitListElement {
-  constructor(public exhibit: Exhibit) {}
+  constructor(public exhibit: Exhibit, public onClickCallback?: () => void) {}
 
   public render(): JSX.Element {
     return (
@@ -41,7 +42,7 @@ export class ExhibitListElement {
 }
 
 export class StaffListElement {
-  constructor(public staff: Staff) {}
+  constructor(public staff: Staff, public onClickCallback?: () => void) {}
 
   public render(): JSX.Element {
     return (

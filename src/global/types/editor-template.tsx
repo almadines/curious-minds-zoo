@@ -1,22 +1,22 @@
-import { CreateElement } from "./create-element";
+import { EditorElement } from "./create-element";
 import { BaseType } from "./baseType";
 
 export abstract class EditorTemplate {
   abstract fromData: (data: any) => BaseType | undefined;
   abstract dataTypeName: string;
 
-  private cachedEditorElements: CreateElement[];
+  private cachedEditorElements: EditorElement[];
 
-  constructor(createElements: CreateElement[]) {
-    this.cachedEditorElements = createElements;
+  constructor(EditorElements: EditorElement[]) {
+    this.cachedEditorElements = EditorElements;
   }
 
-  public getEditorElements(): CreateElement[] {
+  public getEditorElements(): EditorElement[] {
     return this.cachedEditorElements;
   }
 
   public reset(): void {
-    this.cachedEditorElements.forEach((elem: CreateElement): void =>
+    this.cachedEditorElements.forEach((elem: EditorElement): void =>
       elem.reset()
     );
   }
