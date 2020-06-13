@@ -7,7 +7,7 @@ class StaffPage extends React.Component {
     return (
       <Layout>
         <h1 className="display-1">Staff:</h1>
-        <ConnectedStaffListPage />
+        <ConnectedStaffListPage linkDetailPages={true} />
       </Layout>
     );
   }

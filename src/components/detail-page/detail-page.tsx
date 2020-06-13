@@ -1,8 +1,6 @@
 import * as React from "react";
 import { EditorTemplate } from "global/types/editor-template";
-import ConnectedEditPage from "components/create-page/edit-page";
-import { connect } from "react-redux";
-import { AppState } from "global/state/state";
+import ConnectedEditPage from "components/edit-page/edit-page";
 
 interface DetailPageProps {
   editorTemplate: EditorTemplate;

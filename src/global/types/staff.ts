@@ -1,7 +1,7 @@
-import { TextInputFieldType } from "components/input-fields/text-input-field";
-import { TextInputEditorElement } from "./create-element";
+import { StaffListElement } from "global/types/list-element";
+import { ListElement } from "global/types/list-element";
+import { StaffEditorTemplate } from "./editor-template";
 import { BaseType } from "./baseType";
-import { EditorTemplate } from "./editor-template";
 
 export class Staff extends BaseType {
   constructor(
@@ -31,52 +31,8 @@ export class Staff extends BaseType {
   public getEditorTemplate(): StaffEditorTemplate {
     return new StaffEditorTemplate(this);
   }
-}
 
-export class StaffEditorTemplate extends EditorTemplate {
-  public dataTypeName = Staff.name;
-
-  constructor(public initialStaff?: Staff) {
-    super([
-      new TextInputEditorElement(
-        "name",
-        TextInputFieldType.input,
-        true,
-        "Name",
-        initialStaff ? initialStaff.name : undefined
-      ),
-      new TextInputEditorElement(
-        "salary",
-        TextInputFieldType.input,
-        true,
-        "Salary",
-        initialStaff ? initialStaff.salary : undefined
-      ),
-      new TextInputEditorElement(
-        "description",
-        TextInputFieldType.textarea,
-        false,
-        "Description",
-        initialStaff ? initialStaff.description : undefined
-      ),
-    ]);
+  public getListElement(onClickCallback?: () => void): ListElement {
+    return new StaffListElement(this, onClickCallback);
   }
-
-  public fromData = (data: any): Staff | undefined => {
-    if (!!data["name"]) {
-      return new Staff(
-        this.initialStaff ? this.initialStaff.id : "",
-        data["animalIds"] || [],
-        data["name"],
-        data["salary"],
-        data["description"]
-      );
-    } else {
-      console.warn(
-        "invalid or incomplete data when attempting to create an exhibit!"
-      );
-
-      return undefined;
-    }
-  };
 }

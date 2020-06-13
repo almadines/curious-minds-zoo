@@ -7,6 +7,7 @@ export interface ListElement {
   render: () => JSX.Element;
   searchParameter: () => string;
   onClickCallback?: () => void;
+  getId: () => string;
 }
 
 export class AnimalListElement {
@@ -14,7 +15,11 @@ export class AnimalListElement {
 
   public render(): JSX.Element {
     return (
-      <div key={this.animal.id} className="list-group-item">
+      <div
+        key={this.animal.id}
+        className="list-group-item"
+        onClick={this.onClickCallback}
+      >
         {this.animal.name} {this.animal.type}
       </div>
     );
@@ -23,6 +28,10 @@ export class AnimalListElement {
   public searchParameter(): string {
     return this.animal.name;
   }
+
+  public getId(): string {
+    return this.animal.id;
+  }
 }
 
 export class ExhibitListElement {
@@ -30,7 +39,11 @@ export class ExhibitListElement {
 
   public render(): JSX.Element {
     return (
-      <div key={this.exhibit.id} className="list-group-item">
+      <div
+        key={this.exhibit.id}
+        className="list-group-item"
+        onClick={this.onClickCallback}
+      >
         {this.exhibit.name} ({this.exhibit.animalIds.length})
       </div>
     );
@@ -39,6 +52,10 @@ export class ExhibitListElement {
   public searchParameter(): string {
     return this.exhibit.name;
   }
+
+  public getId(): string {
+    return this.exhibit.id;
+  }
 }
 
 export class StaffListElement {
@@ -46,7 +63,11 @@ export class StaffListElement {
 
   public render(): JSX.Element {
     return (
-      <div key={this.staff.id} className="list-group-item">
+      <div
+        key={this.staff.id}
+        className="list-group-item"
+        onClick={this.onClickCallback}
+      >
         {this.staff.name} ({this.staff.animalIds.length})
       </div>
     );
@@ -54,5 +75,9 @@ export class StaffListElement {
 
   public searchParameter(): string {
     return this.staff.name;
+  }
+
+  public getId(): string {
+    return this.staff.id;
   }
 }

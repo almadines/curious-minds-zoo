@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export enum TextInputFieldType {
+export enum InputFieldType {
   input = "input",
   textarea = "textarea",
 }
@@ -8,7 +8,7 @@ export enum TextInputFieldType {
 interface InputFieldProps {
   initialValue?: string;
   identifier: string;
-  type: TextInputFieldType;
+  type: InputFieldType;
   required?: boolean;
   onChange: (newValue: string, identifier: string) => void;
 }
@@ -56,9 +56,9 @@ export class InputField extends React.PureComponent<
 
   public render(): JSX.Element {
     switch (this.props.type) {
-      case TextInputFieldType.input:
+      case InputFieldType.input:
         return <input {...this.inputProps()} />;
-      case TextInputFieldType.textarea:
+      case InputFieldType.textarea:
         return <textarea {...this.inputProps()} />;
     }
   }

@@ -1,7 +1,7 @@
-import { TextInputFieldType } from "components/input-fields/text-input-field";
-import { TextInputEditorElement } from "./create-element";
+import { ExhibitListElement } from "global/types/list-element";
+import { ListElement } from "global/types/list-element";
+import { ExhibitEditorTemplate } from "./editor-template";
 import { BaseType } from "./baseType";
-import { EditorTemplate } from "./editor-template";
 
 export class Exhibit extends BaseType {
   constructor(
@@ -31,45 +31,8 @@ export class Exhibit extends BaseType {
   public getEditorTemplate(): ExhibitEditorTemplate {
     return new ExhibitEditorTemplate(this);
   }
-}
 
-export class ExhibitEditorTemplate extends EditorTemplate {
-  public dataTypeName = Exhibit.name;
-
-  constructor(public initialExhibit?: Exhibit) {
-    super([
-      new TextInputEditorElement(
-        "name",
-        TextInputFieldType.input,
-        true,
-        "name",
-        initialExhibit ? initialExhibit.name : undefined
-      ),
-      new TextInputEditorElement(
-        "description",
-        TextInputFieldType.textarea,
-        false,
-        "description",
-        initialExhibit ? initialExhibit.name : undefined
-      ),
-    ]);
+  public getListElement(onClickCallback?: () => void): ListElement {
+    return new ExhibitListElement(this, onClickCallback);
   }
-
-  public fromData = (data: any): Exhibit | undefined => {
-    if (!!data["name"]) {
-      return new Exhibit(
-        this.initialExhibit ? this.initialExhibit.id : "",
-        data["animalIds"] || [],
-        data["staffIds"] || [],
-        data["name"],
-        data["description"]
-      );
-    } else {
-      console.warn(
-        "invalid or incomplete data when attempting to create an exhibit!"
-      );
-
-      return undefined;
-    }
-  };
 }

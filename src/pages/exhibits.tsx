@@ -7,7 +7,7 @@ class ExhibitsPage extends React.Component {
     return (
       <Layout>
         <h1 className="display-1">Exhibits:</h1>
-        <ConnectedExhibitsListPage />
+        <ConnectedExhibitsListPage linkDetailPages={true} />
       </Layout>
     );
   }

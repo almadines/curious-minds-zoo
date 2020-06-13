@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Layout } from "../components/layout/layout";
-import ConnectedEditPage from "components/create-page/edit-page";
+import ConnectedEditPage from "components/edit-page/edit-page";
 import { Animal } from "global/types/animals";
 
 class AnimalCreatePage extends React.PureComponent {

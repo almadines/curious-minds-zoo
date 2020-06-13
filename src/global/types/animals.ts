@@ -1,7 +1,7 @@
-import { TextInputFieldType } from "components/input-fields/text-input-field";
-import { TextInputEditorElement } from "./create-element";
+import { AnimalListElement } from "global/types/list-element";
+import { ListElement } from "global/types/list-element";
 import { BaseType } from "./baseType";
-import { EditorTemplate } from "./editor-template";
+import { AnimalEditorTemplate } from "./editor-template";
 
 export enum AnimalType {
   lion = "lion",
@@ -39,55 +39,8 @@ export class Animal extends BaseType {
   public getEditorTemplate(): AnimalEditorTemplate {
     return new AnimalEditorTemplate(this);
   }
-}
 
-export class AnimalEditorTemplate extends EditorTemplate {
-  public dataTypeName = Animal.name;
-
-  constructor(public initialAnimal?: Animal) {
-    super([
-      new TextInputEditorElement(
-        "type",
-        TextInputFieldType.input,
-        true,
-        initialAnimal ? initialAnimal.type : undefined
-      ),
-      new TextInputEditorElement(
-        "name",
-        TextInputFieldType.input,
-        true,
-        initialAnimal ? initialAnimal.name : undefined
-      ),
-      new TextInputEditorElement(
-        "gender",
-        TextInputFieldType.input,
-        true,
-        initialAnimal ? initialAnimal.gender : undefined
-      ),
-      new TextInputEditorElement(
-        "description",
-        TextInputFieldType.textarea,
-        false,
-        initialAnimal ? initialAnimal.description : undefined
-      ),
-    ]);
+  public getListElement(onClickCallback?: () => void): ListElement {
+    return new AnimalListElement(this, onClickCallback);
   }
-
-  public fromData = (data: any): Animal | undefined => {
-    if (!!data["type"] && !!data["name"] && !!data["gender"]) {
-      return new Animal(
-        this.initialAnimal ? this.initialAnimal.id : "",
-        data["type"],
-        data["name"],
-        data["gender"],
-        data["description"]
-      );
-    } else {
-      console.warn(
-        "invalid or incomplete data when attempting to create an animal!"
-      );
-
-      return undefined;
-    }
-  };
 }

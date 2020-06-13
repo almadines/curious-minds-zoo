@@ -7,7 +7,7 @@ class AnimalsPage extends React.PureComponent {
     return (
       <Layout>
         <h1 className="display-1">Animals:</h1>
-        <ConnectedAnimalsListPage />
+        <ConnectedAnimalsListPage linkDetailPages={true} />
       </Layout>
     );
   }

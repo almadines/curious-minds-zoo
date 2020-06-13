@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { EditorElement } from "global/types/create-element";
+import { EditorElement } from "global/types/editor-element";
 import { AppState } from "global/state/state";
 import { ActionType } from "global/store/dispatchActions";
 import { EditorTemplate } from "global/types/editor-template";
@@ -19,6 +19,10 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
   public constructor(props: EditorPageProps) {
     super(props);
 
+    this.state = { currentData: this.getInitialState(props) };
+  }
+
+  public getInitialState(props: EditorPageProps): any {
     const currentData: any = {};
     props.editorTemplate
       .getEditorElements()
@@ -27,8 +31,7 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
           currentData[elem.identifier] = elem.initialValue;
         }
       });
-
-    this.state = { currentData };
+    return currentData;
   }
 
   public onInputChange(newValue: string, identifier: string): void {
@@ -50,6 +53,7 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
         values: [newObject],
         names: [this.props.editorTemplate.dataTypeName],
       });
+      this.setState({ currentData: this.getInitialState(this.props) });
     } else {
       console.warn("Unable to create object!, Invalid  or incomplete data!");
     }
@@ -66,6 +70,10 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
   }
 
   public render(): JSX.Element {
+    const submitButton = this.props.editMode ? (
+      <button onClick={this.createObject.bind(this)}>Submit</button>
+    ) : null;
+
     return (
       <div className="edit-wrapper">
         {this.props.editorTemplate
@@ -77,7 +85,7 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
                 this.onInputChange.bind(this)
               )
           )}
-        <button onClick={this.createObject.bind(this)}>Submit</button>
+        {submitButton}
       </div>
     );
   }

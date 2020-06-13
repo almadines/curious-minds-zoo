@@ -6,17 +6,26 @@ import ListDisplay from "./list-display";
 import { ListElement, StaffListElement } from "global/types/list-element";
 import { isEqual } from "lodash";
 import { Staff } from "global/types/staff";
+import { navigate } from "@reach/router";
 
 interface StaffListPageProps {
   staff?: Map<string, Staff>;
+  linkDetailPages?: boolean;
 }
 
 class StaffListPage extends React.PureComponent<StaffListPageProps> {
   public getListElements = memoize(
-    (staff: Map<string, Staff>): ListElement[] =>
-      Array.from(staff.values()).map(
-        (staff: Staff): ListElement => new StaffListElement(staff)
-      ),
+    (staff: Map<string, Staff>): ListElement[] => {
+      const onClickCallbackConstructor = (
+        staffId: string
+      ): (() => void) => () => {
+        navigate(`/staff-details?id=${staffId}`);
+      };
+      return Array.from(staff.values()).map(
+        (staff: Staff): ListElement =>
+          new StaffListElement(staff, onClickCallbackConstructor(staff.id))
+      );
+    },
     isEqual
   );
 

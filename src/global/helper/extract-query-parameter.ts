@@ -1,3 +1,4 @@
+import memoizeOne from "memoize-one";
 export const extractQueryParameter = (
   queryString: string,
   key: string
@@ -15,3 +16,16 @@ export const extractQueryParameter = (
 
   return result;
 };
+
+export const getMemoizedIdFunction: () => (
+  searchString?: string
+) => string | undefined = () =>
+  memoizeOne((searchString?: string): string => {
+    if (!searchString) {
+      console.warn("No seach data found in props!");
+    }
+
+    return !!searchString
+      ? extractQueryParameter(searchString, "id")
+      : undefined;
+  });

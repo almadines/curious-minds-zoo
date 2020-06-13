@@ -7,7 +7,8 @@ import DetailPage from "./detail-page";
 
 interface StaffDetailPageProps {
   allowEditing?: boolean;
-  location?: any;
+  id: string;
+  // redux
   editorTemplate?: EditorTemplate;
 }
 
@@ -24,21 +25,17 @@ class StaffDetailPage extends React.PureComponent<
   public static mapStateToProps(
     state: AppState,
     ownProps: StaffDetailPageProps
-  ): StaffDetailPageProps {
-    const queryData = ownProps.location.search;
-    const animalId = !!queryData
-      ? extractQueryParameter(queryData, "id")
-      : undefined;
-
-    let animalTemplate: EditorTemplate | undefined = undefined;
-    if (!!animalId && state.animals.get(animalId)) {
-      animalTemplate = state.animals.get(animalId).getEditorTemplate();
-    }
-
-    return { editorTemplate: animalTemplate };
+  ): any {
+    return state.staff.get(ownProps.id)
+      ? { editorTemplate: state.staff.get(ownProps.id).getEditorTemplate() }
+      : {};
   }
 
   public render(): JSX.Element {
+    if (!this.props.editorTemplate) {
+      console.error("No editor template found! Error!");
+      return null;
+    }
     return (
       <div className="animal-detail-wrapper">
         <DetailPage editorTemplate={this.props.editorTemplate} />

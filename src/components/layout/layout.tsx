@@ -34,19 +34,19 @@ export class Layout extends React.Component {
               <Link to="/animals/">Animals</Link>
             </li>
             <li>
-              <Link to="/create-animal/">Create Animal</Link>
+              <Link to="/animal-create/">Create Animal</Link>
             </li>
             <li>
               <Link to="/exhibits/">Exhibits</Link>
             </li>
             <li>
-              <Link to="/create-exhibit/">Create Exhibit</Link>
+              <Link to="/exhibit-create/">Create Exhibit</Link>
             </li>
             <li>
               <Link to="/staff/">Staff</Link>
             </li>
             <li>
-              <Link to="/create-staff/">Create Staff</Link>
+              <Link to="/staff-create/">Create Staff</Link>
             </li>
           </ul>
         </LayoutSideNav>
