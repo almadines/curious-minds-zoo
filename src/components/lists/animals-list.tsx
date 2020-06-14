@@ -3,7 +3,12 @@ import { connect } from "react-redux";
 import memoize from "memoize-one";
 import { Animal } from "global/types/animals";
 import { AppState } from "global/state/state";
-import { ListElement, AnimalListElement } from "global/types/list-element";
+import {
+  ListElement,
+  AnimalListElement,
+  ListElementWrapper,
+  AnimalListWrapper,
+} from "global/types/list-element";
 import ListDisplay from "./list-display";
 import { isEqual } from "lodash";
 import { Exhibit } from "global/types/exhibit";
@@ -27,21 +32,23 @@ class AnimalsListPage extends React.PureComponent<
   AnimalsListPageProps,
   AnimalsListPageState
 > {
-  public getListElements = memoize(
-    (animals: Animal[], linkDetailPages: boolean): ListElement[] => {
+  public getListElementWrapper = memoize(
+    (animals: Animal[], linkDetailPages: boolean): ListElementWrapper => {
       const onClickCallbackConstructor = (
         animalId: string
       ): (() => void) => () => {
         navigate(`/animal-details?id=${animalId}`);
       };
 
-      return Array.from(animals.values()).map(
-        (animal: Animal): ListElement =>
+      const listElems = Array.from(animals.values()).map(
+        (animal: Animal): AnimalListElement =>
           new AnimalListElement(
             animal,
             linkDetailPages ? onClickCallbackConstructor(animal.id) : undefined
           )
       );
+
+      return new AnimalListWrapper(listElems);
     },
     isEqual
   );
@@ -135,7 +142,7 @@ class AnimalsListPage extends React.PureComponent<
   }
 
   public render(): JSX.Element {
-    const animalListElements = this.getListElements(
+    const animalListElementWrapper = this.getListElementWrapper(
       this.props.animals,
       this.props.linkDetailPages
     );
@@ -151,7 +158,7 @@ class AnimalsListPage extends React.PureComponent<
       </div>
     ) : (
       <button
-        className="btn btn-primary"
+        className="btn btn-success"
         onClick={this.setCreateFormOpenState.bind(this, true)}
       >
         Create Animal
@@ -170,10 +177,13 @@ class AnimalsListPage extends React.PureComponent<
           {createFormContents}
         </div>
 
-        <ListDisplay
-          listElements={animalListElements || []}
-          includeSearchFilter={true}
-        />
+        <div className="instance-list-content-wrapper">
+          <ListDisplay
+            listElementWrapper={animalListElementWrapper}
+            includeSearchFilter={true}
+            tableMode={true}
+          />
+        </div>
       </div>
     );
   }

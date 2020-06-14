@@ -3,7 +3,12 @@ import { connect } from "react-redux";
 import memoize from "memoize-one";
 import { AppState } from "../../global/state/state";
 import ListDisplay from "./list-display";
-import { ListElement, ExhibitListElement } from "global/types/list-element";
+import {
+  ListElement,
+  ExhibitListElement,
+  ListElementWrapper,
+  ExhibitListWrapper,
+} from "global/types/list-element";
 import { Exhibit } from "global/types/exhibit";
 import { isEqual } from "lodash";
 import { navigate } from "@reach/router";
@@ -15,21 +20,23 @@ interface ExhibitsListPageProps {
 }
 
 class ExhibitsListPage extends React.PureComponent<ExhibitsListPageProps> {
-  public getListElements = memoize(
-    (exhibits: Exhibit[], linkDetailPages): ListElement[] => {
+  public getListElementWrapper = memoize(
+    (exhibits: Exhibit[], linkDetailPages): ListElementWrapper => {
       const onClickCallbackConstructor = (
         animalId: string
       ): (() => void) => () => {
         navigate(`/exhibit-details?id=${animalId}`);
       };
 
-      return Array.from(exhibits.values()).map(
-        (exhibit: Exhibit): ListElement =>
+      const listElems = Array.from(exhibits.values()).map(
+        (exhibit: Exhibit): ExhibitListElement =>
           new ExhibitListElement(
             exhibit,
             linkDetailPages ? onClickCallbackConstructor(exhibit.id) : undefined
           )
       );
+
+      return new ExhibitListWrapper(listElems);
     },
     isEqual
   );
@@ -55,7 +62,7 @@ class ExhibitsListPage extends React.PureComponent<ExhibitsListPageProps> {
   }
 
   public render(): JSX.Element {
-    const exhibitListElements = this.getListElements(
+    const exhibitListWrapper = this.getListElementWrapper(
       this.props.exhibits,
       this.props.linkDetailPages
     );
@@ -63,7 +70,7 @@ class ExhibitsListPage extends React.PureComponent<ExhibitsListPageProps> {
     return (
       <div>
         <ListDisplay
-          listElements={exhibitListElements}
+          listElementWrapper={exhibitListWrapper}
           includeSearchFilter={true}
         />
       </div>

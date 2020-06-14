@@ -2,7 +2,7 @@ import * as React from "react";
 import { DropDownSelectOption } from "global/types/drop-down-select";
 import ListDisplay from "components/lists/list-display";
 import memoizeOne from "memoize-one";
-import { ListElement } from "global/types/list-element";
+import { ListElement, ListElementWrapper } from "global/types/list-element";
 import { AppState } from "global/state/state";
 import { connect } from "react-redux";
 import styled from "styled-components";
@@ -20,6 +20,7 @@ enum DropDownModifyOperation {
 interface DropDownSelectProps {
   identifier: string;
   selectableOptionsGetter: (state: AppState) => DropDownSelectOption[];
+  listElementsWrapper: (listElems: ListElement[]) => ListElementWrapper; // not ideal since it adds complexity but i'll need to clean it up later
   onChange: (newValue: string[], identifier: string) => void;
   editMode: boolean;
   initialValue?: string[];
@@ -42,34 +43,44 @@ class DropDownSelect extends React.PureComponent<
     this.props.onChange(this.props.initialValue || [], this.props.identifier);
   }
 
-  public getDisplayListElements = memoizeOne((value: string[]): ListElement[] =>
-    this.props.selectableOptions
-      .filter((option: DropDownSelectOption): boolean =>
-        value.includes(option.id)
-      )
-      .map(
-        (option: DropDownSelectOption): ListElement =>
-          option.getListElement(
-            this.inputChanged.bind(
-              this,
-              option.id,
-              DropDownModifyOperation.remove
+  public getDisplayListElements = memoizeOne(
+    (value: string[]): ListElementWrapper => {
+      const listElems = this.props.selectableOptions
+        .filter((option: DropDownSelectOption): boolean =>
+          value.includes(option.id)
+        )
+        .map(
+          (option: DropDownSelectOption): ListElement =>
+            option.getListElement(
+              this.inputChanged.bind(
+                this,
+                option.id,
+                DropDownModifyOperation.remove
+              )
             )
-          )
-      )
+        );
+      return this.props.listElementsWrapper(listElems);
+    }
   );
 
-  public nonSelectedElements = memoizeOne((value: string[]): ListElement[] =>
-    this.props.selectableOptions
-      .filter(
-        (option: DropDownSelectOption): boolean => !value.includes(option.id)
-      )
-      .map(
-        (option: DropDownSelectOption): ListElement =>
-          option.getListElement(
-            this.inputChanged.bind(this, option.id, DropDownModifyOperation.add)
-          )
-      )
+  public nonSelectedElements = memoizeOne(
+    (value: string[]): ListElementWrapper => {
+      const listElems = this.props.selectableOptions
+        .filter(
+          (option: DropDownSelectOption): boolean => !value.includes(option.id)
+        )
+        .map(
+          (option: DropDownSelectOption): ListElement =>
+            option.getListElement(
+              this.inputChanged.bind(
+                this,
+                option.id,
+                DropDownModifyOperation.add
+              )
+            )
+        );
+      return this.props.listElementsWrapper(listElems);
+    }
   );
 
   public static mapStateToProps(
@@ -123,7 +134,7 @@ class DropDownSelect extends React.PureComponent<
 
     const inputSelector = this.props.editMode ? (
       <div className="drop-down-select-selector">
-        <ListDisplay listElements={nonSelectedElements} />
+        <ListDisplay listElementWrapper={nonSelectedElements} />
       </div>
     ) : null;
 
@@ -132,7 +143,7 @@ class DropDownSelect extends React.PureComponent<
         {inputSelector}
         <DividerDiv />
         <div className="drop-down-select-display">
-          <ListDisplay listElements={selectedElements} />
+          <ListDisplay listElementWrapper={selectedElements} />
         </div>
       </div>
     );

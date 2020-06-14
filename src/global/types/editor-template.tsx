@@ -11,6 +11,14 @@ import { Staff } from "./staff";
 import { AppState } from "global/state/state";
 import { getNonExhibitAssignedAnimals } from "global/selectors/animal-selectors";
 import { DropDownSelectOption } from "./drop-down-select";
+import {
+  ListElement,
+  AnimalListElement,
+  AnimalListWrapper,
+  ListElementWrapper,
+  StaffListElement,
+  StaffListWrapper,
+} from "./list-element";
 
 export abstract class EditorTemplate {
   abstract fromData: (data: any) => BaseType | undefined;
@@ -130,6 +138,19 @@ export class ExhibitEditorTemplate extends EditorTemplate {
 
           return [...allNonAssignedAnimals, ...assignedToExhibit];
         },
+        (listElems: ListElement[]): ListElementWrapper => {
+          const animalListElems = listElems.filter(
+            (value: ListElement): value is AnimalListElement =>
+              value instanceof AnimalListElement
+          );
+
+          if (animalListElems.length !== listElems.length) {
+            console.warn(
+              "Warning! length mismatch when mapping animal list elements for the drop down select!"
+            );
+          }
+          return new AnimalListWrapper(animalListElems);
+        },
         initialExhibit ? initialExhibit.animalIds : undefined
       ),
       new DropDownSelectEditorElement(
@@ -137,6 +158,19 @@ export class ExhibitEditorTemplate extends EditorTemplate {
         false,
         "Assigned Staff:",
         (state: AppState) => Array.from(state.staff.values()),
+        (listElems: ListElement[]): ListElementWrapper => {
+          const staffListElems = listElems.filter(
+            (value: ListElement): value is StaffListElement =>
+              value instanceof StaffListElement
+          );
+
+          if (staffListElems.length !== listElems.length) {
+            console.warn(
+              "Warning! length mismatch when mapping staff list elements for the drop down select!"
+            );
+          }
+          return new StaffListWrapper(staffListElems);
+        },
         initialExhibit ? initialExhibit.staffIds : undefined
       ),
     ]);

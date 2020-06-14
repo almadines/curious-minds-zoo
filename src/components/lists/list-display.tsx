@@ -1,13 +1,12 @@
 import * as React from "react";
 import memoize from "memoize-one";
-import { Animal } from "../../global/types/animals";
-import { AppState } from "../../global/state/state";
-import SearchField from "../input-fields/search-field";
-import { ListElement } from "global/types/list-element";
+import { InputField, InputFieldType } from "../input-fields/text-input-field";
+import { ListElement, ListElementWrapper } from "global/types/list-element";
 
 interface ListDisplayProps {
-  listElements: ListElement[];
+  listElementWrapper: ListElementWrapper;
   includeSearchFilter?: boolean;
+  tableMode?: boolean;
 }
 
 interface ListDisplayState {
@@ -30,27 +29,36 @@ class ListDisplay extends React.PureComponent<
       })
   );
 
-  public static mapStateToProps(state: AppState): any {
-    return {
-      animals: state.animals,
-    };
-  }
-
   public searchChanged(newValue: string): void {
     this.setState({ searchFilter: newValue });
   }
 
   public render(): JSX.Element {
     const filteredList = this.listDisplayFilter(
-      Array.from(this.props.listElements),
+      Array.from(this.props.listElementWrapper.ListElements),
       this.state.searchFilter
     );
 
     const searchFilter = this.props.includeSearchFilter ? (
-      <SearchField onChange={this.searchChanged.bind(this)} />
-    ) : (
-      ""
-    );
+      <InputField
+        identifier="search"
+        type={InputFieldType.input}
+        onChange={this.searchChanged.bind(this)}
+      />
+    ) : null;
+
+    if (this.props.tableMode) {
+      return (
+        <table className="table">
+          {this.props.listElementWrapper.renderTableHeader()}
+          <tbody>
+            {filteredList.map(
+              (elem: ListElement): JSX.Element => elem.renderTableRow()
+            )}
+          </tbody>
+        </table>
+      );
+    }
 
     return (
       <div>

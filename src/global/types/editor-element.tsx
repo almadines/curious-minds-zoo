@@ -7,6 +7,7 @@ import {
 import { DropDownSelectOption } from "./drop-down-select";
 import DropDownSelect from "components/input-fields/drop-down-select";
 import { AppState } from "global/state/state";
+import { ListElement, ListElementWrapper } from "./list-element";
 
 export abstract class EditorElement {
   public uniqueIdentifier: string = "";
@@ -91,6 +92,7 @@ export class DropDownSelectEditorElement extends EditorElement {
     required: boolean,
     label: string,
     public selectableOptionsGetter: (state: AppState) => DropDownSelectOption[], // may be a mistake but whatever
+    public listElementsWrapper: (listElem: ListElement[]) => ListElementWrapper, // is actually a mistake but stuff needs to get done.
     public initialValue?: string[]
   ) {
     super(identifier, required, label, initialValue);
@@ -108,6 +110,7 @@ export class DropDownSelectEditorElement extends EditorElement {
           required={this.required}
           initialValue={this.initialValue}
           selectableOptionsGetter={this.selectableOptionsGetter}
+          listElementsWrapper={this.listElementsWrapper}
           editMode={true}
         />
       </div>
@@ -124,6 +127,7 @@ export class DropDownSelectEditorElement extends EditorElement {
           required={this.required}
           initialValue={this.initialValue}
           selectableOptionsGetter={this.selectableOptionsGetter}
+          listElementsWrapper={this.listElementsWrapper}
           editMode={false}
         />
       </div>

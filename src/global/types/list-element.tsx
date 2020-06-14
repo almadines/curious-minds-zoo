@@ -3,15 +3,50 @@ import * as React from "react";
 import { Exhibit } from "./exhibit";
 import { Staff } from "./staff";
 
+export abstract class ListElementWrapper {
+  constructor(public ListElements: ListElement[]) {}
+
+  public abstract renderTableHeader(): JSX.Element;
+}
+
 export interface ListElement {
   render: () => JSX.Element;
+  renderTableRow: () => JSX.Element;
   searchParameter: () => string;
   onClickCallback?: () => void;
   getId: () => string;
 }
 
+export class AnimalListWrapper extends ListElementWrapper {
+  constructor(ListElements: AnimalListElement[]) {
+    super(ListElements);
+  }
+
+  public renderTableHeader(): JSX.Element {
+    return (
+      <thead className="thead-dark">
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Gender</th>
+        </tr>
+      </thead>
+    );
+  }
+}
+
 export class AnimalListElement {
   constructor(public animal: Animal, public onClickCallback?: () => void) {}
+
+  public renderTableRow(): JSX.Element {
+    return (
+      <tr key={this.animal.id} onClick={this.onClickCallback}>
+        <td>{this.animal.name}</td>
+        <td>{this.animal.type}</td>
+        <td>{this.animal.gender}</td>
+      </tr>
+    );
+  }
 
   public render(): JSX.Element {
     return (
@@ -34,9 +69,36 @@ export class AnimalListElement {
   }
 }
 
+export class ExhibitListWrapper extends ListElementWrapper {
+  constructor(ListElements: ExhibitListElement[]) {
+    super(ListElements);
+  }
+
+  public renderTableHeader(): JSX.Element {
+    return (
+      <thead className="thead-dark">
+        <tr>
+          <th>Name</th>
+          <th># of assigned Animals</th>
+          <th># of assigned Staff</th>
+        </tr>
+      </thead>
+    );
+  }
+}
+
 export class ExhibitListElement {
   constructor(public exhibit: Exhibit, public onClickCallback?: () => void) {}
 
+  public renderTableRow(): JSX.Element {
+    return (
+      <tr key={this.exhibit.id} onClick={this.onClickCallback}>
+        <td>{this.exhibit.name}</td>
+        <td>{this.exhibit.animalIds.length}</td>
+        <td>{this.exhibit.staffIds.length}</td>
+      </tr>
+    );
+  }
   public render(): JSX.Element {
     return (
       <div
@@ -58,9 +120,36 @@ export class ExhibitListElement {
   }
 }
 
+export class StaffListWrapper extends ListElementWrapper {
+  constructor(ListElements: StaffListElement[]) {
+    super(ListElements);
+  }
+
+  public renderTableHeader(): JSX.Element {
+    return (
+      <thead className="thead-dark">
+        <tr>
+          <th>Name</th>
+          <th>Salary</th>
+          <th># of assigned Animals</th>
+        </tr>
+      </thead>
+    );
+  }
+}
+
 export class StaffListElement {
   constructor(public staff: Staff, public onClickCallback?: () => void) {}
 
+  public renderTableRow(): JSX.Element {
+    return (
+      <tr key={this.staff.id} onClick={this.onClickCallback}>
+        <td>{this.staff.name}</td>
+        <td>{this.staff.salary}</td>
+        <td>{this.staff.animalIds.length}</td>
+      </tr>
+    );
+  }
   public render(): JSX.Element {
     return (
       <div
