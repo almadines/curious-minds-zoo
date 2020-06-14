@@ -4,7 +4,6 @@ import memoize from "memoize-one";
 import { AppState } from "../../global/state/state";
 import ListDisplay from "./list-display";
 import {
-  ListElement,
   StaffListElement,
   ListElementWrapper,
   StaffListWrapper,
@@ -12,13 +11,22 @@ import {
 import { isEqual } from "lodash";
 import { Staff } from "global/types/staff";
 import { navigate } from "@reach/router";
+import "./instance-list-styles.scss";
+import ConnectedEditPage from "components/edit-page/edit-page";
 
 interface StaffListPageProps {
   staff?: Map<string, Staff>;
   linkDetailPages?: boolean;
 }
 
-class StaffListPage extends React.PureComponent<StaffListPageProps> {
+interface ExhibitsListPageState {
+  createFormOpen: boolean;
+}
+
+class StaffListPage extends React.PureComponent<
+  StaffListPageProps,
+  ExhibitsListPageState
+> {
   public getListElementWrapper = memoize(
     (staff: Map<string, Staff>): ListElementWrapper => {
       const onClickCallbackConstructor = (
@@ -35,21 +43,61 @@ class StaffListPage extends React.PureComponent<StaffListPageProps> {
     isEqual
   );
 
+  constructor(props: StaffListPageProps) {
+    super(props);
+    this.state = { createFormOpen: false };
+  }
+
   public static mapStateToProps(state: AppState): any {
     return {
       staff: state.staff,
     };
   }
 
+  public setCreateFormOpenState(newState: boolean): void {
+    this.setState({ createFormOpen: newState });
+  }
+
   public render(): JSX.Element {
     const staffListWrapper = this.getListElementWrapper(this.props.staff);
 
-    return (
-      <div>
-        <ListDisplay
-          listElementWrapper={staffListWrapper}
-          includeSearchFilter={true}
+    const createFormContents = !!this.state.createFormOpen ? (
+      <div className="instance-list-create-form-container">
+        <ConnectedEditPage
+          editorTemplate={Staff.getNewEditorTemplate()}
+          editMode={true}
+          onCancelCallback={this.setCreateFormOpenState.bind(this, false)}
+          onSuccessCallback={this.setCreateFormOpenState.bind(this, false)}
+          title="Register Staff"
         />
+      </div>
+    ) : (
+      <button
+        className="btn btn-success instance-list-create-button"
+        onClick={this.setCreateFormOpenState.bind(this, true)}
+      >
+        Register Staff
+      </button>
+    );
+
+    return (
+      <div className="instance-list-wrapper">
+        <div
+          className={`instance-list-create-form-wrapper ${
+            this.state.createFormOpen
+              ? "create-form-open"
+              : "create-form-closed"
+          }`}
+        >
+          {createFormContents}
+        </div>
+        <div className="instance-list-content-wrapper">
+          <ListDisplay
+            listElementWrapper={staffListWrapper}
+            includeSearchFilter={true}
+            tableMode={true}
+          />
+        </div>
       </div>
     );
   }

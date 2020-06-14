@@ -4,7 +4,6 @@ import memoize from "memoize-one";
 import { AppState } from "../../global/state/state";
 import ListDisplay from "./list-display";
 import {
-  ListElement,
   ExhibitListElement,
   ListElementWrapper,
   ExhibitListWrapper,
@@ -12,6 +11,8 @@ import {
 import { Exhibit } from "global/types/exhibit";
 import { isEqual } from "lodash";
 import { navigate } from "@reach/router";
+import ConnectedEditPage from "components/edit-page/edit-page";
+import "./instance-list-styles.scss";
 
 interface ExhibitsListPageProps {
   exhibits?: Exhibit[];
@@ -19,7 +20,14 @@ interface ExhibitsListPageProps {
   linkDetailPages?: boolean;
 }
 
-class ExhibitsListPage extends React.PureComponent<ExhibitsListPageProps> {
+interface ExhibitsListPageState {
+  createFormOpen: boolean;
+}
+
+class ExhibitsListPage extends React.PureComponent<
+  ExhibitsListPageProps,
+  ExhibitsListPageState
+> {
   public getListElementWrapper = memoize(
     (exhibits: Exhibit[], linkDetailPages): ListElementWrapper => {
       const onClickCallbackConstructor = (
@@ -41,6 +49,11 @@ class ExhibitsListPage extends React.PureComponent<ExhibitsListPageProps> {
     isEqual
   );
 
+  constructor(props: ExhibitsListPageProps) {
+    super(props);
+    this.state = { createFormOpen: false };
+  }
+
   public static mapStateToProps(
     state: AppState,
     ownProps: ExhibitsListPageProps
@@ -61,18 +74,53 @@ class ExhibitsListPage extends React.PureComponent<ExhibitsListPageProps> {
     };
   }
 
+  public setCreateFormOpenState(newState: boolean): void {
+    this.setState({ createFormOpen: newState });
+  }
+
   public render(): JSX.Element {
     const exhibitListWrapper = this.getListElementWrapper(
       this.props.exhibits,
       this.props.linkDetailPages
     );
 
-    return (
-      <div>
-        <ListDisplay
-          listElementWrapper={exhibitListWrapper}
-          includeSearchFilter={true}
+    const createFormContents = !!this.state.createFormOpen ? (
+      <div className="instance-list-create-form-container">
+        <ConnectedEditPage
+          editorTemplate={Exhibit.getNewEditorTemplate()}
+          editMode={true}
+          onCancelCallback={this.setCreateFormOpenState.bind(this, false)}
+          onSuccessCallback={this.setCreateFormOpenState.bind(this, false)}
+          title="Create Exhibit"
         />
+      </div>
+    ) : (
+      <button
+        className="btn btn-success instance-list-create-button"
+        onClick={this.setCreateFormOpenState.bind(this, true)}
+      >
+        Create Exhibit
+      </button>
+    );
+
+    return (
+      <div className="instance-list-wrapper">
+        <div
+          className={`instance-list-create-form-wrapper ${
+            this.state.createFormOpen
+              ? "create-form-open"
+              : "create-form-closed"
+          }`}
+        >
+          {createFormContents}
+        </div>
+        <div className="instance-list-content-wrapper">
+          <ListDisplay
+            listElementWrapper={exhibitListWrapper}
+            includeSearchFilter={true}
+            tableMode={true}
+          />
+        </div>
       </div>
     );
   }

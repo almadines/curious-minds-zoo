@@ -4,13 +4,13 @@ import { Provider } from "react-redux";
 import createStore from "./src/global/store/createStore";
 import { SaveElement } from "./src/global/store/store-init";
 
-console.log(
-  "wrap with provider: ",
-  window,
-  typeof window,
-  localStorage,
-  typeof localStorage
-);
+// console.log(
+//   "wrap with provider: ",
+//   window,
+//   typeof window,
+//   localStorage,
+//   typeof localStorage
+// );
 
 const store = createStore();
 

@@ -4,7 +4,6 @@ import memoize from "memoize-one";
 import { Animal } from "global/types/animals";
 import { AppState } from "global/state/state";
 import {
-  ListElement,
   AnimalListElement,
   ListElementWrapper,
   AnimalListWrapper,
@@ -154,11 +153,12 @@ class AnimalsListPage extends React.PureComponent<
           editMode={true}
           onCancelCallback={this.setCreateFormOpenState.bind(this, false)}
           onSuccessCallback={this.setCreateFormOpenState.bind(this, false)}
+          title="Create Animal"
         />
       </div>
     ) : (
       <button
-        className="btn btn-success"
+        className="btn btn-success instance-list-create-button"
         onClick={this.setCreateFormOpenState.bind(this, true)}
       >
         Create Animal

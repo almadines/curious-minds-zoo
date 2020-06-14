@@ -12,6 +12,7 @@ interface EditorPageProps {
   editMode: boolean;
   onCancelCallback?: () => void;
   onSuccessCallback?: () => void;
+  title?: string;
 }
 
 interface EditorPageState {
@@ -104,8 +105,13 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
       </button>
     ) : null;
 
+    const title = this.props.title ? (
+      <h3 className="display-8">{this.props.title}</h3>
+    ) : null;
+
     return (
       <div className="edit-wrapper">
+        {title}
         {this.props.editorTemplate
           .getEditorElements()
           .map(

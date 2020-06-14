@@ -38,7 +38,10 @@ class ExhibitDetailPage extends React.PureComponent<
     }
     return (
       <div className="animal-detail-wrapper">
-        <DetailPage editorTemplate={this.props.editorTemplate} />
+        <DetailPage
+          editorTemplate={this.props.editorTemplate}
+          returnPath="/exhibits/"
+        />
       </div>
     );
   }

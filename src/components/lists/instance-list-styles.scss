@@ -1,5 +1,5 @@
 .instance-list-wrapper {
-  margin: 1rem;
+  margin-top: 1rem;
 
   .instance-list-create-form-wrapper {
     &.create-form-closed {
@@ -12,10 +12,23 @@
       border: 2px solid #73ad21;
       padding: 2rem;
     }
+
+    .instance-list-create-button {
+      margin-right: 2rem;
+    }
   }
 
   .instance-list-content-wrapper {
-    margin-top: 2rem;
     padding: 2rem;
+  }
+
+  .table {
+    tr:hover {
+      background-color: lightgray;
+    }
+
+    tr {
+      cursor: pointer;
+    }
   }
 }
