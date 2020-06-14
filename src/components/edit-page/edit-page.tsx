@@ -4,11 +4,14 @@ import { EditorElement } from "global/types/editor-element";
 import { AppState } from "global/state/state";
 import { ActionType } from "global/store/dispatchActions";
 import { EditorTemplate } from "global/types/editor-template";
+import "./edit-page.scss";
 
 interface EditorPageProps {
   editorTemplate: EditorTemplate;
   dispatchFunction?: Function;
   editMode: boolean;
+  onCancelCallback?: () => void;
+  onSuccessCallback?: () => void;
 }
 
 interface EditorPageState {
@@ -54,8 +57,21 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
         names: [this.props.editorTemplate.dataTypeName],
       });
       this.setState({ currentData: this.getInitialState(this.props) });
+
+      if (this.props.onSuccessCallback) {
+        this.props.onSuccessCallback();
+      }
     } else {
       console.warn("Unable to create object!, Invalid  or incomplete data!");
+    }
+  }
+
+  public cancel(event: Event): void {
+    event.stopPropagation();
+    this.props.editorTemplate.reset(); // replace later with callback function!
+    this.setState({ currentData: this.getInitialState(this.props) });
+    if (!!this.props.onCancelCallback) {
+      this.props.onCancelCallback();
     }
   }
 
@@ -71,7 +87,21 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
 
   public render(): JSX.Element {
     const submitButton = this.props.editMode ? (
-      <button onClick={this.createObject.bind(this)}>Submit</button>
+      <button
+        className="btn btn-success edit-page-button"
+        onClick={this.createObject.bind(this)}
+      >
+        Submit
+      </button>
+    ) : null;
+
+    const cancelButton = this.props.editMode ? (
+      <button
+        className="btn btn-danger edit-page-button"
+        onClick={this.cancel.bind(this)}
+      >
+        Cancel
+      </button>
     ) : null;
 
     return (
@@ -85,7 +115,10 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
                 this.onInputChange.bind(this)
               )
           )}
-        {submitButton}
+        <div className="edit-page-buttons-wrapper">
+          {cancelButton}
+          {submitButton}
+        </div>
       </div>
     );
   }

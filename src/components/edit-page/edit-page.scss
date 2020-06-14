@@ -1,0 +1,9 @@
+.edit-page-buttons-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  .edit-page-button {
+    margin-left: 1rem;
+  }
+}

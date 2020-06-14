@@ -14,13 +14,13 @@ export class Exhibit extends BaseType {
     super(id);
   }
 
-  public clone(): Exhibit {
+  public static clone(json: Exhibit): Exhibit {
     return new Exhibit(
-      this.id,
-      this.animalIds,
-      this.staffIds,
-      this.name,
-      this.description
+      json.id,
+      json.animalIds,
+      json.staffIds,
+      json.name,
+      json.description
     );
   }
 

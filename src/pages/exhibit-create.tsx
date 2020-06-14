@@ -6,7 +6,7 @@ import { Exhibit } from "global/types/exhibit";
 class ExhibitCreatePage extends React.PureComponent {
   public render(): JSX.Element {
     return (
-      <Layout>
+      <Layout title="Create Exhibit">
         <ConnectedEditPage
           editorTemplate={Exhibit.getNewEditorTemplate()}
           editMode={true}

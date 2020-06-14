@@ -14,13 +14,13 @@ export class Staff extends BaseType {
     super(id);
   }
 
-  public clone(): Staff {
+  public static clone(json: Staff): Staff {
     return new Staff(
-      this.id,
-      this.animalIds,
-      this.name,
-      this.salary,
-      this.description
+      json.id,
+      json.animalIds,
+      json.name,
+      json.salary,
+      json.description
     );
   }
 

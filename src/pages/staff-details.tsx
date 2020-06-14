@@ -18,8 +18,7 @@ class StaffDetailsPage extends React.PureComponent<StaffDetailsProps> {
       : undefined;
 
     return (
-      <Layout>
-        <h1 className="display-1">Animal details:</h1>
+      <Layout title="Staff Details">
         <ConnectedStaffDetailPage
           allowEditing={true}
           id={this.getId(queryData)}

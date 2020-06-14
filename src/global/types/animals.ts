@@ -22,13 +22,13 @@ export class Animal extends BaseType {
     super(id);
   }
 
-  public clone(): Animal {
+  public static clone(json: Animal): Animal {
     return new Animal(
-      this.id,
-      this.type,
-      this.name,
-      this.gender,
-      this.description
+      json.id,
+      json.type,
+      json.name,
+      json.gender,
+      json.description
     );
   }
 

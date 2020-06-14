@@ -1,0 +1,16 @@
+.instance-list-wrapper {
+  margin: 1rem;
+
+  .instance-list-create-form-wrapper {
+    &.create-form-closed {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+    .instance-list-create-form-container {
+      border-radius: 25px;
+      border: 2px solid #73ad21;
+      padding: 20px;
+    }
+  }
+}

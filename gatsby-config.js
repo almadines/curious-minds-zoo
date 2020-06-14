@@ -20,6 +20,7 @@ module.exports = {
         global: path.join(__dirname, "src/global"),
         components: path.join(__dirname, "src/components"),
         styles: path.join(__dirname, "src/styles"),
+        static: path.join(__dirname, "static"),
       },
     },
   ],

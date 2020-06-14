@@ -11,6 +11,11 @@ export function createMapReducer<T extends IdObject>(
       return new Map<string, T>();
     }
 
+    if (!action.names) {
+      // most likely an init action
+      return oldState;
+    }
+
     if (!action.names.includes(valueTypeFilterString)) {
       return oldState;
     }

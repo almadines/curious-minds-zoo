@@ -18,8 +18,7 @@ class AnimalDetails extends React.PureComponent<AnimalDetailsProps> {
       : undefined;
 
     return (
-      <Layout>
-        <h1 className="display-1">Animal details:</h1>
+      <Layout title="Animal Details">
         <ConnectedAnimalDetailPage
           allowEditing={true}
           id={this.getId(queryData)}

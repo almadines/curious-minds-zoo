@@ -1,59 +1,40 @@
 import * as React from "react";
 import { Link } from "gatsby";
-import styled from "styled-components";
+import "./layout.scss";
 
-const LayoutWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-`;
+interface LayoutProps {
+  title: string;
+}
 
-const LayoutSideNav = styled.div`
-  display: flex;
-  min-width: 12rem;
-  flex-direction: column;
-  margin: 1rem 1rem 1rem 1rem;
-  border-right: solid 1px darkslategrey;
-`;
-
-const LayoutMainContent = styled.div`
-  margin-left: 2rem;
-`;
-
-export class Layout extends React.Component {
+export class Layout extends React.Component<LayoutProps> {
   render(): JSX.Element {
     return (
-      <LayoutWrapper className={`layout-wrapper`}>
-        <LayoutSideNav className="layout-side-nav">
-          <h3 className="display-4">Nav:</h3>
-          <ul className="list-unstyled">
-            <li>
-              <Link to="/">Main Page</Link>
-            </li>
-            <li>
-              <Link to="/animals/">Animals</Link>
-            </li>
-            <li>
-              <Link to="/animal-create/">Create Animal</Link>
-            </li>
-            <li>
-              <Link to="/exhibits/">Exhibits</Link>
-            </li>
-            <li>
-              <Link to="/exhibit-create/">Create Exhibit</Link>
-            </li>
-            <li>
-              <Link to="/staff/">Staff</Link>
-            </li>
-            <li>
-              <Link to="/staff-create/">Create Staff</Link>
-            </li>
-          </ul>
-        </LayoutSideNav>
-        <LayoutMainContent className="layout-main-content">
-          {this.props.children}
-        </LayoutMainContent>
-      </LayoutWrapper>
+      <div className="layout-wrapper">
+        <div className="layout-side-nav">
+          <div className="layout-top-block layout-nav-title">
+            <div className="layout-left-block-margin">
+              <h3 className="display-4">Zoo manager</h3>
+            </div>
+          </div>
+          <div className="layout-link-list">
+            <Link to="/">Main Page</Link>
+            <Link to="/animals/">Animals</Link>
+            <Link to="/animal-create/">Create Animal</Link>
+            <Link to="/exhibits/">Exhibits</Link>
+            <Link to="/exhibit-create/">Create Exhibit</Link>
+            <Link to="/staff/">Staff</Link>
+            <Link to="/staff-create/">Create Staff</Link>
+          </div>
+        </div>
+        <div className="layout-main-content">
+          <div className="layout-top-block">
+            <div className="layout-left-block-margin">
+              <h1 className="display-5">{this.props.title}</h1>
+            </div>
+          </div>
+          <div className="layout-left-block-margin">{this.props.children}</div>
+        </div>
+      </div>
     );
   }
 }

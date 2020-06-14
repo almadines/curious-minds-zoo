@@ -6,7 +6,7 @@ import ConnectedEditPage from "components/edit-page/edit-page";
 class StaffCreatePage extends React.PureComponent {
   public render(): JSX.Element {
     return (
-      <Layout>
+      <Layout title="Create Staff">
         <ConnectedEditPage
           editorTemplate={Staff.getNewEditorTemplate()}
           editMode={true}

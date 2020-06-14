@@ -8,6 +8,8 @@ import ListDisplay from "./list-display";
 import { isEqual } from "lodash";
 import { Exhibit } from "global/types/exhibit";
 import { navigate } from "@reach/router";
+import ConnectedEditPage from "components/edit-page/edit-page";
+import "./instance-list-styles.scss";
 
 interface AnimalsListPageProps {
   animals?: Animal[]; // from redux
@@ -17,7 +19,14 @@ interface AnimalsListPageProps {
   linkDetailPages?: boolean;
 }
 
-class AnimalsListPage extends React.PureComponent<AnimalsListPageProps> {
+interface AnimalsListPageState {
+  createFormOpen: boolean;
+}
+
+class AnimalsListPage extends React.PureComponent<
+  AnimalsListPageProps,
+  AnimalsListPageState
+> {
   public getListElements = memoize(
     (animals: Animal[], linkDetailPages: boolean): ListElement[] => {
       const onClickCallbackConstructor = (
@@ -36,6 +45,11 @@ class AnimalsListPage extends React.PureComponent<AnimalsListPageProps> {
     },
     isEqual
   );
+
+  constructor(props: AnimalsListPageProps) {
+    super(props);
+    this.state = { createFormOpen: false };
+  }
 
   public static mapStateToProps(
     state: AppState,
@@ -116,14 +130,46 @@ class AnimalsListPage extends React.PureComponent<AnimalsListPageProps> {
     };
   }
 
+  public setCreateFormOpenState(newState: boolean): void {
+    this.setState({ createFormOpen: newState });
+  }
+
   public render(): JSX.Element {
     const animalListElements = this.getListElements(
       this.props.animals,
       this.props.linkDetailPages
     );
 
+    const createFormContents = !!this.state.createFormOpen ? (
+      <div className="instance-list-create-form-container">
+        <ConnectedEditPage
+          editorTemplate={Animal.getNewEditorTemplate()}
+          editMode={true}
+          onCancelCallback={this.setCreateFormOpenState.bind(this, false)}
+          onSuccessCallback={this.setCreateFormOpenState.bind(this, false)}
+        />
+      </div>
+    ) : (
+      <button
+        className="btn btn-primary"
+        onClick={this.setCreateFormOpenState.bind(this, true)}
+      >
+        Create Animal
+      </button>
+    );
+
     return (
-      <div>
+      <div className="instance-list-wrapper">
+        <div
+          className={`instance-list-create-form-wrapper ${
+            this.state.createFormOpen
+              ? "create-form-open"
+              : "create-form-closed"
+          }`}
+        >
+          {createFormContents}
+        </div>
+
         <ListDisplay
           listElements={animalListElements || []}
           includeSearchFilter={true}
