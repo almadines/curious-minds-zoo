@@ -27,7 +27,7 @@ export abstract class EditorTemplate {
   private cachedEditorElements: EditorElement[];
 
   constructor(EditorElements: EditorElement[]) {
-    this.cachedEditorElements = EditorElements;
+    this.cachedEditorElements = EditorElements.reverse();
   }
 
   public getEditorElements(): EditorElement[] {

@@ -44,6 +44,7 @@ class ListDisplay extends React.PureComponent<
         identifier="search"
         type={InputFieldType.input}
         onChange={this.searchChanged.bind(this)}
+        editMode={true}
       />
     ) : null;
 

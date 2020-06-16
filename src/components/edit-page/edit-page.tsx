@@ -112,15 +112,17 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
     return (
       <div className="edit-wrapper">
         {title}
-        {this.props.editorTemplate
-          .getEditorElements()
-          .map(
-            (EditorElement: EditorElement): JSX.Element =>
-              EditorElement.render(
-                this.props.editMode,
-                this.onInputChange.bind(this)
-              )
-          )}
+        <div className="edit-page-contents">
+          {this.props.editorTemplate
+            .getEditorElements()
+            .map(
+              (EditorElement: EditorElement): JSX.Element =>
+                EditorElement.render(
+                  this.props.editMode,
+                  this.onInputChange.bind(this)
+                )
+            )}
+        </div>
         <div className="edit-page-buttons-wrapper">
           {cancelButton}
           {submitButton}

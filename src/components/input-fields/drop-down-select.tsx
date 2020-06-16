@@ -5,12 +5,7 @@ import memoizeOne from "memoize-one";
 import { ListElement, ListElementWrapper } from "global/types/list-element";
 import { AppState } from "global/state/state";
 import { connect } from "react-redux";
-import styled from "styled-components";
-
-const DividerDiv = styled.div`
-  margin: 1rem;
-  border-top: 5px solid red;
-`;
+import "./dropdown-select.scss";
 
 enum DropDownModifyOperation {
   add = "add",
@@ -23,6 +18,7 @@ interface DropDownSelectProps {
   listElementsWrapper: (listElems: ListElement[]) => ListElementWrapper; // not ideal since it adds complexity but i'll need to clean it up later
   onChange: (newValue: string[], identifier: string) => void;
   editMode: boolean;
+  className?: string;
   initialValue?: string[];
   required?: boolean;
   // from redux:
@@ -31,16 +27,36 @@ interface DropDownSelectProps {
 
 interface DropDownSelectState {
   selectedOptions: string[];
+  optionsMenuExpanded: boolean;
 }
 
 class DropDownSelect extends React.PureComponent<
   DropDownSelectProps,
   DropDownSelectState
 > {
+  private windowClickListener: () => void;
+
   constructor(props: DropDownSelectProps) {
     super(props);
-    this.state = { selectedOptions: props.initialValue || [] };
+    this.state = {
+      selectedOptions: props.initialValue || [],
+      optionsMenuExpanded: false,
+    };
     this.props.onChange(this.props.initialValue || [], this.props.identifier);
+    this.windowClickListener = (): void => {
+      this.setOptionsMenuState(false);
+    };
+
+    if (typeof window !== undefined) {
+      window.addEventListener("click", this.windowClickListener);
+    }
+  }
+
+  public componentWillUnmount(): void {
+    console.log("component will unmount called in dropdown select!");
+    if (typeof window !== undefined) {
+      window.removeEventListener("click", this.windowClickListener);
+    }
   }
 
   public getDisplayListElements = memoizeOne(
@@ -122,6 +138,17 @@ class DropDownSelect extends React.PureComponent<
         this.props.identifier
       );
     }
+
+    this.setOptionsMenuState(false);
+  }
+
+  public setOptionsMenuState(newValue: boolean) {
+    this.setState({ optionsMenuExpanded: newValue });
+  }
+
+  public toggleOptionsMenuState(event: Event): void {
+    event.stopPropagation();
+    this.setOptionsMenuState(!this.state.optionsMenuExpanded);
   }
 
   public render(): JSX.Element {
@@ -132,18 +159,31 @@ class DropDownSelect extends React.PureComponent<
       this.state.selectedOptions
     );
 
+    const menuExpandedCss = this.state.optionsMenuExpanded ? "" : "hidden";
+    const addButtonDisabled = nonSelectedElements.ListElements.length === 0;
     const inputSelector = this.props.editMode ? (
       <div className="drop-down-select-selector">
-        <ListDisplay listElementWrapper={nonSelectedElements} />
+        <button
+          className={`btn ${
+            addButtonDisabled ? "btd-secondary" : "btn-success"
+          }`}
+          onClick={this.toggleOptionsMenuState.bind(this)}
+        >
+          Add
+        </button>
+        <div
+          className={`drop-down-select-selector-contents ${menuExpandedCss}`}
+        >
+          <ListDisplay listElementWrapper={nonSelectedElements} />
+        </div>
       </div>
     ) : null;
 
     return (
-      <div className="drop-down-select-wraper">
-        {inputSelector}
-        <DividerDiv />
+      <div className={`drop-down-select-wraper ${this.props.className}`}>
+        <div className="drop-down-select-header">{inputSelector}</div>
         <div className="drop-down-select-display">
-          <ListDisplay listElementWrapper={selectedElements} />
+          <ListDisplay listElementWrapper={selectedElements} tableMode={true} />
         </div>
       </div>
     );

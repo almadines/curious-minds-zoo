@@ -1,4 +1,5 @@
 import * as React from "react";
+import "./text-input-field.scss";
 
 export enum InputFieldType {
   input = "input",
@@ -6,6 +7,8 @@ export enum InputFieldType {
 }
 
 interface InputFieldProps {
+  editMode: boolean;
+  className?: string;
   initialValue?: string;
   identifier: string;
   type: InputFieldType;
@@ -43,10 +46,21 @@ export class InputField extends React.PureComponent<
     }
   }
 
+  public inputFieldCss(): string {
+    const inputType =
+      this.props.type === InputFieldType.input
+        ? "text-input-field-input"
+        : "text-input-field-text-area";
+    const isEditing = this.props.editMode
+      ? "text-input-is-editing"
+      : "text-input-not-editing";
+    return `${inputType} ${isEditing}`;
+  }
+
   public inputProps(): any {
     return {
       type: "text",
-      className: "form-control",
+      className: `form-control ${this.inputFieldCss()}`,
       placeholder: "",
       value: this.state.value,
       onChange: this.inputChanged.bind(this),
@@ -55,11 +69,28 @@ export class InputField extends React.PureComponent<
   }
 
   public render(): JSX.Element {
-    switch (this.props.type) {
-      case InputFieldType.input:
-        return <input {...this.inputProps()} />;
-      case InputFieldType.textarea:
-        return <textarea {...this.inputProps()} />;
+    if (!this.props.editMode) {
+      return (
+        <div className={`text-input-field-wrapper ${this.props.className}`}>
+          <p className={this.inputFieldCss()}>{this.state.value}</p>
+        </div>
+      );
+    } else {
+      let input: JSX.Element = null;
+      switch (this.props.type) {
+        case InputFieldType.input:
+          input = <input {...this.inputProps()} />;
+          break;
+        case InputFieldType.textarea:
+          input = <textarea {...this.inputProps()} />;
+          break;
+      }
+
+      return (
+        <div className={`text-input-field-wrapper ${this.props.className}`}>
+          {input}
+        </div>
+      );
     }
   }
 }

@@ -24,13 +24,17 @@ export class Layout extends React.Component<LayoutProps> {
             <Link to="/about/">About</Link>
           </div>
         </div>
-        <div className="layout-main-content">
+        <div className="layout-right-block">
           <div className="layout-top-block">
             <div className="layout-title">
               <h1 className="display-5">{this.props.title}</h1>
             </div>
           </div>
-          <div className="layout-left-block-margin">{this.props.children}</div>
+          <div className="layout-main-content">
+            <div className="layout-main-content-padding">
+              {this.props.children}
+            </div>
+          </div>
         </div>
       </div>
     );

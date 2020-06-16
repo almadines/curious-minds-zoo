@@ -32,20 +32,17 @@ export abstract class EditorElement {
     editMode: boolean,
     onInputChange?: (newValue: any, identifier: string) => void
   ): JSX.Element {
-    if (editMode && onInputChange) {
-      return (
-        <div key={this.uniqueIdentifier}>{this.renderInput(onInputChange)}</div>
-      );
-    } else {
-      return <div key={this.uniqueIdentifier}>{this.renderDisplay()}</div>;
-    }
+    return (
+      <div key={this.uniqueIdentifier}>
+        {this.renderInput(editMode, onInputChange)}
+      </div>
+    );
   }
 
   public abstract renderInput(
+    editMode: boolean,
     onInputChange: (newValue: string, identifier: string) => void
   ): JSX.Element;
-
-  public abstract renderDisplay(): JSX.Element;
 }
 
 export class TextInputEditorElement extends EditorElement {
@@ -60,27 +57,21 @@ export class TextInputEditorElement extends EditorElement {
   }
 
   public renderInput(
+    editMode: boolean,
     onInputChange: (newValue: string, identifier: string) => void
   ): JSX.Element {
     return (
-      <div>
-        <label>{this.getLabel()}</label>
+      <div className="editor-element-wrapper">
+        <label className="editor-element-label">{this.getLabel()}</label>
         <InputField
+          editMode={editMode}
+          className="editor-element-value"
           identifier={this.identifier}
           type={this.type}
           onChange={onInputChange}
           required={this.required}
           initialValue={this.initialValue}
         />
-      </div>
-    );
-  }
-
-  public renderDisplay(): JSX.Element {
-    return (
-      <div>
-        <label>{this.getLabel()}: </label>
-        <span>{this.initialValue}</span>
       </div>
     );
   }
@@ -99,36 +90,21 @@ export class DropDownSelectEditorElement extends EditorElement {
   }
 
   public renderInput(
+    editMode: boolean,
     onInputChange: (newValue: any, identifier: string) => void
   ): JSX.Element {
     return (
-      <div>
-        <label>{this.getLabel()}</label>
+      <div className="editor-element-wrapper">
+        <label className="editor-element-label">{this.getLabel()}</label>
         <DropDownSelect
+          className="editor-element-value"
           identifier={this.identifier}
           onChange={onInputChange}
           required={this.required}
           initialValue={this.initialValue}
           selectableOptionsGetter={this.selectableOptionsGetter}
           listElementsWrapper={this.listElementsWrapper}
-          editMode={true}
-        />
-      </div>
-    );
-  }
-
-  public renderDisplay(): JSX.Element {
-    return (
-      <div>
-        <label>{this.getLabel()}</label>
-        <DropDownSelect
-          identifier={this.identifier}
-          onChange={() => null}
-          required={this.required}
-          initialValue={this.initialValue}
-          selectableOptionsGetter={this.selectableOptionsGetter}
-          listElementsWrapper={this.listElementsWrapper}
-          editMode={false}
+          editMode={editMode}
         />
       </div>
     );

@@ -6,6 +6,8 @@ NavLink:hover {
   display: flex;
   flex-direction: row;
   height: 100%;
+  width: 100%;
+  overflow: hidden;
 
   .layout-side-nav {
     display: flex;
@@ -14,9 +16,17 @@ NavLink:hover {
     border-right: solid 3px darkslategrey;
   }
 
-  .layout-main-content {
+  .layout-right-block {
     display: block;
     width: 100%;
+    .layout-main-content {
+      width: 100%;
+      height: 100%;
+      overflow-y: scroll;
+      .layout-main-content-padding {
+        margin: 1rem 1rem 20rem 1rem;
+      }
+    }
   }
 
   .layout-link-list {

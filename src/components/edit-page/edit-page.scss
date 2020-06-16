@@ -7,3 +7,22 @@
     margin-left: 1rem;
   }
 }
+
+.edit-page-contents {
+  display: flex;
+  flex-direction: column-reverse;
+
+  .editor-element-wrapper {
+    display: block;
+    .editor-element-label {
+      text-decoration: underline;
+      margin-bottom: 0;
+    }
+
+    .editor-element-value {
+      margin-left: 0.6rem;
+      margin-bottom: 0.4rem;
+      padding: 0.3rem 0.2rem 0.2rem 0.2rem;
+    }
+  }
+}

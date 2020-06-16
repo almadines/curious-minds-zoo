@@ -1,0 +1,23 @@
+.text-input-field-wrapper .text-input-field-input {
+  height: 2.5rem;
+  padding: 0.375rem 1.2rem;
+  margin-bottom: 0;
+
+  border-radius: 5px;
+}
+
+.text-input-field-wrapper {
+  .text-input-field-text-area {
+    padding: 0.375rem 1.2rem;
+    margin-bottom: 0;
+    border-radius: 5px;
+
+    &.text-input-is-editing {
+      height: 10rem;
+    }
+  }
+
+  textarea {
+    resize: none;
+  }
+}
