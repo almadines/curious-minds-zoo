@@ -2,6 +2,7 @@ import { Animal } from "./animals";
 import * as React from "react";
 import { Exhibit } from "./exhibit";
 import { Staff } from "./staff";
+import { Image } from "./image";
 
 export abstract class ListElementWrapper {
   constructor(public ListElements: ListElement[]) {}
@@ -168,5 +169,50 @@ export class StaffListElement {
 
   public getId(): string {
     return this.staff.id;
+  }
+}
+
+export class ImageListWrapper extends ListElementWrapper {
+  constructor(listElements: ImageListElement[]) {
+    super(listElements);
+  }
+
+  public renderTableHeader(): JSX.Element {
+    return (
+      <thead className="thead-dark">
+        <tr>
+          <th>Image</th>
+        </tr>
+      </thead>
+    );
+  }
+}
+
+export class ImageListElement {
+  constructor(public image: Image, public onClickCallback?: () => void) {}
+
+  public render(): JSX.Element {
+    return (
+      <div
+        key={this.image.id}
+        className="list-group-item"
+        onClick={this.onClickCallback}
+      >
+        {this.image.render()}
+      </div>
+    );
+  }
+  public renderTableRow(): JSX.Element {
+    return (
+      <tr key={this.image.id} onClick={this.onClickCallback}>
+        <td>{this.image.render()}</td>
+      </tr>
+    );
+  }
+  public searchParameter(): string {
+    return this.image.name;
+  }
+  public getId(): string {
+    return this.image.id;
   }
 }

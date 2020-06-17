@@ -2,6 +2,7 @@ import { AnimalListElement } from "global/types/list-element";
 import { ListElement } from "global/types/list-element";
 import { BaseType } from "./baseType";
 import { AnimalEditorTemplate } from "./editor-template";
+import { Image } from "./image";
 
 export enum AnimalType {
   lion = "lion",
@@ -17,7 +18,8 @@ export class Animal extends BaseType {
     public type: AnimalType,
     public name: string,
     public gender: string,
-    public description?: string
+    public description?: string,
+    public imgId?: string
   ) {
     super(id);
   }
@@ -28,7 +30,8 @@ export class Animal extends BaseType {
       json.type,
       json.name,
       json.gender,
-      json.description
+      json.description,
+      json.imgId
     );
   }
 
@@ -37,6 +40,7 @@ export class Animal extends BaseType {
   }
 
   public getEditorTemplate(): AnimalEditorTemplate {
+    console.log("get editor template in animal! ", this);
     return new AnimalEditorTemplate(this);
   }
 

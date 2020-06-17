@@ -1,7 +1,6 @@
-import * as React from "react";
-import { connect } from "react-redux";
+import { AnimalType } from "./../types/animals";
+import { AnimalImage, Image } from "../types/image";
 import { Staff } from "global/types/staff";
-import { AnimalType } from "global/types/animals";
 import { Animal } from "global/types/animals";
 import { Exhibit } from "global/types/exhibit";
 import { AppState } from "global/state/state";
@@ -13,13 +12,42 @@ interface StoreInitialState {
   animals: Map<string, Animal>;
   exhibits: Map<string, Exhibit>;
   staff: Map<string, Staff>;
+  images: Map<string, Image>;
 }
+
+const binChickImg = new AnimalImage(
+  "",
+  require("../../static/bin-chicken.jpg"),
+  "Bin Chicken",
+  AnimalType.cat
+);
+const chickenBucketImg = new AnimalImage(
+  "",
+  require("../../static/chickent-bucket.jpg"),
+  "Chicken bucket",
+  AnimalType.cat
+);
+const princeDogImg = new AnimalImage(
+  "",
+  require("../../static/prince-dog.jpg"),
+  "Prince",
+  AnimalType.dog
+);
+
+const images = [binChickImg, chickenBucketImg, princeDogImg];
 
 const initialState = {
   animals: [
     new Animal("1", AnimalType.bird, "Bethy", "Female", ""),
-    new Animal("2", AnimalType.cat, "Bin Chicken", "Male", ""),
-    new Animal("3", AnimalType.dog, "Prince", "Male", ""),
+    new Animal(
+      "2",
+      AnimalType.cat,
+      "Bin Chicken",
+      "Male",
+      "",
+      chickenBucketImg.id
+    ),
+    new Animal("3", AnimalType.dog, "Prince", "Male", "", princeDogImg.id),
     new Animal("4", AnimalType.dog, "Antei", "Male", ""),
     new Animal("5", AnimalType.cat, "Soot", "Female", ""),
     new Animal("6", AnimalType.cat, "Kipper", "Female", ""),
@@ -30,12 +58,14 @@ const initialState = {
   ],
   exhibits: [new Exhibit("b", ["1"], ["a"], "Purple Rose", "")],
   staff: [new Staff("a", [], "Larry", "20000", "")],
+  images: images,
 };
 
 export class StoreInitialiser {
   public animals: Map<string, Animal>;
   public exhibits: Map<string, Exhibit>;
   public staff: Map<string, Staff>;
+  public images: Map<string, Image>;
   constructor() {
     // const localStorageLoadSuccessful = this.loadFromLocalStorage();
     // if (!localStorageLoadSuccessful) {
@@ -48,6 +78,7 @@ export class StoreInitialiser {
       animals: this.animals,
       exhibits: this.exhibits,
       staff: this.staff,
+      images: this.images,
     };
   }
 
@@ -81,6 +112,7 @@ export class StoreInitialiser {
     this.animals = convertArrayToMap(initialState.animals, Animal.clone);
     this.exhibits = convertArrayToMap(initialState.exhibits, Exhibit.clone);
     this.staff = convertArrayToMap(initialState.staff, Staff.clone);
+    this.images = convertArrayToMap(initialState.images, AnimalImage.clone);
   }
 }
 

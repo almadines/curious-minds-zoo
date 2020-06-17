@@ -2,6 +2,7 @@ import {
   EditorElement,
   TextInputEditorElement,
   DropDownSelectEditorElement,
+  ImageEditorElement,
 } from "./editor-element";
 import { BaseType } from "./baseType";
 import { Animal } from "./animals";
@@ -46,6 +47,12 @@ export class AnimalEditorTemplate extends EditorTemplate {
 
   constructor(public initialAnimal?: Animal) {
     super([
+      new ImageEditorElement(
+        "imgId",
+        false,
+        "Image",
+        initialAnimal ? initialAnimal.imgId : undefined
+      ),
       new TextInputEditorElement(
         "type",
         InputFieldType.input,
@@ -84,7 +91,8 @@ export class AnimalEditorTemplate extends EditorTemplate {
         data["type"],
         data["name"],
         data["gender"],
-        data["description"]
+        data["description"],
+        data["imgId"]
       );
     } else {
       console.warn(

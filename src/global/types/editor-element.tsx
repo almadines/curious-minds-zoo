@@ -8,6 +8,7 @@ import { DropDownSelectOption } from "./drop-down-select";
 import DropDownSelect from "components/input-fields/drop-down-select";
 import { AppState } from "global/state/state";
 import { ListElement, ListElementWrapper } from "./list-element";
+import ConnectedImageInputField from "components/input-fields/image-input-field";
 
 export abstract class EditorElement {
   public uniqueIdentifier: string = "";
@@ -105,6 +106,35 @@ export class DropDownSelectEditorElement extends EditorElement {
           selectableOptionsGetter={this.selectableOptionsGetter}
           listElementsWrapper={this.listElementsWrapper}
           editMode={editMode}
+        />
+      </div>
+    );
+  }
+}
+
+export class ImageEditorElement extends EditorElement {
+  constructor(
+    identifier: string,
+    required: boolean,
+    label: string,
+    public initialValue?: string
+  ) {
+    super(identifier, required, label, initialValue);
+  }
+
+  public renderInput(
+    editMode: boolean,
+    onInputChange: (newValue: any, identifier: string) => void
+  ): JSX.Element {
+    return (
+      <div className="editor-element-wrapper">
+        <label className="editor-element-label">{this.getLabel()}</label>
+        <ConnectedImageInputField
+          identifier={this.identifier}
+          required={this.required}
+          onChange={onInputChange}
+          editMode={editMode}
+          initialValue={this.initialValue}
         />
       </div>
     );

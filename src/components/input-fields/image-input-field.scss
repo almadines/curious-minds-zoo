@@ -1,0 +1,46 @@
+.image-input-wrapper {
+  padding: 1rem;
+
+  .image-input-header {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 1;
+    margin: 0.5rem 0;
+
+    .image-input-selector-contents {
+      border-color: blue;
+      position: absolute;
+      width: 12rem;
+      max-height: 24rem;
+      overflow-y: scroll;
+      right: 0;
+
+      .list-group-item {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+      }
+
+      img {
+        max-width: 8rem;
+        max-height: 8rem;
+        padding: 0.5rem;
+      }
+    }
+
+    .hidden {
+      display: none;
+    }
+  }
+
+  .image-input-display {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    img {
+      max-width: 20rem;
+      max-height: 20rem;
+    }
+  }
+}

@@ -5,7 +5,7 @@ import memoizeOne from "memoize-one";
 import { ListElement, ListElementWrapper } from "global/types/list-element";
 import { AppState } from "global/state/state";
 import { connect } from "react-redux";
-import "./dropdown-select.scss";
+import "./drop-down-select.scss";
 
 enum DropDownModifyOperation {
   add = "add",
@@ -53,7 +53,6 @@ class DropDownSelect extends React.PureComponent<
   }
 
   public componentWillUnmount(): void {
-    console.log("component will unmount called in dropdown select!");
     if (typeof window !== undefined) {
       window.removeEventListener("click", this.windowClickListener);
     }
