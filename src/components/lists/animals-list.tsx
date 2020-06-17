@@ -14,6 +14,7 @@ import { Exhibit } from "global/types/exhibit";
 import { navigate } from "@reach/router";
 import ConnectedEditPage from "components/edit-page/edit-page";
 import "./instance-list-styles.scss";
+import { withPrefix } from "gatsby";
 
 interface AnimalsListPageProps {
   animals?: Animal[]; // from redux
@@ -36,7 +37,7 @@ class AnimalsListPage extends React.PureComponent<
       const onClickCallbackConstructor = (
         animalId: string
       ): (() => void) => () => {
-        navigate(`/animal-details?id=${animalId}`);
+        navigate(withPrefix(`/animal-details?id=${animalId}`));
       };
 
       const listElems = Array.from(animals.values()).map(

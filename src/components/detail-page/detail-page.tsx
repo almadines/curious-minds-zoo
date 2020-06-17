@@ -2,7 +2,8 @@ import * as React from "react";
 import { EditorTemplate } from "global/types/editor-template";
 import ConnectedEditPage from "components/edit-page/edit-page";
 import "./detail-page.scss";
-import { navigate } from "gatsby";
+import { navigate } from "@reach/router";
+import { withPrefix } from "gatsby";
 
 interface DetailPageProps {
   editorTemplate: EditorTemplate;
@@ -32,7 +33,7 @@ class DetailPage extends React.PureComponent<DetailPageProps, DetailPageState> {
   public goBack(event: Event): void {
     event.stopPropagation();
     if (this.props.returnPath) {
-      navigate(this.props.returnPath);
+      navigate(withPrefix(this.props.returnPath));
     } else {
       history.back();
     }

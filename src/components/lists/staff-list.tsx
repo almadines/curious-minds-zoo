@@ -13,6 +13,7 @@ import { Staff } from "global/types/staff";
 import { navigate } from "@reach/router";
 import "./instance-list-styles.scss";
 import ConnectedEditPage from "components/edit-page/edit-page";
+import { withPrefix } from "gatsby";
 
 interface StaffListPageProps {
   staff?: Map<string, Staff>;
@@ -32,7 +33,7 @@ class StaffListPage extends React.PureComponent<
       const onClickCallbackConstructor = (
         staffId: string
       ): (() => void) => () => {
-        navigate(`/staff-details?id=${staffId}`);
+        navigate(withPrefix(`/staff-details?id=${staffId}`));
       };
       const listElems = Array.from(staff.values()).map(
         (staff: Staff): StaffListElement =>

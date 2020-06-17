@@ -13,6 +13,7 @@ import { isEqual } from "lodash";
 import { navigate } from "@reach/router";
 import ConnectedEditPage from "components/edit-page/edit-page";
 import "./instance-list-styles.scss";
+import { withPrefix } from "gatsby";
 
 interface ExhibitsListPageProps {
   exhibits?: Exhibit[];
@@ -33,7 +34,7 @@ class ExhibitsListPage extends React.PureComponent<
       const onClickCallbackConstructor = (
         animalId: string
       ): (() => void) => () => {
-        navigate(`/exhibit-details?id=${animalId}`);
+        navigate(withPrefix(`/exhibit-details?id=${animalId}`));
       };
 
       const listElems = Array.from(exhibits.values()).map(
