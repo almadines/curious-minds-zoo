@@ -45,13 +45,13 @@ class ImageInputField extends React.PureComponent<
       this.setOptionsMenuState(false);
     };
 
-    if (typeof window !== undefined) {
+    if (typeof window !== "undefined") {
       window.addEventListener("click", this.windowClickListener);
     }
   }
 
   public componentWillUnmount(): void {
-    if (typeof window !== undefined) {
+    if (typeof window !== "undefined") {
       window.removeEventListener("click", this.windowClickListener);
     }
   }
@@ -109,11 +109,6 @@ class ImageInputField extends React.PureComponent<
       </div>
     ) : null;
     const imgage = !!selectedImage ? selectedImage.render() : null;
-    console.log(
-      "rendering image input field with: ",
-      this.state.selectedImage,
-      this.props.allImagesMap
-    );
 
     return (
       <div className={`image-input-wrapper ${this.props.className}`}>

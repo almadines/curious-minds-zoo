@@ -1,15 +1,35 @@
 import * as React from "react";
 import { Link } from "gatsby";
 import "./layout.scss";
+import { SaveElement } from "global/store/store-init";
+import { AppState } from "global/state/state";
+import { connect } from "react-redux";
 
 interface LayoutProps {
   title: string;
 }
 
+class SaveElementWrapper extends React.PureComponent {
+  public static saveElement = new SaveElement();
+  public static mapStateToProps(state: AppState): any {
+    SaveElementWrapper.saveElement.stateChanged(state);
+    return {};
+  }
+
+  render(): JSX.Element {
+    return null;
+  }
+}
+
+const ConnectedSaveElementWrapper = connect(SaveElementWrapper.mapStateToProps)(
+  SaveElementWrapper
+);
+
 export class Layout extends React.Component<LayoutProps> {
   render(): JSX.Element {
     return (
       <div className="layout-wrapper">
+        <ConnectedSaveElementWrapper />
         <div className="layout-side-nav">
           <div className="layout-top-block layout-nav-title">
             <div className="layout-nav-header">

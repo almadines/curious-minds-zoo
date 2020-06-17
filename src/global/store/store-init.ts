@@ -6,7 +6,7 @@ import { Exhibit } from "global/types/exhibit";
 import { AppState } from "global/state/state";
 
 const localStorageKey: string = "zoo-manager-storage";
-const autoSaveDelay: number = 30000; // 30 seconds
+const autoSaveDelay: number = 5000; // 3 seconds
 
 interface StoreInitialState {
   animals: Map<string, Animal>;
@@ -16,19 +16,19 @@ interface StoreInitialState {
 }
 
 const binChickImg = new AnimalImage(
-  "",
+  "binChickImg",
   require("../../static/bin-chicken.jpg"),
   "Bin Chicken",
   AnimalType.cat
 );
 const chickenBucketImg = new AnimalImage(
-  "",
+  "chickenBucketImg",
   require("../../static/chickent-bucket.jpg"),
   "Chicken bucket",
   AnimalType.cat
 );
 const princeDogImg = new AnimalImage(
-  "",
+  "princeDogImg",
   require("../../static/prince-dog.jpg"),
   "Prince",
   AnimalType.dog
@@ -67,10 +67,10 @@ export class StoreInitialiser {
   public staff: Map<string, Staff>;
   public images: Map<string, Image>;
   constructor() {
-    // const localStorageLoadSuccessful = this.loadFromLocalStorage();
-    // if (!localStorageLoadSuccessful) {
-    this.loadFromInitialState();
-    // }
+    const localStorageLoadSuccessful = this.loadFromLocalStorage();
+    if (!localStorageLoadSuccessful) {
+      this.loadFromInitialState();
+    }
   }
 
   public getInitialState(): StoreInitialState {
@@ -83,7 +83,7 @@ export class StoreInitialiser {
   }
 
   private loadFromLocalStorage(): boolean {
-    if (typeof window === undefined) {
+    if (typeof window === "undefined") {
       console.log("window undefined, skipping load from local storage");
       return false;
     }
@@ -100,6 +100,7 @@ export class StoreInitialiser {
       this.animals = convertArrayToMap(parsedValue.animals, Animal.clone);
       this.exhibits = convertArrayToMap(parsedValue.exhibits, Exhibit.clone);
       this.staff = convertArrayToMap(parsedValue.staff, Staff.clone);
+      this.images = this.loadImagesFromInitialState();
       if (!!this.animals && !!this.exhibits && !!this.staff) {
         return true;
       }
@@ -112,7 +113,11 @@ export class StoreInitialiser {
     this.animals = convertArrayToMap(initialState.animals, Animal.clone);
     this.exhibits = convertArrayToMap(initialState.exhibits, Exhibit.clone);
     this.staff = convertArrayToMap(initialState.staff, Staff.clone);
-    this.images = convertArrayToMap(initialState.images, AnimalImage.clone);
+    this.images = this.loadImagesFromInitialState();
+  }
+
+  private loadImagesFromInitialState(): Map<string, Image> {
+    return convertArrayToMap(initialState.images, AnimalImage.clone);
   }
 }
 
@@ -144,7 +149,6 @@ export class SaveElement {
   private latestState: AppState;
 
   public stateChanged(state: AppState) {
-    console.log("map state to props in Save Element called!");
     this.latestState = state;
     if (this.savingAllowed) {
       this.save();
@@ -167,7 +171,7 @@ export class SaveElement {
   }
 
   public save() {
-    if (typeof window !== undefined) {
+    if (typeof window !== "undefined") {
       const animals = Array.from(this.latestState.animals.values());
       const exhibits = Array.from(this.latestState.exhibits.values());
       const staff = Array.from(this.latestState.staff.values());
@@ -176,7 +180,6 @@ export class SaveElement {
         exhibits,
         staff,
       });
-      console.log("saving data: ", saveString);
 
       localStorage.setItem(localStorageKey, saveString);
       this.changedSinceLastSave = false;

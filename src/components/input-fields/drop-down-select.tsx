@@ -47,13 +47,13 @@ class DropDownSelect extends React.PureComponent<
       this.setOptionsMenuState(false);
     };
 
-    if (typeof window !== undefined) {
+    if (typeof window !== "undefined") {
       window.addEventListener("click", this.windowClickListener);
     }
   }
 
   public componentWillUnmount(): void {
-    if (typeof window !== undefined) {
+    if (typeof window !== "undefined") {
       window.removeEventListener("click", this.windowClickListener);
     }
   }

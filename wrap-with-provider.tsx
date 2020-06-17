@@ -1,25 +1,23 @@
 import React from "react";
-import { Provider } from "react-redux";
+import { Provider, connect } from "react-redux";
 
 import createStore from "./src/global/store/createStore";
 import { SaveElement } from "./src/global/store/store-init";
-
-// console.log(
-//   "wrap with provider: ",
-//   window,
-//   typeof window,
-//   localStorage,
-//   typeof localStorage
-// );
+import { AppState } from "./src/global/state/state";
 
 const store = createStore();
 
 // eslint-disable-next-line react/display-name,react/prop-types
-export default ({ element }) => <Provider store={store}>{element}</Provider>;
+export default ({ element }) => (
+  <Provider store={store}>
+    {/* <ConnectedSaveElementWrapper /> */}
+    {element}
+  </Provider>
+);
 
 // const saveElement = new SaveElement();
 
-// if (typeof window !== undefined) {
+// if (typeof window !== "undefined") {
 //   store.subscribe(() => {
 //     console.log("store.subscribe listener function called!");
 //     saveElement.stateChanged(store.getState());

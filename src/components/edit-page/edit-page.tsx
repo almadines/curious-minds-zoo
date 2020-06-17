@@ -42,7 +42,6 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
     const newData = { ...this.state.currentData };
     newData[identifier] = newValue;
     this.setState({ currentData: newData });
-    console.log("edit page on input change set with data: ", newData);
   }
 
   public createObject(event: Event): void {
