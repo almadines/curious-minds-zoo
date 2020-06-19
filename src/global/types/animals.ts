@@ -17,9 +17,10 @@ export class Animal extends BaseType {
     id: string,
     public type: AnimalType,
     public name: string,
-    public gender: string,
+    public size: string,
     public description?: string,
-    public imgId?: string
+    public imgId?: string,
+    public additionalNotes?: string
   ) {
     super(id);
   }
@@ -29,9 +30,10 @@ export class Animal extends BaseType {
       json.id,
       json.type,
       json.name,
-      json.gender,
+      json.size,
       json.description,
-      json.imgId
+      json.imgId,
+      json.additionalNotes
     );
   }
 

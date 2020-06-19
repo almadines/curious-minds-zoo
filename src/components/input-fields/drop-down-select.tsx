@@ -169,7 +169,7 @@ class DropDownSelect extends React.PureComponent<
           }`}
           onClick={this.toggleOptionsMenuState.bind(this)}
         >
-          Add
+          <i className="material-icons layout-link-icon">add</i> Add
         </button>
         <div
           className={`drop-down-select-selector-contents ${menuExpandedCss}`}

@@ -29,7 +29,7 @@ export class AnimalListWrapper extends ListElementWrapper {
         <tr>
           <th>Name</th>
           <th>Type</th>
-          <th>Gender</th>
+          <th>Size</th>
         </tr>
       </thead>
     );
@@ -44,7 +44,7 @@ export class AnimalListElement {
       <tr key={this.animal.id} onClick={this.onClickCallback}>
         <td>{this.animal.name}</td>
         <td>{this.animal.type}</td>
-        <td>{this.animal.gender}</td>
+        <td>{this.animal.size}</td>
       </tr>
     );
   }
@@ -132,7 +132,6 @@ export class StaffListWrapper extends ListElementWrapper {
         <tr>
           <th>Name</th>
           <th>Salary</th>
-          <th># of assigned Animals</th>
         </tr>
       </thead>
     );
@@ -147,7 +146,6 @@ export class StaffListElement {
       <tr key={this.staff.id} onClick={this.onClickCallback}>
         <td>{this.staff.name}</td>
         <td>{this.staff.salary}</td>
-        <td>{this.staff.animalIds.length}</td>
       </tr>
     );
   }
@@ -158,7 +156,7 @@ export class StaffListElement {
         className="list-group-item"
         onClick={this.onClickCallback}
       >
-        {this.staff.name} ({this.staff.animalIds.length})
+        {this.staff.name}
       </div>
     );
   }

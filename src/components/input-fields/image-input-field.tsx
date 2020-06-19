@@ -5,7 +5,6 @@ import { Image } from "global/types/image";
 import "./image-input-field.scss";
 import ListDisplay from "components/lists/list-display";
 import { ImageListWrapper, ImageListElement } from "global/types/list-element";
-import { ErrorObject } from "global/types/error-object";
 
 interface ImageInputFieldProps {
   identifier: string;
@@ -96,7 +95,7 @@ class ImageInputField extends React.PureComponent<
           }`}
           onClick={this.toggleOptionsMenuState.bind(this)}
         >
-          Add
+          {!this.state.selectedImage ? "Add" : "Change"}
         </button>
         <div className={`image-input-selector-contents ${menuExpandedCss}`}>
           <ListDisplay listElementWrapper={wrappedImageList} />

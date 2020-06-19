@@ -79,11 +79,11 @@ export class AnimalEditorTemplate extends EditorTemplate {
         initialAnimal ? initialAnimal.name : undefined
       ),
       new TextInputEditorElement(
-        "gender",
+        "size",
         InputFieldType.input,
         true,
-        "Gender",
-        initialAnimal ? initialAnimal.gender : undefined
+        "Size",
+        initialAnimal ? initialAnimal.size : undefined
       ),
       new TextInputEditorElement(
         "description",
@@ -92,18 +92,26 @@ export class AnimalEditorTemplate extends EditorTemplate {
         "Description",
         initialAnimal ? initialAnimal.description : undefined
       ),
+      new TextInputEditorElement(
+        "additionalNotes",
+        InputFieldType.textarea,
+        false,
+        "Additional Details",
+        initialAnimal ? initialAnimal.description : undefined
+      ),
     ]);
   }
 
   protected fromData = (data: any): Animal | ErrorObject[] => {
-    if (!!data["type"] && !!data["name"] && !!data["gender"]) {
+    if (!!data["type"] && !!data["name"]) {
       return new Animal(
         this.initialAnimal ? this.initialAnimal.id : "",
         data["type"],
         data["name"],
-        data["gender"],
+        data["size"],
         data["description"],
-        data["imgId"]
+        data["imgId"],
+        data["additionalNotes"]
       );
     } else {
       const errorObjects: ErrorObject[] = [];
@@ -112,9 +120,6 @@ export class AnimalEditorTemplate extends EditorTemplate {
       }
       if (!data["name"]) {
         errorObjects.push(new ErrorObject("name", "This field is required"));
-      }
-      if (!data["gender"]) {
-        errorObjects.push(new ErrorObject("gender", "This field is required"));
       }
 
       return errorObjects;

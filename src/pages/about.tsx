@@ -5,7 +5,9 @@ class AboutPage extends React.PureComponent {
   public render(): JSX.Element {
     return (
       <Layout title="About page:" iconName="info">
-        Welcome to the about page! This will be filled out, eventually...
+        <div className="main-content-margins">
+          Welcome to the about page! This will be filled out, eventually...
+        </div>
       </Layout>
     );
   }
