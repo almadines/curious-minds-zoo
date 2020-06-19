@@ -5,7 +5,7 @@ import ConnectedStaffListPage from "components/lists/staff-list";
 class StaffPage extends React.Component {
   render(): JSX.Element {
     return (
-      <Layout title="Staff:">
+      <Layout title="Staff:" iconName="person">
         <ConnectedStaffListPage linkDetailPages={true} />
       </Layout>
     );

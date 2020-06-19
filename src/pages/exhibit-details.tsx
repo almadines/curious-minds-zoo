@@ -19,7 +19,7 @@ class ExhibitDetailsPage extends React.PureComponent<ExhibitDetailsPageProps> {
       : undefined;
 
     return (
-      <Layout title="Exhibit Details">
+      <Layout title="Exhibit Details" iconName="house_siding">
         <ConnectedExhibitDetailPage
           allowEditing={true}
           id={this.getId(queryData)}

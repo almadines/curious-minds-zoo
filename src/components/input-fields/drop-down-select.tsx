@@ -6,6 +6,7 @@ import { ListElement, ListElementWrapper } from "global/types/list-element";
 import { AppState } from "global/state/state";
 import { connect } from "react-redux";
 import "./drop-down-select.scss";
+import { ErrorObject } from "global/types/error-object";
 
 enum DropDownModifyOperation {
   add = "add",

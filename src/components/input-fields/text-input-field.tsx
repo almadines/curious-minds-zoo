@@ -1,5 +1,6 @@
 import * as React from "react";
 import "./text-input-field.scss";
+import { ErrorObject } from "global/types/error-object";
 
 export enum InputFieldType {
   input = "input",
@@ -58,13 +59,15 @@ export class InputField extends React.PureComponent<
   }
 
   public inputProps(): any {
+    const valueFilledCss = this.state.value === "" ? "no-value" : "hasValue";
     return {
       type: "text",
-      className: `form-control ${this.inputFieldCss()}`,
+      className: `form-control ${this.inputFieldCss()} ${valueFilledCss}`,
       placeholder: "",
       value: this.state.value,
       onChange: this.inputChanged.bind(this),
       onInput: this.inputChanged.bind(this),
+      required: this.props.required,
     };
   }
 

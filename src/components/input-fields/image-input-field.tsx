@@ -2,10 +2,10 @@ import * as React from "react";
 import { AppState } from "global/state/state";
 import { connect } from "react-redux";
 import { Image } from "global/types/image";
-import memoizeOne from "memoize-one";
 import "./image-input-field.scss";
 import ListDisplay from "components/lists/list-display";
 import { ImageListWrapper, ImageListElement } from "global/types/list-element";
+import { ErrorObject } from "global/types/error-object";
 
 interface ImageInputFieldProps {
   identifier: string;
@@ -28,11 +28,6 @@ class ImageInputField extends React.PureComponent<
   ImageInputFieldState
 > {
   private windowClickListener: () => void;
-  // public static imageMemoiseGetter = memoizeOne(
-  //   (imageMap: Map<string, Image>): Image[] => {
-  //     return Array.from(imageMap.values());
-  //   }
-  // );
 
   constructor(props: ImageInputFieldProps) {
     super(props);

@@ -14,15 +14,33 @@ NavLink:hover {
     min-width: 12rem;
     flex-direction: column;
     border-right: solid 3px darkslategrey;
+    overflow-y: auto;
+  }
+
+  .layout-nav-title {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex: 1;
+    margin-bottom: 0.5rem;
+
+    .material-icons {
+      font-size: 3rem;
+    }
   }
 
   .layout-right-block {
     display: block;
     width: 100%;
+
+    .layout-title {
+      margin-left: 3rem;
+    }
+
     .layout-main-content {
       width: 100%;
       height: 100%;
-      overflow-y: scroll;
+      overflow-y: auto;
       .layout-main-content-padding {
         margin: 1rem 1rem 14rem 1rem;
       }
@@ -35,6 +53,10 @@ NavLink:hover {
     display: flex;
     flex-direction: column;
 
+    .layout-link-icon {
+      width: 2rem;
+    }
+
     a {
       width: 100%;
       height: 3rem;
@@ -42,6 +64,7 @@ NavLink:hover {
       display: flex;
       align-items: center;
       cursor: pointer;
+      text-decoration: none;
     }
 
     a:hover {
@@ -55,16 +78,25 @@ NavLink:hover {
     height: 6rem;
     display: flex;
     align-items: flex-end;
-    .layout-title {
-      margin-left: 3rem;
-    }
-  }
-
-  .layout-nav-header {
-    margin-left: 1rem;
   }
 
   .layout-left-block-margin {
     margin: 1rem;
   }
+}
+
+// prevent scrollbar on main page
+html {
+  overflow: hidden;
+}
+
+.material-icons {
+  padding: 0.1rem;
+  font-style: normal;
+}
+
+button,
+button.btn {
+  display: flex;
+  align-items: center;
 }

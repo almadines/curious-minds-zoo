@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 
 interface LayoutProps {
   title: string;
+  iconName?: string;
 }
 
 class SaveElementWrapper extends React.PureComponent {
@@ -26,22 +27,35 @@ const ConnectedSaveElementWrapper = connect(SaveElementWrapper.mapStateToProps)(
 );
 
 export class Layout extends React.Component<LayoutProps> {
-  render(): JSX.Element {
+  public render(): JSX.Element {
+    const icon = this.props.iconName ? (
+      <i className="material-icons layout-link-icon">{this.props.iconName}</i>
+    ) : null;
+
     return (
       <div className="layout-wrapper">
         <ConnectedSaveElementWrapper />
         <div className="layout-side-nav">
-          <div className="layout-top-block layout-nav-title">
-            <div className="layout-nav-header">
-              <h3 className="display-6"></h3>
-            </div>
+          <div className="layout-top-block">
+            <div className="layout-nav-title">{icon}</div>
           </div>
           <div className="layout-link-list">
-            <Link to="/">Main Page</Link>
-            <Link to="/animals/">Animals</Link>
-            <Link to="/exhibits/">Exhibits</Link>
-            <Link to="/staff/">Staff</Link>
-            <Link to="/about/">About</Link>
+            <Link to="/">
+              <i className="material-icons layout-link-icon">menu</i>Main Page
+            </Link>
+            <Link to="/animals/">
+              <i className="material-icons layout-link-icon">pets</i>Animals
+            </Link>
+            <Link to="/exhibits/">
+              <i className="material-icons layout-link-icon">house_siding</i>
+              Exhibits
+            </Link>
+            <Link to="/staff/">
+              <i className="material-icons layout-link-icon">person</i>Staff
+            </Link>
+            <Link to="/about/">
+              <i className="material-icons layout-link-icon">info</i>About
+            </Link>
           </div>
         </div>
         <div className="layout-right-block">

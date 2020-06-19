@@ -5,7 +5,7 @@ import ConnectedExhibitsListPage from "components/lists/exhibits-list";
 class ExhibitsPage extends React.Component {
   render(): JSX.Element {
     return (
-      <Layout title="Exhibits:">
+      <Layout title="Exhibits:" iconName="house_siding">
         <ConnectedExhibitsListPage linkDetailPages={true} />
       </Layout>
     );

@@ -6,7 +6,7 @@ import { Animal } from "global/types/animals";
 class AnimalCreatePage extends React.PureComponent {
   public render(): JSX.Element {
     return (
-      <Layout title="Create Animal">
+      <Layout title="Create Animal" iconName="pets">
         <ConnectedEditPage
           editorTemplate={Animal.getNewEditorTemplate()}
           editMode={true}

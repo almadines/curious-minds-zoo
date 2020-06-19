@@ -9,6 +9,7 @@ import DropDownSelect from "components/input-fields/drop-down-select";
 import { AppState } from "global/state/state";
 import { ListElement, ListElementWrapper } from "./list-element";
 import ConnectedImageInputField from "components/input-fields/image-input-field";
+import { ErrorObject } from "./error-object";
 
 export abstract class EditorElement {
   public uniqueIdentifier: string = "";
@@ -31,18 +32,29 @@ export abstract class EditorElement {
 
   public render(
     editMode: boolean,
-    onInputChange?: (newValue: any, identifier: string) => void
+    onInputChange?: (newValue: any, identifier: string) => void,
+    error?: ErrorObject
   ): JSX.Element {
+    const errorMessage = !!error ? error.errorMessage : "";
     return (
       <div key={this.uniqueIdentifier}>
-        {this.renderInput(editMode, onInputChange)}
+        <div className="editor-element-wrapper">
+          <label className="editor-element-label">
+            <span className="editor-element-label-value">
+              {this.getLabel()}:
+            </span>
+            <span className="error-message">{errorMessage}</span>
+          </label>
+          {this.renderInput(editMode, onInputChange, error)}
+        </div>
       </div>
     );
   }
 
   public abstract renderInput(
     editMode: boolean,
-    onInputChange: (newValue: string, identifier: string) => void
+    onInputChange: (newValue: string, identifier: string) => void,
+    error: ErrorObject
   ): JSX.Element;
 }
 
@@ -59,21 +71,19 @@ export class TextInputEditorElement extends EditorElement {
 
   public renderInput(
     editMode: boolean,
-    onInputChange: (newValue: string, identifier: string) => void
+    onInputChange: (newValue: string, identifier: string) => void,
+    error?: ErrorObject
   ): JSX.Element {
     return (
-      <div className="editor-element-wrapper">
-        <label className="editor-element-label">{this.getLabel()}</label>
-        <InputField
-          editMode={editMode}
-          className="editor-element-value"
-          identifier={this.identifier}
-          type={this.type}
-          onChange={onInputChange}
-          required={this.required}
-          initialValue={this.initialValue}
-        />
-      </div>
+      <InputField
+        editMode={editMode}
+        className="editor-element-value"
+        identifier={this.identifier}
+        type={this.type}
+        onChange={onInputChange}
+        required={this.required}
+        initialValue={this.initialValue}
+      />
     );
   }
 }
@@ -92,22 +102,20 @@ export class DropDownSelectEditorElement extends EditorElement {
 
   public renderInput(
     editMode: boolean,
-    onInputChange: (newValue: any, identifier: string) => void
+    onInputChange: (newValue: any, identifier: string) => void,
+    error?: ErrorObject
   ): JSX.Element {
     return (
-      <div className="editor-element-wrapper">
-        <label className="editor-element-label">{this.getLabel()}</label>
-        <DropDownSelect
-          className="editor-element-value"
-          identifier={this.identifier}
-          onChange={onInputChange}
-          required={this.required}
-          initialValue={this.initialValue}
-          selectableOptionsGetter={this.selectableOptionsGetter}
-          listElementsWrapper={this.listElementsWrapper}
-          editMode={editMode}
-        />
-      </div>
+      <DropDownSelect
+        className="editor-element-value"
+        identifier={this.identifier}
+        onChange={onInputChange}
+        required={this.required}
+        initialValue={this.initialValue}
+        selectableOptionsGetter={this.selectableOptionsGetter}
+        listElementsWrapper={this.listElementsWrapper}
+        editMode={editMode}
+      />
     );
   }
 }
@@ -124,19 +132,17 @@ export class ImageEditorElement extends EditorElement {
 
   public renderInput(
     editMode: boolean,
-    onInputChange: (newValue: any, identifier: string) => void
+    onInputChange: (newValue: any, identifier: string) => void,
+    error?: ErrorObject
   ): JSX.Element {
     return (
-      <div className="editor-element-wrapper">
-        <label className="editor-element-label">{this.getLabel()}</label>
-        <ConnectedImageInputField
-          identifier={this.identifier}
-          required={this.required}
-          onChange={onInputChange}
-          editMode={editMode}
-          initialValue={this.initialValue}
-        />
-      </div>
+      <ConnectedImageInputField
+        identifier={this.identifier}
+        required={this.required}
+        onChange={onInputChange}
+        editMode={editMode}
+        initialValue={this.initialValue}
+      />
     );
   }
 }

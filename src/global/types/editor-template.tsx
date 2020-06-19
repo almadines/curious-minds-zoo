@@ -20,9 +20,10 @@ import {
   StaffListElement,
   StaffListWrapper,
 } from "./list-element";
+import { ErrorObject } from "./error-object";
 
 export abstract class EditorTemplate {
-  abstract fromData: (data: any) => BaseType | undefined;
+  protected abstract fromData: (data: any) => BaseType | ErrorObject[];
   abstract dataTypeName: string;
 
   private cachedEditorElements: EditorElement[];
@@ -39,6 +40,16 @@ export abstract class EditorTemplate {
     this.cachedEditorElements.forEach((elem: EditorElement): void =>
       elem.reset()
     );
+  }
+
+  public convertDataToObject(data: any): BaseType | ErrorObject[] {
+    const result = this.fromData(data);
+
+    if (Array.isArray(result) && result.length === 0) {
+      result.push(new ErrorObject("global", "Unidentified Error"));
+    }
+
+    return result;
   }
 }
 
@@ -84,7 +95,7 @@ export class AnimalEditorTemplate extends EditorTemplate {
     ]);
   }
 
-  public fromData = (data: any): Animal | undefined => {
+  protected fromData = (data: any): Animal | ErrorObject[] => {
     if (!!data["type"] && !!data["name"] && !!data["gender"]) {
       return new Animal(
         this.initialAnimal ? this.initialAnimal.id : "",
@@ -95,11 +106,18 @@ export class AnimalEditorTemplate extends EditorTemplate {
         data["imgId"]
       );
     } else {
-      console.warn(
-        "invalid or incomplete data when attempting to create an animal!"
-      );
+      const errorObjects: ErrorObject[] = [];
+      if (!data["type"]) {
+        errorObjects.push(new ErrorObject("type", "This field is required"));
+      }
+      if (!data["name"]) {
+        errorObjects.push(new ErrorObject("name", "This field is required"));
+      }
+      if (!data["gender"]) {
+        errorObjects.push(new ErrorObject("gender", "This field is required"));
+      }
 
-      return undefined;
+      return errorObjects;
     }
   };
 }
@@ -184,7 +202,7 @@ export class ExhibitEditorTemplate extends EditorTemplate {
     ]);
   }
 
-  public fromData = (data: any): Exhibit | undefined => {
+  protected fromData = (data: any): Exhibit | ErrorObject[] => {
     if (!!data["name"]) {
       return new Exhibit(
         this.initialExhibit ? this.initialExhibit.id : "",
@@ -194,11 +212,12 @@ export class ExhibitEditorTemplate extends EditorTemplate {
         data["description"]
       );
     } else {
-      console.warn(
-        "invalid or incomplete data when attempting to create an exhibit!"
-      );
+      const errorObjects: ErrorObject[] = [];
+      if (!data["name"]) {
+        errorObjects.push(new ErrorObject("name", "This field is required"));
+      }
 
-      return undefined;
+      return errorObjects;
     }
   };
 }
@@ -232,7 +251,7 @@ export class StaffEditorTemplate extends EditorTemplate {
     ]);
   }
 
-  public fromData = (data: any): Staff | undefined => {
+  protected fromData = (data: any): Staff | ErrorObject[] => {
     if (!!data["name"]) {
       return new Staff(
         this.initialStaff ? this.initialStaff.id : "",
@@ -242,11 +261,12 @@ export class StaffEditorTemplate extends EditorTemplate {
         data["description"]
       );
     } else {
-      console.warn(
-        "invalid or incomplete data when attempting to create an exhibit!"
-      );
+      const errorObjects: ErrorObject[] = [];
+      if (!data["name"]) {
+        errorObjects.push(new ErrorObject("name", "This field is required"));
+      }
 
-      return undefined;
+      return errorObjects;
     }
   };
 }

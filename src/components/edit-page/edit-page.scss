@@ -15,8 +15,17 @@
   .editor-element-wrapper {
     display: block;
     .editor-element-label {
-      text-decoration: underline;
       margin-bottom: 0;
+
+      .editor-element-label-value {
+        font-weight: bold;
+      }
+
+      .error-message {
+        color: #d90000;
+        padding-left: 0.5rem;
+        text-decoration: none;
+      }
     }
 
     .editor-element-value {
