@@ -5,7 +5,9 @@ class Home extends React.Component {
   render(): JSX.Element {
     return (
       <Layout title="Main Page" iconName="menu">
-        <div className="main-content-margins"></div>
+        <div className="main-content-margins">
+          This is a simplified zoo management application, please explore.
+        </div>
       </Layout>
     );
   }

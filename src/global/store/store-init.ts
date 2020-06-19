@@ -1,3 +1,16 @@
+import {
+  antelope1,
+  cheetah1,
+  elephant1,
+  gorilla1,
+  lion1,
+  parrot1,
+  seagull1,
+  tiger1,
+  toucan1,
+  wolf1,
+  zebra1,
+} from "../../static/image-imports";
 import { AnimalType } from "./../types/animals";
 import { AnimalImage, Image } from "../types/image";
 import { Staff } from "global/types/staff";
@@ -15,46 +28,31 @@ interface StoreInitialState {
   images: Map<string, Image>;
 }
 
-const binChickImg = new AnimalImage(
-  "binChickImg",
-  require("../../static/bin-chicken.jpg"),
-  "Bin Chicken",
-  AnimalType.cat
-);
-const chickenBucketImg = new AnimalImage(
-  "chickenBucketImg",
-  require("../../static/chickent-bucket.jpg"),
-  "Chicken bucket",
-  AnimalType.cat
-);
-const princeDogImg = new AnimalImage(
-  "princeDogImg",
-  require("../../static/prince-dog.jpg"),
-  "Prince",
-  AnimalType.dog
-);
-
-const images = [binChickImg, chickenBucketImg, princeDogImg];
+const images = [
+  seagull1,
+  tiger1,
+  cheetah1,
+  elephant1,
+  gorilla1,
+  lion1,
+  parrot1,
+  toucan1,
+  wolf1,
+  antelope1,
+  zebra1,
+];
 
 const initialState = {
   animals: [
-    new Animal("1", AnimalType.bird, "Bethy", "Female", ""),
-    new Animal(
-      "2",
-      AnimalType.cat,
-      "Bin Chicken",
-      "Male",
-      "",
-      chickenBucketImg.id
-    ),
-    new Animal("3", AnimalType.dog, "Prince", "Male", "", princeDogImg.id),
-    new Animal("4", AnimalType.dog, "Antei", "Male", ""),
-    new Animal("5", AnimalType.cat, "Soot", "Female", ""),
-    new Animal("6", AnimalType.cat, "Kipper", "Female", ""),
-    new Animal("7", AnimalType.cat, "Gus", "Male", ""),
-    new Animal("8", AnimalType.lion, "Larry", "Female", ""),
-    new Animal("9", AnimalType.mouse, "Spot", "Male", ""),
-    new Animal("10", AnimalType.mouse, "Kris", "Female", ""),
+    new Animal("1", AnimalType.antelope, "Bethy", "", ""),
+    new Animal("2", AnimalType.cheetah, "Spot", "", "", cheetah1.id),
+    new Animal("3", AnimalType.elephant, "Prince", "", "", elephant1.id),
+    new Animal("4", AnimalType.gorilla, "Mike", "", "", gorilla1.id),
+    new Animal("5", AnimalType.lion, "Soot", "", "", lion1.id),
+    new Animal("6", AnimalType.parrot, "Popper", "", "", parrot1.id),
+    new Animal("7", AnimalType.tiger, "Kris", "", ""),
+    new Animal("8", AnimalType.lion, "Larry", "", ""),
+    new Animal("9", AnimalType.mouse, "Spot", "", ""),
   ],
   exhibits: [new Exhibit("b", ["1"], ["a"], "Purple Rose", "")],
   staff: [new Staff("a", [], "Larry", "20000", "")],

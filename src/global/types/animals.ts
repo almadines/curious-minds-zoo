@@ -2,14 +2,20 @@ import { AnimalListElement } from "global/types/list-element";
 import { ListElement } from "global/types/list-element";
 import { BaseType } from "./baseType";
 import { AnimalEditorTemplate } from "./editor-template";
-import { Image } from "./image";
 
 export enum AnimalType {
   lion = "lion",
-  cat = "cat",
-  dog = "dog",
   mouse = "mouse",
-  bird = "bird",
+  parrot = "parrot",
+  antelope = "antelope",
+  cheetah = "cheetah",
+  elephant = "elephant",
+  gorilla = "gorilla",
+  tiger = "tiger",
+  toucan = "toucan",
+  wolf = "wolf",
+  zebra = "zebra",
+  seagull = "seagull",
 }
 
 export class Animal extends BaseType {
