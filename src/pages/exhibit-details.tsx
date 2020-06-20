@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Layout } from "../components/layout/layout";
+import { ConnectedLayout } from "../components/layout/layout";
 import ConnectedExhibitDetailPage from "components/detail-page/exhibit-detail-page";
 import memoizeOne from "memoize-one";
 import { getMemoizedIdFunction } from "global/helper/extract-query-parameter";
@@ -19,12 +19,12 @@ class ExhibitDetailsPage extends React.PureComponent<ExhibitDetailsPageProps> {
       : undefined;
 
     return (
-      <Layout title="Exhibit Details" iconName="house_siding">
+      <ConnectedLayout title="Exhibit Details" iconName="house_siding">
         <ConnectedExhibitDetailPage
           allowEditing={true}
           id={this.getId(queryData)}
         />
-      </Layout>
+      </ConnectedLayout>
     );
   }
 }

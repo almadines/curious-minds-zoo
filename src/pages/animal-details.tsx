@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Layout } from "../components/layout/layout";
+import { ConnectedLayout } from "../components/layout/layout";
 import ConnectedAnimalDetailPage from "components/detail-page/animal-detail-page";
 import { getMemoizedIdFunction } from "global/helper/extract-query-parameter";
 
@@ -18,12 +18,12 @@ class AnimalDetails extends React.PureComponent<AnimalDetailsProps> {
       : undefined;
 
     return (
-      <Layout title="Animal Details" iconName="pets">
+      <ConnectedLayout title="Animal Details" iconName="pets">
         <ConnectedAnimalDetailPage
           allowEditing={true}
           id={this.getId(queryData)}
         />
-      </Layout>
+      </ConnectedLayout>
     );
   }
 }

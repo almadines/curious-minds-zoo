@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Layout } from "../components/layout/layout";
+import { ConnectedLayout } from "../components/layout/layout";
 import ConnectedStaffDetailPage from "components/detail-page/staff-detail-page";
 import { getMemoizedIdFunction } from "global/helper/extract-query-parameter";
 
@@ -18,12 +18,12 @@ class StaffDetailsPage extends React.PureComponent<StaffDetailsProps> {
       : undefined;
 
     return (
-      <Layout title="Staff Details" iconName="person">
+      <ConnectedLayout title="Staff Details" iconName="person">
         <ConnectedStaffDetailPage
           allowEditing={true}
           id={this.getId(queryData)}
         />
-      </Layout>
+      </ConnectedLayout>
     );
   }
 }

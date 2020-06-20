@@ -4,11 +4,7 @@ import "./layout.scss";
 import { SaveElement } from "global/store/store-init";
 import { AppState } from "global/state/state";
 import { connect } from "react-redux";
-
-interface LayoutProps {
-  title: string;
-  iconName?: string;
-}
+import { Settings } from "global/types/settings";
 
 class SaveElementWrapper extends React.PureComponent {
   public static saveElement = new SaveElement();
@@ -26,14 +22,35 @@ const ConnectedSaveElementWrapper = connect(SaveElementWrapper.mapStateToProps)(
   SaveElementWrapper
 );
 
-export class Layout extends React.Component<LayoutProps> {
+interface LayoutProps {
+  title: string;
+  iconName?: string;
+  //from redux:
+  settings?: Settings;
+  //intrisic to react:
+  children: any;
+}
+
+class Layout extends React.Component<LayoutProps> {
+  public static mapStateToProps(state: AppState): any {
+    return { settings: state.settings || new Settings("") };
+  }
+
   public render(): JSX.Element {
     const icon = this.props.iconName ? (
       <i className="material-icons layout-link-icon">{this.props.iconName}</i>
     ) : null;
 
+    const layoutWrapperStyle = this.props.settings
+      ? {
+          fontFamily: `${this.props.settings.fontFamily}, Arial, sans-serif`,
+        }
+      : undefined;
+
+    console.log("rendering with layoutwrapper style: ", layoutWrapperStyle);
+
     return (
-      <div className="layout-wrapper">
+      <div className="layout-wrapper" style={layoutWrapperStyle}>
         <ConnectedSaveElementWrapper />
         <div className="layout-side-nav">
           <div className="layout-top-block">
@@ -74,3 +91,7 @@ export class Layout extends React.Component<LayoutProps> {
     );
   }
 }
+
+export const ConnectedLayout = connect(Layout.mapStateToProps)(Layout);
+
+export default ConnectedLayout;

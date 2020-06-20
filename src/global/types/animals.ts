@@ -48,7 +48,6 @@ export class Animal extends BaseType {
   }
 
   public getEditorTemplate(): AnimalEditorTemplate {
-    console.log("get editor template in animal! ", this);
     return new AnimalEditorTemplate(this);
   }
 

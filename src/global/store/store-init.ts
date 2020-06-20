@@ -1,3 +1,4 @@
+import { Settings } from "./../types/settings";
 import {
   antelope1,
   cheetah1,
@@ -26,6 +27,7 @@ interface StoreInitialState {
   exhibits: Map<string, Exhibit>;
   staff: Map<string, Staff>;
   images: Map<string, Image>;
+  settings: Settings;
 }
 
 const images = [
@@ -57,6 +59,7 @@ const initialState = {
   exhibits: [new Exhibit("b", ["1"], ["a"], "Purple Rose", "")],
   staff: [new Staff("a", [], "Larry", "20000", "")],
   images: images,
+  settings: new Settings(""),
 };
 
 export class StoreInitialiser {
@@ -64,6 +67,7 @@ export class StoreInitialiser {
   public exhibits: Map<string, Exhibit>;
   public staff: Map<string, Staff>;
   public images: Map<string, Image>;
+  public settings: Settings;
   constructor() {
     const localStorageLoadSuccessful = this.loadFromLocalStorage();
     if (!localStorageLoadSuccessful) {
@@ -77,6 +81,7 @@ export class StoreInitialiser {
       exhibits: this.exhibits,
       staff: this.staff,
       images: this.images,
+      settings: this.settings,
     };
   }
 
@@ -93,13 +98,21 @@ export class StoreInitialiser {
       parsedValue &&
       parsedValue.animals &&
       parsedValue.exhibits &&
-      parsedValue.staff
+      parsedValue.staff &&
+      parsedValue.settings
     ) {
       this.animals = convertArrayToMap(parsedValue.animals, Animal.clone);
       this.exhibits = convertArrayToMap(parsedValue.exhibits, Exhibit.clone);
       this.staff = convertArrayToMap(parsedValue.staff, Staff.clone);
       this.images = this.loadImagesFromInitialState();
-      if (!!this.animals && !!this.exhibits && !!this.staff) {
+      this.settings = Settings.clone(parsedValue.settings);
+      if (
+        !!this.animals &&
+        !!this.exhibits &&
+        !!this.staff &&
+        !!this.images &&
+        !!this.settings
+      ) {
         return true;
       }
     }
@@ -112,6 +125,7 @@ export class StoreInitialiser {
     this.exhibits = convertArrayToMap(initialState.exhibits, Exhibit.clone);
     this.staff = convertArrayToMap(initialState.staff, Staff.clone);
     this.images = this.loadImagesFromInitialState();
+    this.settings = initialState.settings;
   }
 
   private loadImagesFromInitialState(): Map<string, Image> {
@@ -173,6 +187,7 @@ export class SaveElement {
       const animals = Array.from(this.latestState.animals.values());
       const exhibits = Array.from(this.latestState.exhibits.values());
       const staff = Array.from(this.latestState.staff.values());
+      const settings = this.latestState.settings;
       const saveString = JSON.stringify({
         animals,
         exhibits,

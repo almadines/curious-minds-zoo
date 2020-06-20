@@ -10,6 +10,8 @@ import { AppState } from "global/state/state";
 import { ListElement, ListElementWrapper } from "./list-element";
 import ConnectedImageInputField from "components/input-fields/image-input-field";
 import { ErrorObject } from "./error-object";
+import EnumInput from "components/input-fields/enum-input";
+import { EnumerationInputOption } from "./enum-input-element";
 
 export abstract class EditorElement {
   public uniqueIdentifier: string = "";
@@ -71,8 +73,7 @@ export class TextInputEditorElement extends EditorElement {
 
   public renderInput(
     editMode: boolean,
-    onInputChange: (newValue: string, identifier: string) => void,
-    error?: ErrorObject
+    onInputChange: (newValue: string, identifier: string) => void
   ): JSX.Element {
     return (
       <InputField
@@ -102,8 +103,7 @@ export class DropDownSelectEditorElement extends EditorElement {
 
   public renderInput(
     editMode: boolean,
-    onInputChange: (newValue: any, identifier: string) => void,
-    error?: ErrorObject
+    onInputChange: (newValue: any, identifier: string) => void
   ): JSX.Element {
     return (
       <DropDownSelect
@@ -132,8 +132,7 @@ export class ImageEditorElement extends EditorElement {
 
   public renderInput(
     editMode: boolean,
-    onInputChange: (newValue: any, identifier: string) => void,
-    error?: ErrorObject
+    onInputChange: (newValue: any, identifier: string) => void
   ): JSX.Element {
     return (
       <ConnectedImageInputField
@@ -142,6 +141,36 @@ export class ImageEditorElement extends EditorElement {
         onChange={onInputChange}
         editMode={editMode}
         initialValue={this.initialValue}
+      />
+    );
+  }
+}
+
+export class EnumerationEditorElement extends EditorElement {
+  constructor(
+    identifier: string,
+    required: boolean,
+    label: string,
+    public isSingleSelect: boolean,
+    public options: EnumerationInputOption[],
+    public initialValue?: string[]
+  ) {
+    super(identifier, required, label, initialValue);
+  }
+
+  public renderInput(
+    editMode: boolean,
+    onInputChange: (newValue: any, identifier: string) => void
+  ): JSX.Element {
+    return (
+      <EnumInput
+        identifier={this.identifier}
+        required={this.required}
+        onChange={onInputChange}
+        editMode={editMode}
+        initialValue={this.initialValue}
+        isSingleSelect={this.isSingleSelect}
+        options={this.options}
       />
     );
   }

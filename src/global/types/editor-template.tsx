@@ -3,6 +3,7 @@ import {
   TextInputEditorElement,
   DropDownSelectEditorElement,
   ImageEditorElement,
+  EnumerationEditorElement,
 } from "./editor-element";
 import { BaseType } from "./baseType";
 import { Animal } from "./animals";
@@ -21,6 +22,7 @@ import {
   StaffListWrapper,
 } from "./list-element";
 import { ErrorObject } from "./error-object";
+import { Settings, fontFamilyEnumOptions } from "./settings";
 
 export abstract class EditorTemplate {
   protected abstract fromData: (data: any) => BaseType | ErrorObject[];
@@ -269,6 +271,38 @@ export class StaffEditorTemplate extends EditorTemplate {
       const errorObjects: ErrorObject[] = [];
       if (!data["name"]) {
         errorObjects.push(new ErrorObject("name", "This field is required"));
+      }
+
+      return errorObjects;
+    }
+  };
+}
+
+export class SettingsEditorTemplate extends EditorTemplate {
+  public dataTypeName = Settings.name;
+
+  constructor(public initialSettings?: Settings) {
+    super([
+      new EnumerationEditorElement(
+        "fontFamily",
+        true,
+        "Font",
+        true,
+        fontFamilyEnumOptions,
+        initialSettings ? [initialSettings.fontFamily] : []
+      ),
+    ]);
+  }
+
+  protected fromData = (data: any): Settings | ErrorObject[] => {
+    if (Array.isArray(data["fontFamily"]) && data["fontFamily"].length === 1) {
+      return new Settings("", data["fontFamily"][0]);
+    } else {
+      const errorObjects: ErrorObject[] = [];
+      if (!data["fontFamily"]) {
+        errorObjects.push(
+          new ErrorObject("fontFamily", "This field is required")
+        );
       }
 
       return errorObjects;
