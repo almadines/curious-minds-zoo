@@ -43,7 +43,7 @@ class Layout extends React.Component<LayoutProps> {
 
     const layoutWrapperStyle = this.props.settings
       ? {
-          fontFamily: `${this.props.settings.fontFamily}, Arial, sans-serif`,
+          fontFamily: `${this.props.settings.fontFamily}, -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji`,
         }
       : undefined;
 

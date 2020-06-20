@@ -2,6 +2,7 @@ import { SettingsEditorTemplate } from "./editor-template";
 import { EnumerationInputOption } from "./enum-input-element";
 import { BaseType } from "./baseType";
 export enum FontFamilies {
+  SegoeUI = "Segoe UI",
   Arial = "Arial",
   Georgia = "Georgia",
   Courier = "Courier",
@@ -18,7 +19,7 @@ export const fontFamilyEnumOptions = Object.values(FontFamilies).map(
 export class Settings extends BaseType {
   constructor(
     id: string,
-    public fontFamily: FontFamilies = FontFamilies.Georgia
+    public fontFamily: FontFamilies = FontFamilies.SegoeUI
   ) {
     super(id);
   }
