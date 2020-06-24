@@ -8,6 +8,7 @@ import "./edit-page.scss";
 import { ErrorObject } from "global/types/error-object";
 import { BaseType } from "global/types/baseType";
 import { isEqual } from "lodash";
+import { Settings, EditorButtonLocation } from "global/types/settings";
 
 interface EditorPageProps {
   editorTemplate: EditorTemplate;
@@ -15,8 +16,10 @@ interface EditorPageProps {
   onCancelCallback?: () => void;
   onSuccessCallback?: () => void;
   title?: string;
-  autoUpdateOnChange?: boolean; // NOTE: hides the submit and cancel buttons and causes the success and cancel callbacks to be ignored.
+  backbutton?: JSX.Element;
+  autoUpdateOnChange?: boolean; // NOTE: hides the submit and cancel buttons which causes the success and cancel callbacks to be ignored.
   // from redux
+  settings?: Settings;
   dispatchFunction?: Function;
 }
 
@@ -43,7 +46,7 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
   }
 
   public getInitialState(props: EditorPageProps): any {
-    const currentData: any = {};
+    const currentData: any = this.props.editorTemplate.initialObject();
     props.editorTemplate
       .getEditorElements()
       .forEach((elem: EditorElement): void => {
@@ -105,7 +108,7 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
   }
 
   public static mapStateToProps(state: AppState): any {
-    return {};
+    return { settings: state.settings || new Settings("") };
   }
 
   public static mapDispatchToProps(dispatch: any): any {
@@ -134,12 +137,27 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
     ) : null;
 
     const title = this.props.title ? (
-      <h3 className="display-8">{this.props.title}</h3>
+      <h3 className="display-8 edit-page-title">{this.props.title}</h3>
     ) : null;
 
+    const editorButtonsAtTop =
+      this.props.settings.editorButtonsAtTop === EditorButtonLocation.top;
+
+    const editPageButtons = (
+      <div
+        className={`edit-page-buttons-wrapper ${
+          editorButtonsAtTop ? "edit-page-top" : "edit-page-bottom"
+        }`}
+      >
+        {cancelButton}
+        {submitButton}
+      </div>
+    );
+
     return (
-      <div className="edit-wrapper">
+      <div className="edit-page-wrapper">
         {title}
+        {editorButtonsAtTop ? editPageButtons : null}
         <div className="edit-page-contents">
           {this.props.editorTemplate.getEditorElements().map(
             (editorElement: EditorElement): JSX.Element => {
@@ -156,10 +174,7 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
             }
           )}
         </div>
-        <div className="edit-page-buttons-wrapper">
-          {cancelButton}
-          {submitButton}
-        </div>
+        {editorButtonsAtTop ? null : editPageButtons}
       </div>
     );
   }

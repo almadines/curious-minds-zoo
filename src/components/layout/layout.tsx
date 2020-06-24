@@ -25,6 +25,7 @@ const ConnectedSaveElementWrapper = connect(SaveElementWrapper.mapStateToProps)(
 interface LayoutProps {
   title: string;
   iconName?: string;
+  applyDefaultColourToMainContent?: boolean;
   //from redux:
   settings?: Settings;
   //intrisic to react:
@@ -44,6 +45,8 @@ class Layout extends React.Component<LayoutProps> {
     const layoutWrapperStyle = this.props.settings
       ? {
           fontFamily: `${this.props.settings.fontFamily}, -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji`,
+          backgroundColor: `${this.props.settings.backgroundColour}`,
+          color: `${this.props.settings.textColour}`,
         }
       : undefined;
 
@@ -70,8 +73,8 @@ class Layout extends React.Component<LayoutProps> {
             <Link to="/staff/">
               <i className="material-icons layout-link-icon">person</i>Staff
             </Link>
-            <Link to="/about/">
-              <i className="material-icons layout-link-icon">info</i>About
+            <Link to="/options/">
+              <i className="material-icons layout-link-icon">edit</i>Options
             </Link>
           </div>
         </div>
@@ -81,7 +84,13 @@ class Layout extends React.Component<LayoutProps> {
               <h1 className="display-5">{this.props.title}</h1>
             </div>
           </div>
-          <div className="layout-main-content">
+          <div
+            className={`layout-main-content ${
+              this.props.applyDefaultColourToMainContent
+                ? "default-colours"
+                : ""
+            }`}
+          >
             <div className="layout-main-content-padding">
               {this.props.children}
             </div>

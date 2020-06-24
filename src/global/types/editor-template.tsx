@@ -22,7 +22,13 @@ import {
   StaffListWrapper,
 } from "./list-element";
 import { ErrorObject } from "./error-object";
-import { Settings, fontFamilyEnumOptions } from "./settings";
+import {
+  Settings,
+  fontFamilyEnumOptions,
+  EditorButtonLocationOptions,
+  ColourEnumOptions,
+  booleanEnumOptions,
+} from "./settings";
 
 export abstract class EditorTemplate {
   protected abstract fromData: (data: any) => BaseType | ErrorObject[];
@@ -42,6 +48,10 @@ export abstract class EditorTemplate {
     this.cachedEditorElements.forEach((elem: EditorElement): void =>
       elem.reset()
     );
+  }
+
+  public initialObject(): any {
+    return {};
   }
 
   public convertDataToObject(data: any): BaseType | ErrorObject[] {
@@ -102,6 +112,10 @@ export class AnimalEditorTemplate extends EditorTemplate {
         initialAnimal ? initialAnimal.description : undefined
       ),
     ]);
+  }
+
+  public initialObject(): any {
+    return { ...this.initialAnimal };
   }
 
   protected fromData = (data: any): Animal | ErrorObject[] => {
@@ -209,6 +223,10 @@ export class ExhibitEditorTemplate extends EditorTemplate {
     ]);
   }
 
+  public initialObject(): any {
+    return { ...this.initialExhibit };
+  }
+
   protected fromData = (data: any): Exhibit | ErrorObject[] => {
     if (!!data["name"]) {
       return new Exhibit(
@@ -258,6 +276,10 @@ export class StaffEditorTemplate extends EditorTemplate {
     ]);
   }
 
+  public initialObject(): any {
+    return { ...this.initialStaff };
+  }
+
   protected fromData = (data: any): Staff | ErrorObject[] => {
     if (!!data["name"]) {
       return new Staff(
@@ -291,17 +313,94 @@ export class SettingsEditorTemplate extends EditorTemplate {
         fontFamilyEnumOptions,
         initialSettings ? [initialSettings.fontFamily] : []
       ),
+      new EnumerationEditorElement(
+        "editorButtonsAtTop",
+        true,
+        "Editor button location",
+        true,
+        EditorButtonLocationOptions,
+        initialSettings ? [initialSettings.editorButtonsAtTop] : []
+      ),
+      new EnumerationEditorElement(
+        "expandableSideMenu",
+        true,
+        "Side Menu Expandable",
+        true,
+        booleanEnumOptions,
+        initialSettings ? [initialSettings.expandableSideMenu] : []
+      ),
+      new EnumerationEditorElement(
+        "backgroundColour",
+        true,
+        "Background Colour",
+        true,
+        ColourEnumOptions,
+        initialSettings ? [initialSettings.backgroundColour] : []
+      ),
+      new EnumerationEditorElement(
+        "textColour",
+        true,
+        "Text Colour",
+        true,
+        ColourEnumOptions,
+        initialSettings ? [initialSettings.textColour] : []
+      ),
     ]);
   }
 
+  public initialObject(): any {
+    return { ...this.initialSettings };
+  }
+
+  private isValidRadioInput(data: any): boolean {
+    return Array.isArray(data) && data.length === 1 && !!data[0];
+  }
+
   protected fromData = (data: any): Settings | ErrorObject[] => {
-    if (Array.isArray(data["fontFamily"]) && data["fontFamily"].length === 1) {
-      return new Settings("", data["fontFamily"][0]);
+    if (
+      this.isValidRadioInput(data["fontFamily"]) &&
+      this.isValidRadioInput(data["editorButtonsAtTop"]) &&
+      this.isValidRadioInput(data["expandableSideMenu"]) &&
+      this.isValidRadioInput(data["backgroundColour"]) &&
+      this.isValidRadioInput(data["textColour"])
+    ) {
+      return new Settings(
+        "",
+        data["fontFamily"][0],
+        data["editorButtonsAtTop"][0],
+        data["expandableSideMenu"][0],
+        data["backgroundColour"][0],
+        data["textColour"][0]
+      );
     } else {
       const errorObjects: ErrorObject[] = [];
       if (!data["fontFamily"]) {
         errorObjects.push(
           new ErrorObject("fontFamily", "This field is required")
+        );
+      }
+
+      if (!data["editorButtonsAtTop"]) {
+        errorObjects.push(
+          new ErrorObject("editorButtonsAtTop", "This field is required")
+        );
+      }
+
+      if (!data["expandableSideMenu"]) {
+        errorObjects.push(
+          new ErrorObject("expandableSideMenu", "This field is required")
+        );
+      }
+
+      if (!data["backgroundColour"]) {
+        errorObjects.push(
+          new ErrorObject("backgroundColour", "This field is required")
+        );
+      }
+
+      if (!data["textColour"]) {
+        errorObjects.push(
+          new ErrorObject("textColour", "This field is required")
         );
       }
 

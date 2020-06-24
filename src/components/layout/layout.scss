@@ -44,6 +44,11 @@ NavLink:hover {
       .layout-main-content-padding {
         margin: 1rem 1rem 14rem 1rem;
       }
+
+      &.default-colours {
+        background-color: white;
+        color: black;
+      }
     }
   }
 
