@@ -4,7 +4,7 @@ import "./layout.scss";
 import { SaveElement } from "global/store/store-init";
 import { AppState } from "global/state/state";
 import { connect } from "react-redux";
-import { Settings } from "global/types/settings";
+import { Settings, BooleanEnum } from "global/types/settings";
 
 class SaveElementWrapper extends React.PureComponent {
   public static saveElement = new SaveElement();
@@ -32,14 +32,32 @@ interface LayoutProps {
   children: any;
 }
 
-class Layout extends React.Component<LayoutProps> {
+interface LayoutState {
+  sideMenuExpanded: boolean;
+}
+
+class Layout extends React.Component<LayoutProps, LayoutState> {
+  constructor(props: LayoutProps) {
+    super(props);
+
+    this.state = { sideMenuExpanded: false };
+  }
   public static mapStateToProps(state: AppState): any {
     return { settings: state.settings || new Settings("") };
   }
 
+  public setSideMenuExpanded(newValue: boolean, event: Event): void {
+    event.stopPropagation();
+    this.setState({ sideMenuExpanded: newValue });
+  }
+
+  public blockEventPropagation(event: Event): void {
+    event.stopPropagation();
+  }
+
   public render(): JSX.Element {
     const icon = this.props.iconName ? (
-      <i className="material-icons layout-link-icon">{this.props.iconName}</i>
+      <i className="material-icons">{this.props.iconName}</i>
     ) : null;
 
     const layoutWrapperStyle = this.props.settings
@@ -50,37 +68,86 @@ class Layout extends React.Component<LayoutProps> {
         }
       : undefined;
 
-    console.log("rendering with layoutwrapper style: ", layoutWrapperStyle);
+    const expandableSideMenuCss =
+      this.props.settings.expandableSideMenu === BooleanEnum.true
+        ? "layout-side-nav-expandable"
+        : "";
+    const sideMenuExpandedCss = this.state.sideMenuExpanded
+      ? "layout-side-nav-expanded"
+      : "layout-side-nav-collapsed";
+
+    const sideMenuButton =
+      this.props.settings.expandableSideMenu === BooleanEnum.true ? (
+        <i
+          className="material-icons"
+          onClick={this.setSideMenuExpanded.bind(this, true)}
+        >
+          menu
+        </i>
+      ) : null;
+
+    const sideNavBacking =
+      this.props.settings.expandableSideMenu === BooleanEnum.true ? (
+        <div
+          className={`layout-side-nav-backing ${sideMenuExpandedCss}`}
+          onClick={this.setSideMenuExpanded.bind(this, false)}
+        />
+      ) : null;
 
     return (
-      <div className="layout-wrapper" style={layoutWrapperStyle}>
+      <div
+        className="layout-wrapper"
+        style={layoutWrapperStyle}
+        onClick={this.setSideMenuExpanded.bind(this, false)}
+      >
         <ConnectedSaveElementWrapper />
-        <div className="layout-side-nav">
-          <div className="layout-top-block">
-            <div className="layout-nav-title">{icon}</div>
-          </div>
-          <div className="layout-link-list">
-            <Link to="/">
-              <i className="material-icons layout-link-icon">menu</i>Main Page
-            </Link>
-            <Link to="/animals/">
-              <i className="material-icons layout-link-icon">pets</i>Animals
-            </Link>
-            <Link to="/exhibits/">
-              <i className="material-icons layout-link-icon">house_siding</i>
-              Exhibits
-            </Link>
-            <Link to="/staff/">
-              <i className="material-icons layout-link-icon">person</i>Staff
-            </Link>
-            <Link to="/options/">
-              <i className="material-icons layout-link-icon">edit</i>Options
-            </Link>
+        {sideNavBacking}
+        <div
+          className={`layout-side-nav ${expandableSideMenuCss} ${sideMenuExpandedCss}`}
+          onClick={this.blockEventPropagation.bind(this)}
+        >
+          <div className="layout-side-nav-inner-wrapper">
+            <div className="layout-top-block">
+              <div className="layout-nav-title">{icon}</div>
+            </div>
+            <div className="layout-link-list">
+              <Link to="/" onClick={this.setSideMenuExpanded.bind(this, false)}>
+                <i className="material-icons layout-link-icon">menu</i>Main Page
+              </Link>
+              <Link
+                to="/animals/"
+                onClick={this.setSideMenuExpanded.bind(this, false)}
+              >
+                <i className="material-icons layout-link-icon">pets</i>Animals
+              </Link>
+              <Link
+                to="/exhibits/"
+                onClick={this.setSideMenuExpanded.bind(this, false)}
+              >
+                <i className="material-icons layout-link-icon">house_siding</i>
+                Exhibits
+              </Link>
+              <Link
+                to="/staff/"
+                onClick={this.setSideMenuExpanded.bind(this, false)}
+              >
+                <i className="material-icons layout-link-icon">person</i>Staff
+              </Link>
+              <Link
+                to="/options/"
+                onClick={this.setSideMenuExpanded.bind(this, false)}
+              >
+                <i className="material-icons layout-link-icon">edit</i>Options
+              </Link>
+            </div>
           </div>
         </div>
         <div className="layout-right-block">
           <div className="layout-top-block">
             <div className="layout-title">
+              <div className="layout-side-menu-button-wrapper">
+                {sideMenuButton}
+              </div>
               <h1 className="display-5">{this.props.title}</h1>
             </div>
           </div>

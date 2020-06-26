@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./text-input-field.scss";
+import "./enum-input.scss";
 import { EnumerationInputOption } from "global/types/enum-input-element";
 
 interface EnumInputProps {
@@ -53,7 +53,7 @@ export class EnumInput extends React.PureComponent<
   public render(): JSX.Element {
     const inputType = this.props.isSingleSelect ? "radio" : "checkbox";
     return (
-      <div>
+      <div className="enum-input-wrapper">
         {this.props.options.map(
           (value: EnumerationInputOption): JSX.Element => {
             const checked = this.state.value.includes(value.key);

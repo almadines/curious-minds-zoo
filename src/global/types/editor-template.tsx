@@ -345,6 +345,14 @@ export class SettingsEditorTemplate extends EditorTemplate {
         ColourEnumOptions,
         initialSettings ? [initialSettings.textColour] : []
       ),
+      new EnumerationEditorElement(
+        "columnView",
+        true,
+        "Column View",
+        true,
+        booleanEnumOptions,
+        initialSettings ? [initialSettings.columnView] : []
+      ),
     ]);
   }
 
@@ -362,7 +370,8 @@ export class SettingsEditorTemplate extends EditorTemplate {
       this.isValidRadioInput(data["editorButtonsAtTop"]) &&
       this.isValidRadioInput(data["expandableSideMenu"]) &&
       this.isValidRadioInput(data["backgroundColour"]) &&
-      this.isValidRadioInput(data["textColour"])
+      this.isValidRadioInput(data["textColour"]) &&
+      this.isValidRadioInput(data["columnView"])
     ) {
       return new Settings(
         "",
@@ -370,7 +379,8 @@ export class SettingsEditorTemplate extends EditorTemplate {
         data["editorButtonsAtTop"][0],
         data["expandableSideMenu"][0],
         data["backgroundColour"][0],
-        data["textColour"][0]
+        data["textColour"][0],
+        data["columnView"][0]
       );
     } else {
       const errorObjects: ErrorObject[] = [];
@@ -401,6 +411,12 @@ export class SettingsEditorTemplate extends EditorTemplate {
       if (!data["textColour"]) {
         errorObjects.push(
           new ErrorObject("textColour", "This field is required")
+        );
+      }
+
+      if (!data["columnView"]) {
+        errorObjects.push(
+          new ErrorObject("columnView", "This field is required")
         );
       }
 

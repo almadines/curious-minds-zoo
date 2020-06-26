@@ -60,13 +60,22 @@ export class Settings extends BaseType {
     public editorButtonsAtTop: EditorButtonLocation = EditorButtonLocation.bottom,
     public expandableSideMenu: BooleanEnum = BooleanEnum.false,
     public backgroundColour: ColourEnum = ColourEnum.white,
-    public textColour: ColourEnum = ColourEnum.black
+    public textColour: ColourEnum = ColourEnum.black,
+    public columnView: BooleanEnum = BooleanEnum.false
   ) {
     super(id);
   }
 
   public static clone(json: Settings): Settings {
-    return new Settings(json.id, json.fontFamily);
+    return new Settings(
+      json.id,
+      json.fontFamily,
+      json.editorButtonsAtTop,
+      json.expandableSideMenu,
+      json.backgroundColour,
+      json.textColour,
+      json.columnView
+    );
   }
 
   public static getNewEditorTemplate(): SettingsEditorTemplate {

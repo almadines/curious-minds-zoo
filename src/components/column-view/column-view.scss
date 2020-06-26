@@ -1,0 +1,14 @@
+.column-view-wrapper {
+  height: 100vh;
+  overflow-y: scroll;
+
+  .column-view-inner-wrapper {
+    margin: 2rem;
+  }
+
+  .column-view-divider {
+    height: 0;
+    margin: 2rem 0;
+    border-bottom: solid 2px darkslategray;
+  }
+}

@@ -4,10 +4,10 @@ import { EditorElement } from "global/types/editor-element";
 import { AppState } from "global/state/state";
 import { ActionType } from "global/store/dispatchActions";
 import { EditorTemplate } from "global/types/editor-template";
-import "./edit-page.scss";
 import { ErrorObject } from "global/types/error-object";
 import { BaseType } from "global/types/baseType";
 import { isEqual } from "lodash";
+import "./edit-page.scss";
 
 interface AutoUpdateEditorPageProps {
   editorTemplate: EditorTemplate;
@@ -103,7 +103,7 @@ class AutoUpdateEditPage extends React.PureComponent<
     ) : null;
 
     return (
-      <div className="edit-wrapper">
+      <div className="edit-page-wrapper">
         {title}
         <div className="edit-page-contents">
           {this.props.editorTemplate.getEditorElements().map(
