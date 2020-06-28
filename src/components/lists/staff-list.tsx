@@ -18,6 +18,7 @@ import { withPrefix } from "gatsby";
 interface StaffListPageProps {
   staff?: Map<string, Staff>;
   linkDetailPages?: boolean;
+  onClickCallback?: (id: string) => void;
 }
 
 interface ExhibitsListPageState {
@@ -29,15 +30,28 @@ class StaffListPage extends React.PureComponent<
   ExhibitsListPageState
 > {
   public getListElementWrapper = memoize(
-    (staff: Map<string, Staff>): ListElementWrapper => {
+    (
+      staff: Map<string, Staff>,
+      linkDetailPages: boolean,
+      onClickCallback: (id: string) => void
+    ): ListElementWrapper => {
       const onClickCallbackConstructor = (
         staffId: string
       ): (() => void) => () => {
-        navigate(withPrefix(`/staff-details?id=${staffId}`));
+        if (!!onClickCallback) {
+          onClickCallback(staffId);
+        } else {
+          navigate(withPrefix(`/staff-details?id=${staffId}`));
+        }
       };
       const listElems = Array.from(staff.values()).map(
         (staff: Staff): StaffListElement =>
-          new StaffListElement(staff, onClickCallbackConstructor(staff.id))
+          new StaffListElement(
+            staff,
+            linkDetailPages || !!onClickCallback
+              ? onClickCallbackConstructor(staff.id)
+              : undefined
+          )
       );
       return new StaffListWrapper(listElems);
     },

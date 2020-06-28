@@ -19,6 +19,7 @@ interface ExhibitsListPageProps {
   exhibits?: Exhibit[];
   filterByStaffId?: string;
   linkDetailPages?: boolean;
+  onClickCallback?: (id: string) => void;
 }
 
 interface ExhibitsListPageState {
@@ -30,18 +31,27 @@ class ExhibitsListPage extends React.PureComponent<
   ExhibitsListPageState
 > {
   public getListElementWrapper = memoize(
-    (exhibits: Exhibit[], linkDetailPages): ListElementWrapper => {
+    (
+      exhibits: Exhibit[],
+      linkDetailPages,
+      onClickCallback: (id: string) => void
+    ): ListElementWrapper => {
       const onClickCallbackConstructor = (
-        animalId: string
+        exhibitId: string
       ): (() => void) => () => {
-        navigate(withPrefix(`/exhibit-details?id=${animalId}`));
+        if (!!onClickCallback) {
+          onClickCallback(exhibitId);
+        }
+        navigate(withPrefix(`/exhibit-details?id=${exhibitId}`));
       };
 
       const listElems = Array.from(exhibits.values()).map(
         (exhibit: Exhibit): ExhibitListElement =>
           new ExhibitListElement(
             exhibit,
-            linkDetailPages ? onClickCallbackConstructor(exhibit.id) : undefined
+            linkDetailPages || !!onClickCallback
+              ? onClickCallbackConstructor(exhibit.id)
+              : undefined
           )
       );
 
@@ -82,7 +92,8 @@ class ExhibitsListPage extends React.PureComponent<
   public render(): JSX.Element {
     const exhibitListWrapper = this.getListElementWrapper(
       this.props.exhibits,
-      this.props.linkDetailPages
+      this.props.linkDetailPages,
+      this.props.onClickCallback
     );
 
     const createFormContents = !!this.state.createFormOpen ? (

@@ -8,6 +8,7 @@ import DetailPage from "./detail-page";
 interface StaffDetailPageProps {
   allowEditing?: boolean;
   id: string;
+  hideBackButton?: boolean;
   // redux
   editorTemplate?: EditorTemplate;
 }
@@ -40,7 +41,7 @@ class StaffDetailPage extends React.PureComponent<
       <div className="animal-detail-wrapper">
         <DetailPage
           editorTemplate={this.props.editorTemplate}
-          returnPath="/staff/"
+          returnPath={!this.props.hideBackButton ? "/staff/" : undefined}
         />
       </div>
     );

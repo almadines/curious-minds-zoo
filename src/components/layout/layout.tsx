@@ -5,6 +5,8 @@ import { SaveElement } from "global/store/store-init";
 import { AppState } from "global/state/state";
 import { connect } from "react-redux";
 import { Settings, BooleanEnum } from "global/types/settings";
+import ColumnView from "components/column-view/column-view";
+import ConnectedResetButton from "components/reset-button/reset-button";
 
 class SaveElementWrapper extends React.PureComponent {
   public static saveElement = new SaveElement();
@@ -56,6 +58,17 @@ class Layout extends React.Component<LayoutProps, LayoutState> {
   }
 
   public render(): JSX.Element {
+    return this.props.settings &&
+      this.props.settings.columnView === BooleanEnum.true
+      ? this.renderColumn()
+      : this.renderNormal();
+  }
+
+  public renderColumn(): JSX.Element {
+    return <ColumnView />;
+  }
+
+  public renderNormal(): JSX.Element {
     const icon = this.props.iconName ? (
       <i className="material-icons">{this.props.iconName}</i>
     ) : null;
@@ -144,11 +157,14 @@ class Layout extends React.Component<LayoutProps, LayoutState> {
         </div>
         <div className="layout-right-block">
           <div className="layout-top-block">
-            <div className="layout-title">
-              <div className="layout-side-menu-button-wrapper">
-                {sideMenuButton}
+            <div className="layout-top-block-title">
+              <div className="layout-title">
+                <div className="layout-side-menu-button-wrapper">
+                  {sideMenuButton}
+                </div>
+                <h1 className="display-5">{this.props.title}</h1>
               </div>
-              <h1 className="display-5">{this.props.title}</h1>
+              <ConnectedResetButton />
             </div>
           </div>
           <div

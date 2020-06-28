@@ -8,6 +8,7 @@ import DetailPage from "./detail-page";
 interface ExhibitDetailPageProps {
   allowEditing?: boolean;
   id: string;
+  hideBackButton?: boolean;
   // redux
   editorTemplate?: EditorTemplate;
 }
@@ -40,7 +41,7 @@ class ExhibitDetailPage extends React.PureComponent<
       <div className="animal-detail-wrapper">
         <DetailPage
           editorTemplate={this.props.editorTemplate}
-          returnPath="/exhibits/"
+          returnPath={!this.props.hideBackButton ? "/exhibits/" : undefined}
         />
       </div>
     );

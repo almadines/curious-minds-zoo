@@ -45,16 +45,20 @@ class DetailPage extends React.PureComponent<DetailPageProps, DetailPageState> {
         className="btn btn-primary"
         onClick={this.setEditingState.bind(this, !this.state.isEditing)}
       >
-        {this.state.isEditing ? "Stop editing" : "Edit"}
+        {" Edit"}
+      </button>
+    ) : null;
+
+    const backButton = !!this.props.returnPath ? (
+      <button className="btn btn-primary" onClick={this.goBack.bind(this)}>
+        Back
       </button>
     ) : null;
 
     return (
       <div className="detail-wrapper">
         <div className="detail-header-button-wrapper">
-          <button className="btn btn-primary" onClick={this.goBack.bind(this)}>
-            Back
-          </button>
+          {backButton}
           {toggleEditingStateButton}
         </div>
 

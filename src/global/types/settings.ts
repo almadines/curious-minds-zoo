@@ -53,6 +53,17 @@ export const ColourEnumOptions = Object.values(ColourEnum).map(
     new EnumerationInputOption(colour, colour)
 );
 
+export enum SettingsView {
+  view1 = "view 1",
+  view2 = "view 2",
+  view3 = "view 3",
+}
+
+export const SettingsViewEnumOptions = Object.values(SettingsView).map(
+  (view: string): EnumerationInputOption =>
+    new EnumerationInputOption(view, view)
+);
+
 export class Settings extends BaseType {
   constructor(
     id: string,
@@ -69,12 +80,12 @@ export class Settings extends BaseType {
   public static clone(json: Settings): Settings {
     return new Settings(
       json.id,
-      json.fontFamily,
-      json.editorButtonsAtTop,
-      json.expandableSideMenu,
-      json.backgroundColour,
-      json.textColour,
-      json.columnView
+      json.fontFamily || FontFamilies.SegoeUI,
+      json.editorButtonsAtTop || EditorButtonLocation.bottom,
+      json.expandableSideMenu || BooleanEnum.false,
+      json.backgroundColour || ColourEnum.white,
+      json.textColour || ColourEnum.black,
+      json.columnView || BooleanEnum.false
     );
   }
 

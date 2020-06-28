@@ -20,7 +20,7 @@ import { Exhibit } from "global/types/exhibit";
 import { AppState } from "global/state/state";
 
 const localStorageKey: string = "zoo-manager-storage";
-const autoSaveDelay: number = 5000; // 3 seconds
+const autoSaveDelay: number = 2000; // 2 seconds
 
 interface StoreInitialState {
   animals: Map<string, Animal>;
@@ -87,7 +87,6 @@ export class StoreInitialiser {
 
   private loadFromLocalStorage(): boolean {
     if (typeof window === "undefined") {
-      console.log("window undefined, skipping load from local storage");
       return false;
     }
 
@@ -192,6 +191,7 @@ export class SaveElement {
         animals,
         exhibits,
         staff,
+        settings,
       });
 
       localStorage.setItem(localStorageKey, saveString);

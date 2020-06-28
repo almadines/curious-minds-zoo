@@ -28,6 +28,10 @@ import {
   EditorButtonLocationOptions,
   ColourEnumOptions,
   booleanEnumOptions,
+  SettingsViewEnumOptions,
+  SettingsView,
+  BooleanEnum,
+  EditorButtonLocation,
 } from "./settings";
 
 export abstract class EditorTemplate {
@@ -300,6 +304,63 @@ export class StaffEditorTemplate extends EditorTemplate {
   };
 }
 
+export class ViewSettingsTemplate extends EditorTemplate {
+  public dataTypeName = Settings.name;
+
+  constructor(public initialSettings?: Settings) {
+    super([
+      new EnumerationEditorElement(
+        "settingsView",
+        true,
+        "View Mode",
+        true,
+        SettingsViewEnumOptions,
+        [SettingsView.view1]
+      ),
+    ]);
+  }
+
+  public initialObject(): any {
+    return { ...this.initialSettings };
+  }
+
+  private isValidRadioInput(data: any): boolean {
+    return Array.isArray(data) && data.length === 1 && !!data[0];
+  }
+
+  protected fromData = (data: any): Settings | ErrorObject[] => {
+    if (this.isValidRadioInput(data["settingsView"])) {
+      const newSettings = Settings.clone(
+        this.initialSettings || new Settings("")
+      );
+      switch (data["settingsView"][0]) {
+        default:
+        case SettingsView.view1:
+          newSettings.columnView = BooleanEnum.false;
+          newSettings.editorButtonsAtTop = EditorButtonLocation.top;
+          newSettings.expandableSideMenu = BooleanEnum.false;
+          break;
+        case SettingsView.view2:
+          newSettings.columnView = BooleanEnum.false;
+          newSettings.editorButtonsAtTop = EditorButtonLocation.bottom;
+          newSettings.expandableSideMenu = BooleanEnum.true;
+          break;
+        case SettingsView.view3:
+          newSettings.columnView = BooleanEnum.true;
+          newSettings.editorButtonsAtTop = EditorButtonLocation.top;
+          newSettings.expandableSideMenu = BooleanEnum.false;
+          break;
+      }
+
+      return newSettings;
+    } else {
+      const errorObjects: ErrorObject[] = [];
+
+      return errorObjects;
+    }
+  };
+}
+
 export class SettingsEditorTemplate extends EditorTemplate {
   public dataTypeName = Settings.name;
 
@@ -312,22 +373,6 @@ export class SettingsEditorTemplate extends EditorTemplate {
         true,
         fontFamilyEnumOptions,
         initialSettings ? [initialSettings.fontFamily] : []
-      ),
-      new EnumerationEditorElement(
-        "editorButtonsAtTop",
-        true,
-        "Editor button location",
-        true,
-        EditorButtonLocationOptions,
-        initialSettings ? [initialSettings.editorButtonsAtTop] : []
-      ),
-      new EnumerationEditorElement(
-        "expandableSideMenu",
-        true,
-        "Side Menu Expandable",
-        true,
-        booleanEnumOptions,
-        initialSettings ? [initialSettings.expandableSideMenu] : []
       ),
       new EnumerationEditorElement(
         "backgroundColour",
@@ -345,14 +390,6 @@ export class SettingsEditorTemplate extends EditorTemplate {
         ColourEnumOptions,
         initialSettings ? [initialSettings.textColour] : []
       ),
-      new EnumerationEditorElement(
-        "columnView",
-        true,
-        "Column View",
-        true,
-        booleanEnumOptions,
-        initialSettings ? [initialSettings.columnView] : []
-      ),
     ]);
   }
 
@@ -367,38 +404,22 @@ export class SettingsEditorTemplate extends EditorTemplate {
   protected fromData = (data: any): Settings | ErrorObject[] => {
     if (
       this.isValidRadioInput(data["fontFamily"]) &&
-      this.isValidRadioInput(data["editorButtonsAtTop"]) &&
-      this.isValidRadioInput(data["expandableSideMenu"]) &&
       this.isValidRadioInput(data["backgroundColour"]) &&
-      this.isValidRadioInput(data["textColour"]) &&
-      this.isValidRadioInput(data["columnView"])
+      this.isValidRadioInput(data["textColour"])
     ) {
-      return new Settings(
-        "",
-        data["fontFamily"][0],
-        data["editorButtonsAtTop"][0],
-        data["expandableSideMenu"][0],
-        data["backgroundColour"][0],
-        data["textColour"][0],
-        data["columnView"][0]
+      const newSettings = Settings.clone(
+        this.initialSettings || new Settings("")
       );
+      newSettings.fontFamily = data["fontFamily"][0];
+      newSettings.backgroundColour = data["backgroundColour"][0];
+      newSettings.textColour = data["textColour"][0];
+
+      return newSettings;
     } else {
       const errorObjects: ErrorObject[] = [];
       if (!data["fontFamily"]) {
         errorObjects.push(
           new ErrorObject("fontFamily", "This field is required")
-        );
-      }
-
-      if (!data["editorButtonsAtTop"]) {
-        errorObjects.push(
-          new ErrorObject("editorButtonsAtTop", "This field is required")
-        );
-      }
-
-      if (!data["expandableSideMenu"]) {
-        errorObjects.push(
-          new ErrorObject("expandableSideMenu", "This field is required")
         );
       }
 
@@ -411,12 +432,6 @@ export class SettingsEditorTemplate extends EditorTemplate {
       if (!data["textColour"]) {
         errorObjects.push(
           new ErrorObject("textColour", "This field is required")
-        );
-      }
-
-      if (!data["columnView"]) {
-        errorObjects.push(
-          new ErrorObject("columnView", "This field is required")
         );
       }
 

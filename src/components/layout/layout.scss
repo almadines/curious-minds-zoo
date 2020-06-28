@@ -88,10 +88,16 @@ NavLink:hover {
       }
     }
 
-    .layout-title {
+    .layout-top-block-title {
       display: flex;
+      justify-content: space-between;
       flex-direction: row;
-      align-items: center;
+      flex-grow: 1;
+      .layout-title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
     }
 
     .layout-main-content {
@@ -165,4 +171,9 @@ button.btn {
 
 .main-content-margins {
   margin: 0 2rem;
+  display: block;
+}
+
+.margin-top-spacing {
+  margin-top: 2rem;
 }

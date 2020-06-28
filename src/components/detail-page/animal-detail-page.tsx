@@ -7,6 +7,7 @@ import DetailPage from "./detail-page";
 interface AnimalDetailPageProps {
   allowEditing?: boolean;
   id: string;
+  hideBackButton?: boolean;
   //redux
   editorTemplate?: EditorTemplate;
 }
@@ -35,11 +36,12 @@ class AnimalDetailPage extends React.PureComponent<
       console.error("No editor template found! Error!");
       return null;
     }
+
     return (
       <div className="animal-detail-wrapper">
         <DetailPage
           editorTemplate={this.props.editorTemplate}
-          returnPath="/animals"
+          returnPath={!this.props.hideBackButton ? "/animals" : undefined}
         />
       </div>
     );

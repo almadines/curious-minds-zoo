@@ -22,6 +22,7 @@ interface AnimalsListPageProps {
   exhibitId?: string;
   staffId?: string;
   linkDetailPages?: boolean;
+  onClickCallback?: (id: string) => void;
 }
 
 interface AnimalsListPageState {
@@ -33,18 +34,28 @@ class AnimalsListPage extends React.PureComponent<
   AnimalsListPageState
 > {
   public getListElementWrapper = memoize(
-    (animals: Animal[], linkDetailPages: boolean): ListElementWrapper => {
+    (
+      animals: Animal[],
+      linkDetailPages: boolean,
+      onClickCallback: (id: string) => void
+    ): ListElementWrapper => {
       const onClickCallbackConstructor = (
         animalId: string
       ): (() => void) => () => {
-        navigate(withPrefix(`/animal-details?id=${animalId}`));
+        if (!!onClickCallback) {
+          this.props.onClickCallback(animalId);
+        } else {
+          navigate(withPrefix(`/animal-details?id=${animalId}`));
+        }
       };
 
       const listElems = Array.from(animals.values()).map(
         (animal: Animal): AnimalListElement =>
           new AnimalListElement(
             animal,
-            linkDetailPages ? onClickCallbackConstructor(animal.id) : undefined
+            linkDetailPages || !!onClickCallback
+              ? onClickCallbackConstructor(animal.id)
+              : undefined
           )
       );
 
@@ -144,7 +155,8 @@ class AnimalsListPage extends React.PureComponent<
   public render(): JSX.Element {
     const animalListElementWrapper = this.getListElementWrapper(
       this.props.animals,
-      this.props.linkDetailPages
+      this.props.linkDetailPages,
+      this.props.onClickCallback
     );
 
     const createFormContents = !!this.state.createFormOpen ? (
