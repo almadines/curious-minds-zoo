@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  pathPrefix: "/test-zoo-website",
+  pathPrefix: "/curious-minds-zoo",
   plugins: [
     `gatsby-plugin-sass`,
     `gatsby-plugin-styled-components`,

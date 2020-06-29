@@ -1,5 +1,5 @@
 {
-  "name": "test-zoo-website",
+  "name": "curious-minds-zoo",
   "version": "1.0.0",
   "description": "---\r permalink: /index.html\r ---",
   "main": "index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/almadines/test-zoo-website.git"
+    "url": "git+https://github.com/almadines/curious-minds-zoo.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/almadines/test-zoo-website/issues"
+    "url": "https://github.com/almadines/curious-minds-zoo/issues"
   },
-  "homepage": "https://github.com/almadines/test-zoo-website#readme",
+  "homepage": "https://github.com/almadines/curious-minds-zoo#readme",
   "dependencies": {
     "@types/react-redux": "^7.1.9",
     "@types/styled-components": "^5.1.0",

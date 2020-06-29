@@ -138,7 +138,7 @@ const convertArrayToMap = (
 ): Map<string, any> | undefined => {
   const newMap = new Map<string, any>();
 
-  if (!values) {
+  if (!values || !Array.isArray(values)) {
     return newMap;
   }
 

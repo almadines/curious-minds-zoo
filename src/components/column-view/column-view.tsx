@@ -60,7 +60,7 @@ class ColumnView extends React.PureComponent<ColumnViewProps, ColumnViewState> {
     return (
       <div className="column-view-wrapper">
         <div className="column-view-inner-wrapper">
-          <h1 className="display-5">Zoo Management</h1>
+          <h1 className="display-5">Curious Minds Zoo</h1>
           <MainPageContent />
           <div className="column-view-divider" />
           <div>
