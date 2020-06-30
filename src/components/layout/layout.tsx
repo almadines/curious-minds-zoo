@@ -92,7 +92,7 @@ class Layout extends React.Component<LayoutProps, LayoutState> {
     const sideMenuButton =
       this.props.settings.expandableSideMenu === BooleanEnum.true ? (
         <i
-          className="material-icons"
+          className="material-icons colour-red"
           onClick={this.setSideMenuExpanded.bind(this, true)}
         >
           menu

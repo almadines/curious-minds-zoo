@@ -74,7 +74,11 @@ class StaffListPage extends React.PureComponent<
   }
 
   public render(): JSX.Element {
-    const staffListWrapper = this.getListElementWrapper(this.props.staff);
+    const staffListWrapper = this.getListElementWrapper(
+      this.props.staff,
+      this.props.linkDetailPages,
+      this.props.onClickCallback
+    );
 
     const createFormContents = !!this.state.createFormOpen ? (
       <div className="instance-list-create-form-container">

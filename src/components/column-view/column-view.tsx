@@ -32,6 +32,7 @@ class ColumnView extends React.PureComponent<ColumnViewProps, ColumnViewState> {
   }
 
   public setStaffId(id: string): void {
+    console.log("selected staff id set: ", id);
     this.setState({ selectedStaffId: id });
   }
 
@@ -63,6 +64,7 @@ class ColumnView extends React.PureComponent<ColumnViewProps, ColumnViewState> {
           <h1 className="display-5">Curious Minds Zoo</h1>
           <MainPageContent />
           <div className="column-view-divider" />
+          <h3>Animals:</h3>
           <div>
             <ConnectedAnimalsListPage
               onClickCallback={this.setAnimalId.bind(this)}
@@ -70,6 +72,7 @@ class ColumnView extends React.PureComponent<ColumnViewProps, ColumnViewState> {
             {animalDetails}
           </div>
           <div className="column-view-divider" />
+          <h3>Exhibits:</h3>
           <div>
             <ConnectedExhibitsListPage
               onClickCallback={this.setExhibitId.bind(this)}
@@ -77,6 +80,7 @@ class ColumnView extends React.PureComponent<ColumnViewProps, ColumnViewState> {
             {exhibitDetails}
           </div>
           <div className="column-view-divider" />
+          <h3>Staff:</h3>
           <div>
             <ConnectedStaffListPage
               onClickCallback={this.setStaffId.bind(this)}

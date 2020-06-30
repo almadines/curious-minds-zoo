@@ -41,8 +41,9 @@ class ExhibitsListPage extends React.PureComponent<
       ): (() => void) => () => {
         if (!!onClickCallback) {
           onClickCallback(exhibitId);
+        } else {
+          navigate(withPrefix(`/exhibit-details?id=${exhibitId}`));
         }
-        navigate(withPrefix(`/exhibit-details?id=${exhibitId}`));
       };
 
       const listElems = Array.from(exhibits.values()).map(
