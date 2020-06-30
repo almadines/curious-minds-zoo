@@ -11,11 +11,11 @@ class MainPageContent extends React.PureComponent {
   public render(): JSX.Element {
     return (
       <div>
-        <h6>View Mode:</h6>
+        <h6 className="bold-text">View Mode:</h6>
         <CenteringDiv>
           <ConnectedViewEditorPage />
         </CenteringDiv>
-        <h6 className=" text-block">Letter from the director:</h6>
+        <h6 className="bold-text text-block">Letter from the director:</h6>
         <p className="preserve-white-space">
           {`Dear Staff,
 
