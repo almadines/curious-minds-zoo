@@ -171,7 +171,7 @@ class AnimalsListPage extends React.PureComponent<
       </div>
     ) : (
       <button
-        className="btn btn-success instance-list-create-button"
+        className="btn btn-primary instance-list-create-button"
         onClick={this.setCreateFormOpenState.bind(this, true)}
       >
         Add Animal

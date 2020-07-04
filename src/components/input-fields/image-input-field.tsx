@@ -91,7 +91,7 @@ class ImageInputField extends React.PureComponent<
       <div className="image-input-selector">
         <button
           className={`btn ${
-            addButtonDisabled ? "btd-secondary" : "btn-success"
+            addButtonDisabled ? "btn-secondary" : "btn-primary"
           }`}
           onClick={this.toggleOptionsMenuState.bind(this)}
         >

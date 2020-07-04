@@ -48,8 +48,12 @@ class Layout extends React.Component<LayoutProps, LayoutState> {
     return { settings: state.settings || new Settings("") };
   }
 
-  public setSideMenuExpanded(newValue: boolean, event: Event): void {
-    event.stopPropagation();
+  public setSideMenuExpanded(newValue: boolean): void {
+    this.setState({ sideMenuExpanded: newValue });
+  }
+
+  public changeSideMenuState(newValue: boolean, event: Event): void {
+    this.blockEventPropagation(event);
     this.setState({ sideMenuExpanded: newValue });
   }
 
@@ -93,7 +97,7 @@ class Layout extends React.Component<LayoutProps, LayoutState> {
       this.props.settings.expandableSideMenu === BooleanEnum.true ? (
         <i
           className="material-icons colour-red"
-          onClick={this.setSideMenuExpanded.bind(this, true)}
+          onClick={this.changeSideMenuState.bind(this, true)}
         >
           menu
         </i>
@@ -103,7 +107,7 @@ class Layout extends React.Component<LayoutProps, LayoutState> {
       this.props.settings.expandableSideMenu === BooleanEnum.true ? (
         <div
           className={`layout-side-nav-backing ${sideMenuExpandedCss}`}
-          onClick={this.setSideMenuExpanded.bind(this, false)}
+          onClick={this.changeSideMenuState.bind(this, false)}
         />
       ) : null;
 

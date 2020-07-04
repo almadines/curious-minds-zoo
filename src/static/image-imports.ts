@@ -1,6 +1,8 @@
 import { AnimalType } from "../global/types/animals";
 import { AnimalImage } from "../global/types/image";
 
+export const companyLetter = require("./main-page-letter.jpg");
+
 export const antelope1 = new AnimalImage(
   "antelope-1",
   require("./antelope-1.jpeg"),

@@ -165,7 +165,7 @@ class DropDownSelect extends React.PureComponent<
       <div className="drop-down-select-selector">
         <button
           className={`btn ${
-            addButtonDisabled ? "btd-secondary" : "btn-success"
+            addButtonDisabled ? "btn-secondary" : "btn-primary"
           }`}
           onClick={this.toggleOptionsMenuState.bind(this)}
         >

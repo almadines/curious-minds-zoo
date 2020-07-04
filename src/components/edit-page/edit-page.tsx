@@ -120,7 +120,7 @@ class EditPage extends React.PureComponent<EditorPageProps, EditorPageState> {
   public render(): JSX.Element {
     const submitButton = this.props.editMode ? (
       <button
-        className="btn btn-success edit-page-button"
+        className="btn btn-primary edit-page-button"
         onClick={this.createObject.bind(this)}
       >
         <i className="material-icons layout-link-icon">add</i>Submit

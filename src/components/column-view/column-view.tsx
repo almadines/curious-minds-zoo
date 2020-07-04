@@ -32,7 +32,6 @@ class ColumnView extends React.PureComponent<ColumnViewProps, ColumnViewState> {
   }
 
   public setStaffId(id: string): void {
-    console.log("selected staff id set: ", id);
     this.setState({ selectedStaffId: id });
   }
 
