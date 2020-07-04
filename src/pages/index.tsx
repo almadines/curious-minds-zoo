@@ -1,50 +1,17 @@
-import React from "react"
-import { ConnectedCounter } from "../components/counter/counter";
-import { Layout } from "../components/layout/layout";
+import * as React from "react";
+import { ConnectedLayout } from "../components/layout/layout";
+import MainPageContent from "components/main-page-content/main-page-content";
 
 class Home extends React.Component {
   render(): JSX.Element {
     return (
-      <Layout>
-        <h1 className="display-1">Hello Gatsby!</h1>
-        <ConnectedCounter />
-
-        <div className='test-colour'>Hello world!</div>
-
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Row</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Clark</td>
-              <td>Kent</td>
-              <td>clarkkent@mail.com</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>John</td>
-              <td>Carter</td>
-              <td>johncarter@mail.com</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Peter</td>
-              <td>Parker</td>
-              <td>peterparker@mail.com</td>
-            </tr>
-          </tbody>
-        </table>
-      </Layout>
-
+      <ConnectedLayout title="Curious Minds Zoo" iconName="menu">
+        <div className="main-content-margins">
+          <MainPageContent />
+        </div>
+      </ConnectedLayout>
     );
   }
 }
 
-export default Home
+export default Home;

@@ -1,0 +1,29 @@
+.instance-list-wrapper {
+  margin-top: 1rem;
+
+  .instance-list-create-form-wrapper {
+    &.create-form-closed {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+
+    .instance-list-create-button {
+      margin-right: 2rem;
+    }
+  }
+
+  .instance-list-content-wrapper {
+    padding: 2rem;
+  }
+
+  .table {
+    tr:hover {
+      background-color: lightgray;
+    }
+
+    tr {
+      cursor: pointer;
+    }
+  }
+}

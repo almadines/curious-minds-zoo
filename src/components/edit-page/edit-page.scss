@@ -1,0 +1,55 @@
+.edit-page-wrapper {
+  border-radius: 25px;
+  border: 2px solid #73ad21;
+  padding: 2rem;
+
+  .edit-page-title {
+    margin-bottom: 2rem;
+  }
+
+  .edit-page-buttons-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    &.edit-page-top {
+      margin-bottom: 2rem;
+    }
+
+    &.edit-page-bottom {
+      margin-top: 2rem;
+    }
+
+    .edit-page-button {
+      margin-left: 1rem;
+    }
+  }
+
+  .edit-page-contents {
+    display: flex;
+    flex-direction: column-reverse;
+
+    .editor-element-wrapper {
+      display: block;
+      .editor-element-label {
+        margin-bottom: 0;
+
+        .editor-element-label-value {
+          font-weight: bold;
+        }
+
+        .error-message {
+          color: #d90000;
+          padding-left: 0.5rem;
+          text-decoration: none;
+        }
+      }
+
+      .editor-element-value {
+        margin-left: 0.6rem;
+        margin-bottom: 0.4rem;
+        padding: 0.3rem 0.2rem 0.2rem 0.2rem;
+      }
+    }
+  }
+}

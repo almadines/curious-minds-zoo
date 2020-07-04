@@ -1,0 +1,26 @@
+.drop-down-select-wraper {
+  .drop-down-select-header {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 1;
+    margin: 0.5rem 0;
+
+    .drop-down-select-selector-contents {
+      border-color: blue;
+      position: absolute;
+      width: 12rem;
+      max-height: 20rem;
+      overflow-y: scroll;
+      right: 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+  }
+
+  .drop-down-select-display {
+    display: block;
+  }
+}

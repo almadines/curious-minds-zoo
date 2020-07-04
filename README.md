@@ -1,1 +1,3 @@
-This is just me playing around with gatsby, react and redux.
+Images used are from: https://www.pexels.com/
+
+Code cleanup pending.
