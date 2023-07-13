@@ -24,7 +24,7 @@
     "acorn": "^6.4.1",
     "babel-plugin-styled-components": "^1.10.7",
     "bootstrap": "^4.5.0",
-    "gatsby": "^2.22.12",
+    "gatsby": "^5.11.0",
     "gatsby-plugin-lodash": "^3.3.3",
     "gatsby-plugin-react-redux": "^1.1.0-0",
     "gatsby-plugin-sass": "^2.3.2",
